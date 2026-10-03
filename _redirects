@@ -10,8 +10,8 @@
 # every asset too and the site redirects to itself forever. Only specific
 # legacy paths are listed, and the 404 page below catches anything else.
 
-/reserve            /  302
-/reserve/*          /  302
+/reserve            /vvip-tables.html  302
+/reserve/*          /vvip-tables.html  302
 /merch              /  302
 /merch/*            /  302
 /admin              /  302
