@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anjunadeep Open Air Colombo · Lotus Tower Venue Walkthrough</title>
+    <link rel="icon" type="image/png" sizes="any" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: #0a1f20;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #eafaf1;
+      }
+      a {
+        color: #edae42;
+      }
+      a:hover {
+        color: #f6b54e;
+      }
+      #stage {
+        position: fixed;
+        inset: 0;
+        cursor: grab;
+        touch-action: none;
+        background:
+          radial-gradient(
+            120% 120% at 50% 4%,
+            rgba(237, 174, 66, 0.16),
+            rgba(11, 33, 34, 0) 46%
+          ),
+          radial-gradient(
+            120% 110% at 50% 100%,
+            rgba(237, 174, 66, 0.18),
+            rgba(10, 31, 32, 0.9) 60%
+          ),
+          #0a1f20;
+      }
+      .ui {
+        position: fixed;
+        z-index: 5;
+        pointer-events: none;
+      }
+      #brand {
+        top: 26px;
+        left: 30px;
+      }
+      #brand .k {
+        font-size: 11px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: #e07b30;
+        font-weight: 700;
+      }
+      #brand h1 {
+        margin-top: 6px;
+        font-size: clamp(24px, 3.4vw, 40px);
+        font-weight: 300;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
+      #brand h1 b {
+        color: #edae42;
+        font-weight: 600;
+      }
+      #brand p {
+        margin-top: 10px;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: rgba(207, 231, 220, 0.7);
+        max-width: 34ch;
+        line-height: 1.6;
+      }
+      #tapTip {
+        margin-top: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #edae42;
+        background: rgba(20, 53, 54, 0.6);
+        border: 1px solid rgba(237, 174, 66, 0.4);
+        border-radius: 100px;
+        padding: 8px 14px;
+      }
+      #tapTip .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #edae42;
+        box-shadow: 0 0 10px rgba(237, 174, 66, 0.9);
+        flex: none;
+      }
+      #modes {
+        top: 26px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 4px;
+        pointer-events: auto;
+        background: rgba(20, 53, 54, 0.6);
+        border: 1px solid rgba(175, 243, 212, 0.25);
+        border-radius: 100px;
+        padding: 4px;
+      }
+      #modes button {
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: rgba(207, 231, 220, 0.75);
+        background: transparent;
+        border: 0;
+        border-radius: 100px;
+        padding: 8px 18px;
+      }
+      #modes button.on {
+        background: #edae42;
+        color: #231106;
+      }
+      #back {
+        top: 26px;
+        right: 30px;
+        pointer-events: auto;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #eafaf1;
+        background: rgba(20, 53, 54, 0.6);
+        border: 1px solid rgba(175, 243, 212, 0.25);
+        border-radius: 100px;
+        padding: 10px 18px;
+        text-decoration: none;
+      }
+      #back:hover {
+        border-color: rgba(237, 174, 66, 0.6);
+        color: #eafaf1;
+      }
+      #meta {
+        left: 30px;
+        bottom: 26px;
+        display: flex;
+        gap: 26px;
+        flex-wrap: wrap;
+      }
+      #meta div .l {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(207, 231, 220, 0.5);
+      }
+      #meta div .v {
+        margin-top: 5px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #dfeee6;
+      }
+      #hint {
+        right: 30px;
+        bottom: 26px;
+        max-width: 240px;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(207, 231, 220, 0.55);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: right;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+      #hint .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #edae42;
+        box-shadow: 0 0 10px rgba(237, 174, 66, 0.9);
+        flex: none;
+      }
+      #card {
+        left: 50%;
+        bottom: 96px;
+        transform: translate(-50%, 16px);
+        width: min(420px, calc(100vw - 32px));
+        background: rgba(13, 38, 40, 0.92);
+        border: 1px solid rgba(237, 174, 66, 0.4);
+        border-radius: 18px;
+        padding: 18px 20px;
+        pointer-events: auto;
+        opacity: 0;
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+        backdrop-filter: blur(10px);
+      }
+      #card.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      #card .cd {
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: #e07b30;
+        font-weight: 700;
+      }
+      #card h2 {
+        margin-top: 4px;
+        font-size: 21px;
+        font-weight: 600;
+        color: #edae42;
+      }
+      #card p {
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.6;
+        color: rgba(207, 231, 220, 0.85);
+      }
+      #card .x {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        cursor: pointer;
+        background: none;
+        border: 0;
+        color: rgba(207, 231, 220, 0.6);
+        font-size: 18px;
+        font-family: inherit;
+        padding: 4px;
+      }
+      #joy {
+        left: 26px;
+        bottom: 96px;
+        width: 118px;
+        height: 118px;
+        border-radius: 50%;
+        border: 1px solid rgba(175, 243, 212, 0.3);
+        background: rgba(20, 53, 54, 0.4);
+        pointer-events: auto;
+        display: none;
+        touch-action: none;
+      }
+      #joy .nub {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 48px;
+        height: 48px;
+        margin: -24px 0 0 -24px;
+        border-radius: 50%;
+        background: rgba(237, 174, 66, 0.85);
+        box-shadow: 0 0 16px rgba(237, 174, 66, 0.5);
+      }
+      body.walk.touch #joy {
+        display: block;
+      }
+      #walkGuide {
+        left: 26px;
+        bottom: 26px;
+        display: none;
+        align-items: center;
+        gap: 14px;
+        background: rgba(20, 53, 54, 0.72);
+        border: 1px solid rgba(237, 174, 66, 0.4);
+        border-radius: 14px;
+        padding: 12px 16px;
+        backdrop-filter: blur(10px);
+      }
+      body.walk:not(.touch) #walkGuide {
+        display: flex;
+      }
+      body.walk:not(.touch) #meta {
+        display: none;
+      }
+      #walkGuide .wg-keys {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        flex: none;
+      }
+      #walkGuide .wg-row {
+        display: flex;
+        gap: 4px;
+      }
+      #walkGuide .wg-k {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: rgba(237, 174, 66, 0.14);
+        border: 1px solid rgba(237, 174, 66, 0.5);
+        color: #edae42;
+        font-size: 12px;
+        font-weight: 700;
+        font-family: inherit;
+      }
+      #walkGuide .wg-tx {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      #walkGuide .wg-tx b {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #eafaf1;
+        font-weight: 700;
+      }
+      #walkGuide .wg-tx span {
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        color: rgba(207, 231, 220, 0.7);
+      }
+      @media (max-width: 1100px) {
+        #meta {
+          display: none;
+        }
+      }
+      @media (max-width: 760px) {
+        #brand {
+          top: 16px;
+          left: 16px;
+          max-width: calc(100% - 110px);
+        }
+        #brand p {
+          display: none;
+        }
+        #tapTip {
+          margin-top: 8px;
+          font-size: 10px;
+          padding: 6px 10px;
+        }
+        #brand h1 {
+          font-size: 20px;
+        }
+        #back {
+          top: 16px;
+          right: 16px;
+          padding: 8px 12px;
+        }
+        #modes {
+          top: auto;
+          bottom: 16px;
+        }
+        #meta {
+          display: none;
+        }
+        #hint {
+          left: 0;
+          right: 0;
+          bottom: 64px;
+          justify-content: center;
+        }
+        #card {
+          bottom: 150px;
+        }
+        #joy {
+          bottom: 150px;
+        }
+      }
+      @media (max-height: 520px) {
+        #brand p {
+          display: none;
+        }
+        #hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      aria-label="Interactive 3D walkthrough of the Lotus Tower festival venue"
+    ></div>
+    <div class="ui" id="brand">
+      <div class="k">The location</div>
+      <h1>Lotus Tower<br /><b>Colombo</b></h1>
+      <p>
+        The full festival grounds beneath Sri Lanka's tallest landmark. Fly
+        around, or walk the site and get close to any area for details.
+      </p>
+      <div id="tapTip">
+        <span class="dot"></span>Tap any area to see its info
+      </div>
+    </div>
+    <div class="ui" id="modes">
+      <button id="mOrbit" class="on">Fly around</button>
+      <button id="mWalk">Walk</button>
+    </div>
+    <a class="ui" id="back" href="index.html">← Close</a>
+    <div class="ui" id="meta">
+      <div>
+        <div class="l">Location</div>
+        <div class="v">Lotus Road, Colombo 01</div>
+      </div>
+      <div>
+        <div class="l">Setting</div>
+        <div class="v">Open-air · 18+</div>
+      </div>
+      <div>
+        <div class="l">Doors</div>
+        <div class="v">From 11:00 AM</div>
+      </div>
+      <div>
+        <div class="l">Height</div>
+        <div class="v">350 m</div>
+      </div>
+    </div>
+    <div class="ui" id="hint">
+      <span class="dot"></span
+      ><span id="hintTx">Drag to rotate · scroll to zoom · tap an area</span>
+    </div>
+    <div class="ui" id="walkGuide">
+      <div class="wg-keys">
+        <span class="wg-k">W</span>
+        <span class="wg-row"
+          ><span class="wg-k">A</span><span class="wg-k">S</span
+          ><span class="wg-k">D</span></span
+        >
+      </div>
+      <div class="wg-tx">
+        <b>Move around</b
+        ><span>W A S D · hold Shift to run · drag to look</span>
+      </div>
+    </div>
+    <div class="ui" id="card">
+      <button class="x" id="cardX">✕</button>
+      <div class="cd" id="cardDims"></div>
+      <h2 id="cardName"></h2>
+      <p id="cardDesc"></p>
+    </div>
+    <div class="ui" id="joy"><div class="nub" id="joyNub"></div></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="./venue-walkthrough.js?v=2-strafe"></script>
+    <script>
+      (function () {
+        var stage = document.getElementById("stage");
+        var card = document.getElementById("card");
+        var api = null,
+          cardPinned = false;
+        function showPOI(p) {
+          if (!p) {
+            if (!cardPinned) card.classList.remove("show");
+            return;
+          }
+          cardPinned = api && api.getMode() === "orbit";
+          document.getElementById("cardDims").textContent = p.dims;
+          document.getElementById("cardName").textContent = p.name;
+          document.getElementById("cardDesc").textContent = p.desc;
+          card.classList.add("show");
+        }
+        document.getElementById("cardX").addEventListener("click", function () {
+          cardPinned = false;
+          card.classList.remove("show");
+        });
+
+        var n = 0;
+        var poll = setInterval(function () {
+          n++;
+          if (
+            typeof window.buildVenueWalkthrough === "function" &&
+            typeof THREE !== "undefined"
+          ) {
+            clearInterval(poll);
+            api = window.buildVenueWalkthrough(stage, { onPOI: showPOI });
+            wire();
+          } else if (n > 80) {
+            clearInterval(poll);
+          }
+        }, 80);
+
+        function wire() {
+          var bO = document.getElementById("mOrbit"),
+            bW = document.getElementById("mWalk");
+          var hint = document.getElementById("hintTx");
+          var touch = "ontouchstart" in window;
+          if (touch) document.body.classList.add("touch");
+          function setMode(m) {
+            api.setMode(m);
+            bO.classList.toggle("on", m === "orbit");
+            bW.classList.toggle("on", m === "walk");
+            document.body.classList.toggle("walk", m === "walk");
+            cardPinned = false;
+            card.classList.remove("show");
+            hint.textContent =
+              m === "walk"
+                ? touch
+                  ? "Joystick to move · drag to look"
+                  : "WASD to move · Shift to run · drag to look"
+                : "Drag to rotate · scroll to zoom · tap an area";
+          }
+          bO.addEventListener("click", function () {
+            setMode("orbit");
+          });
+          bW.addEventListener("click", function () {
+            setMode("walk");
+          });
+
+          // deep-link: ?mode=walk starts in walk; default stays orbit (Fly around)
+          if (new URLSearchParams(location.search).get("mode") === "walk")
+            setMode("walk");
+
+          /* joystick */
+          var joy = document.getElementById("joy"),
+            nub = document.getElementById("joyNub"),
+            jid = null;
+          function jset(e) {
+            var r = joy.getBoundingClientRect(),
+              t = null;
+            for (var i = 0; i < e.touches.length; i++) {
+              if (e.touches[i].identifier === jid) t = e.touches[i];
+            }
+            if (!t) return;
+            var dx = (t.clientX - (r.left + r.width / 2)) / (r.width / 2);
+            var dy = (t.clientY - (r.top + r.height / 2)) / (r.height / 2);
+            var m = Math.hypot(dx, dy);
+            if (m > 1) {
+              dx /= m;
+              dy /= m;
+            }
+            nub.style.transform =
+              "translate(" + dx * 34 + "px," + dy * 34 + "px)";
+            api.setJoy(dx, -dy);
+          }
+          joy.addEventListener(
+            "touchstart",
+            function (e) {
+              jid = e.changedTouches[0].identifier;
+              jset(e);
+              e.preventDefault();
+            },
+            { passive: false },
+          );
+          joy.addEventListener(
+            "touchmove",
+            function (e) {
+              jset(e);
+              e.preventDefault();
+            },
+            { passive: false },
+          );
+          function jend(e) {
+            for (var i = 0; i < e.changedTouches.length; i++) {
+              if (e.changedTouches[i].identifier === jid) {
+                jid = null;
+                nub.style.transform = "";
+                api.setJoy(0, 0);
+              }
+            }
+          }
+          joy.addEventListener("touchend", jend);
+          joy.addEventListener("touchcancel", jend);
+        }
+      })();
+    </script>
+  </body>
+</html>

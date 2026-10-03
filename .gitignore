@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.local
+
+# Local theme-work scratch (holds no secrets, but not part of the site)
+.themework/
+
+# Database exports. Personal data (real subscriber email addresses) -- keep
+# these local, never commit them.
+backup/
+subscribers.csv
+combined_unique_phone_numbers.csv
+Text.lk-Contacts-Import.csv

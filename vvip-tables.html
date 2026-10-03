@@ -1,0 +1,2208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Open Air Colombo — Select Your Table</title>
+  <link rel="icon" type="image/png" sizes="any" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+@font-face{font-family:'Decima';src:url('assets/fonts/DecimaSans-Light.otf') format('opentype');font-weight:300;font-style:normal;font-display:swap;}
+    @font-face{font-family:'Decima';src:url('assets/fonts/DecimaSans-Regular.otf') format('opentype');font-weight:400;font-style:normal;font-display:swap;}
+    @font-face{font-family:'Decima';src:url('assets/fonts/DecimaSans-Medium.otf') format('opentype');font-weight:500;font-style:normal;font-display:swap;}
+    @font-face{font-family:'Decima';src:url('assets/fonts/DecimaSans-DemiBold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap;}
+    @font-face{font-family:'Decima';src:url('assets/fonts/DecimaSans-Bold.otf') format('opentype');font-weight:700;font-style:normal;font-display:swap;}
+    :root {
+      --bg-0: #0a1f20;
+      --bg-1: #0d2a2b;
+      --bg: #070612;
+      --ink: #ffffff;
+      --ink-dim: rgba(255, 255, 255, .66);
+      --ink-faint: rgba(255, 255, 255, .42);
+      --hairline: rgba(255, 255, 255, .10);
+      --hairline-strong: rgba(255, 255, 255, .18);
+      --input-bg: rgba(255, 255, 255, .04);
+      --panel: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, .04) 60%, rgba(255, 255, 255, .02) 100%);
+      --panel-solid: #0e0b22;
+      --gold-a: #ffe6a8;
+      --gold-b: #e0922f;
+      --gold-glow: rgba(255, 190, 90, .55);
+      --plat-a: #eafaf1;
+      --plat-b: #9fc4b6;
+      --plat-glow: rgba(175, 243, 212, .5);
+      --green: #7dffc4;
+      --amber: #f9c74f;
+      --red: #ff6b6b;
+      --shadow: 0 30px 60px -20px rgba(0, 0, 0, .55), 0 8px 24px -12px rgba(0, 0, 0, .45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Decima", "Albert Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "ss01", "cv11"
+    }
+
+    body {
+      background:
+        radial-gradient(900px 600px at 8% -10%, rgba(95, 202, 165, .22), transparent 60%),
+        radial-gradient(800px 500px at 50% -20%, rgba(212, 154, 58, .18), transparent 60%),
+        radial-gradient(900px 600px at 100% 0%, rgba(175, 243, 212, .20), transparent 60%),
+        radial-gradient(1000px 700px at 50% 110%, rgba(255, 90, 140, .10), transparent 60%),
+        linear-gradient(180deg, #0a1f20 0%, #091d1e 50%, #06181a 100%);
+    }
+
+    #scene {
+      position: fixed;
+      inset: 0;
+      display: block;
+      touch-action: none
+    }
+
+    /* ----- Top bar ----- */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      background: linear-gradient(180deg, rgba(10, 31, 32, .7) 0%, rgba(10, 31, 32, .4) 100%);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border-bottom: 1px solid var(--hairline);
+      color: var(--ink);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer
+    }
+
+    .topbar-logo-link {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer
+    }
+
+    .brand .mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .04));
+      border: 1px solid var(--hairline-strong);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: .04em;
+      color: var(--ink);
+      backdrop-filter: blur(20px);
+    }
+
+    .brand .name {
+      font-weight: 600;
+      letter-spacing: .22em;
+      color: var(--ink);
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .brand .sub {
+      color: var(--ink-faint);
+      font-size: 11px;
+      margin-top: 3px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 500
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--hairline-strong);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, .04));
+      color: var(--ink);
+      padding: 9px 16px;
+      border-radius: 12px;
+      font-size: 11px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-family: inherit;
+      transition: transform .15s ease, background .15s ease, box-shadow .25s ease;
+      backdrop-filter: blur(20px);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .18), rgba(255, 255, 255, .06));
+      box-shadow: 0 12px 32px -12px rgba(255, 255, 255, .12);
+    }
+
+    .btn:active {
+      transform: translateY(0)
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      color: #1a1408;
+      border-color: transparent;
+      box-shadow: 0 18px 40px -16px var(--gold-glow);
+    }
+
+    .btn[disabled] {
+      opacity: .5;
+      cursor: not-allowed
+    }
+
+    /* ----- Side info panel ----- */
+    .info {
+      position: fixed;
+      left: 22px;
+      top: 100px;
+      z-index: 9;
+      width: 300px;
+      max-width: calc(100vw - 44px);
+      border-radius: 22px;
+      padding: 20px 22px 18px;
+      color: var(--ink);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, .04) 60%, rgba(255, 255, 255, .02) 100%);
+      border: 1px solid var(--hairline-strong);
+      backdrop-filter: blur(28px) saturate(140%);
+      -webkit-backdrop-filter: blur(28px) saturate(140%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .18),
+        inset 0 -1px 0 rgba(255, 255, 255, .04),
+        var(--shadow);
+      isolation: isolate;
+    }
+
+    .info h3 {
+      margin: 0 0 10px;
+      font-size: 10.5px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      color: var(--ink-dim);
+      font-weight: 600;
+    }
+
+    .info p {
+      margin: 0;
+      color: var(--ink-dim);
+      font-size: 13.5px;
+      line-height: 1.5;
+      font-weight: 400
+    }
+
+    .tier-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .tier {
+      flex: 1;
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      padding: 12px 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(255, 255, 255, .04);
+      backdrop-filter: blur(12px);
+    }
+
+    .tier .swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .6), transparent 50%);
+      position: relative;
+    }
+
+    .tier .swatch.gold {
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .6), transparent 50%),
+        linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      box-shadow: 0 0 24px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, .6);
+    }
+
+    .tier .swatch.platinum {
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .6), transparent 50%),
+        linear-gradient(135deg, var(--plat-a), var(--plat-b));
+      box-shadow: 0 0 24px var(--plat-glow), inset 0 1px 0 rgba(255, 255, 255, .6);
+    }
+
+    .tier .label {
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--ink);
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .tier .price {
+      font-size: 12px;
+      color: var(--ink-faint);
+      letter-spacing: .06em;
+      font-weight: 500
+    }
+
+    /* ----- Hint / hover ----- */
+    .hint {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 9;
+      border-radius: 18px;
+      padding: 12px 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, .03) 100%);
+      border: 1px solid var(--hairline);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), var(--shadow);
+      font-size: 11.5px;
+      color: var(--ink-dim);
+      max-width: 280px;
+      line-height: 1.6;
+      backdrop-filter: blur(18px) saturate(140%);
+      letter-spacing: .04em;
+    }
+
+    .hint b {
+      color: var(--ink);
+      font-weight: 600;
+      letter-spacing: .06em
+    }
+
+    /* ----- Modal ----- */
+    .modal-wrap {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(2, 4, 15, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-wrap.show {
+      display: flex
+    }
+
+    .modal {
+      width: min(480px, 100%);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, .03) 60%, rgba(255, 255, 255, .02) 100%),
+        linear-gradient(180deg, #0e0b22 0%, #0a0817 100%);
+      border: 1px solid var(--hairline-strong);
+      border-radius: 24px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .16),
+        inset 0 -1px 0 rgba(255, 255, 255, .04),
+        0 40px 90px -20px rgba(0, 0, 0, .7);
+      overflow: hidden;
+      color: var(--ink);
+      animation: pop .22s cubic-bezier(.2, .8, .2, 1.05);
+    }
+
+    @keyframes pop {
+      from {
+        transform: translateY(8px) scale(.96);
+        opacity: 0
+      }
+
+      to {
+        transform: translateY(0) scale(1);
+        opacity: 1
+      }
+    }
+
+    .modal header {
+      padding: 22px 24px 16px;
+      border-bottom: 1px solid var(--hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .modal header h2 {
+      margin: 0;
+      font-size: 11px;
+      color: var(--ink-dim);
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .modal header h2 .num {
+      display: block;
+      font-size: 26px;
+      color: var(--ink);
+      letter-spacing: -.02em;
+      margin-top: 6px;
+      font-weight: 600;
+      text-transform: none;
+      background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, .7) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .modal header .tier-pill {
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .tier-pill.gold {
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b));
+      color: #1a1408;
+      box-shadow: 0 0 22px var(--gold-glow), inset 0 1px 0 rgba(255, 255, 255, .6);
+    }
+
+    .tier-pill.platinum {
+      background: linear-gradient(135deg, var(--plat-a), var(--plat-b));
+      color: #1a0f2e;
+      box-shadow: 0 0 22px var(--plat-glow), inset 0 1px 0 rgba(255, 255, 255, .6);
+    }
+
+    .modal .body {
+      padding: 20px 24px 10px
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px
+    }
+
+    .row label {
+      font-size: 10px;
+      color: var(--ink-faint);
+      font-weight: 600;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    .row input {
+      appearance: none;
+      border: 1px solid var(--hairline-strong);
+      border-radius: 12px;
+      padding: 13px 15px;
+      font-size: 14px;
+      background: var(--input-bg);
+      color: var(--ink);
+      font-family: inherit;
+      outline: none;
+      font-weight: 500;
+      transition: border-color .15s, background .15s, box-shadow .25s;
+    }
+
+    .row input::placeholder {
+      color: var(--ink-faint);
+      font-weight: 400
+    }
+
+    .row input:focus {
+      border-color: var(--gold-a);
+      background: rgba(255, 255, 255, .06);
+      box-shadow: 0 0 0 3px rgba(255, 230, 168, .12);
+    }
+
+    .row .err {
+      color: var(--red);
+      font-size: 12px;
+      margin-top: 2px;
+      min-height: 1em;
+      letter-spacing: .02em
+    }
+
+    .summary {
+      display: flex;
+      gap: 12px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--hairline);
+      border-radius: 14px;
+      padding: 13px 16px;
+      margin-bottom: 18px;
+      font-size: 12px;
+      color: var(--ink-dim);
+      align-items: center;
+      letter-spacing: .04em;
+    }
+
+    .summary b {
+      color: var(--ink);
+      font-weight: 600;
+      letter-spacing: .02em
+    }
+
+    .privacy {
+      font-size: 11px;
+      color: var(--ink-faint);
+      letter-spacing: .04em;
+      line-height: 1.5
+    }
+
+    .terms {
+      margin-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      padding-top: 12px;
+    }
+
+    .terms summary {
+      font-size: 11px;
+      letter-spacing: .04em;
+      color: var(--gold-a);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .terms summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .terms summary::before {
+      content: '+ ';
+      font-weight: 700;
+    }
+
+    .terms[open] summary::before {
+      content: 'â€“ ';
+    }
+
+    .terms ol {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--ink-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal footer {
+      padding: 16px 24px 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid var(--hairline);
+      background: rgba(0, 0, 0, 0.22);
+    }
+
+    .wa-btn {
+      background: linear-gradient(180deg, #2cdb7a 0%, #25D366 100%);
+      color: #0a1f12;
+      border: none;
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-family: inherit;
+      box-shadow: 0 18px 40px -16px rgba(37, 211, 102, .55), inset 0 1px 0 rgba(255, 255, 255, .4);
+      transition: transform .15s ease, filter .15s ease;
+    }
+
+    .wa-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08)
+    }
+
+    .wa-btn:active {
+      transform: translateY(0)
+    }
+
+    .wa-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: #0a1f12
+    }
+
+    .ok-screen {
+      padding: 34px 28px 28px;
+      text-align: center
+    }
+
+    .ok-screen .check {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .5), transparent 60%), linear-gradient(135deg, #7dffc4, #2cdb7a);
+      color: #0a1f12;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      font-size: 30px;
+      font-weight: 800;
+      box-shadow: 0 0 28px rgba(125, 255, 196, .45), inset 0 1px 0 rgba(255, 255, 255, .6);
+    }
+
+    .ok-screen h3 {
+      margin: 8px 0 8px;
+      color: var(--ink);
+      font-size: 13px;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .ok-screen p {
+      margin: 6px 0;
+      color: var(--ink-dim);
+      font-size: 13.5px;
+      line-height: 1.55;
+      font-weight: 400
+    }
+
+    /* ----- Floating table tooltip ----- */
+    .tip {
+      position: fixed;
+      z-index: 8;
+      background: linear-gradient(180deg, rgba(20, 20, 40, .96) 0%, rgba(10, 10, 28, .96) 100%);
+      color: var(--ink);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 10.5px;
+      pointer-events: none;
+      display: none;
+      transform: translate(-50%, -150%);
+      white-space: nowrap;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, .6), 0 0 0 1px var(--hairline-strong),
+        inset 0 1px 0 rgba(255, 255, 255, .14);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .tip b {
+      color: var(--gold-a);
+      font-weight: 700;
+      letter-spacing: .18em
+    }
+
+    /* ----- Topbar logo ----- */
+    .topbar-logo {
+      height: 30px;
+      width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      display: block;
+      margin-left: 10px;
+      filter: drop-shadow(0 0 14px rgba(255, 255, 255, .18));
+      opacity: .9;
+    }
+
+    /* ----- Button text variants ----- */
+    .btn .short {
+      display: none
+    }
+
+    .btn .full {
+      display: inline
+    }
+
+    /* ----- Mobile info toggle + close (hidden on desktop) ----- */
+    .info-toggle,
+    .info-close {
+      display: none
+    }
+
+    /* â”€â”€â”€â”€â”€ Tablet â”€â”€â”€â”€â”€ */
+    @media (max-width:900px) {
+      .topbar {
+        padding: 14px 18px
+      }
+
+      .brand .mark {
+        width: 36px;
+        height: 36px;
+        font-size: 13px
+      }
+
+      .brand .name {
+        font-size: 11.5px;
+        letter-spacing: .20em
+      }
+
+      .brand .sub {
+        font-size: 10px;
+        letter-spacing: .10em
+      }
+
+      .topbar-logo {
+        height: 26px;
+        max-width: 130px
+      }
+
+      .btn {
+        padding: 8px 13px;
+        font-size: 10.5px;
+        letter-spacing: .16em;
+        border-radius: 11px
+      }
+
+      .info {
+        left: 14px;
+        right: 14px;
+        width: auto;
+        top: 84px;
+        padding: 16px 18px;
+        border-radius: 18px
+      }
+
+      .info h3 {
+        font-size: 10px;
+        letter-spacing: .24em
+      }
+
+      .info p {
+        font-size: 12.5px
+      }
+
+      .tier-row {
+        gap: 8px;
+        margin-top: 10px
+      }
+
+      .tier {
+        padding: 10px 11px;
+        border-radius: 12px
+      }
+
+      .tier .swatch {
+        width: 24px;
+        height: 24px
+      }
+
+      .tier .label {
+        font-size: 10px;
+        letter-spacing: .20em
+      }
+
+      .tier .price {
+        font-size: 11px
+      }
+
+      .legend {
+        left: 14px;
+        bottom: 14px;
+        padding: 9px 16px;
+        gap: 14px
+      }
+
+      .legend .item {
+        font-size: 9.5px;
+        letter-spacing: .18em
+      }
+
+      .hint {
+        right: 14px;
+        bottom: 14px;
+        padding: 10px 14px;
+        max-width: 240px;
+        font-size: 11px
+      }
+
+      .modal {
+        border-radius: 20px
+      }
+
+      .modal header {
+        padding: 18px 20px 14px
+      }
+
+      .modal header h2 {
+        font-size: 10px;
+        letter-spacing: .22em
+      }
+
+      .modal header h2 .num {
+        font-size: 24px
+      }
+
+      .modal .body {
+        padding: 18px 20px 8px
+      }
+
+      .row input {
+        padding: 12px 14px;
+        font-size: 14px
+      }
+    }
+
+    /* â”€â”€â”€â”€â”€ Phone â”€â”€â”€â”€â”€ */
+    @media (max-width:640px) {
+      .topbar {
+        padding: 10px 12px;
+        gap: 8px;
+        flex-wrap: nowrap
+      }
+
+      .brand {
+        gap: 9px;
+        min-width: 0;
+        flex: 0 1 auto
+      }
+
+      .brand .mark {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+        border-radius: 9px;
+        flex: none
+      }
+
+      .brand .name {
+        display: none
+      }
+
+      .brand .sub {
+        display: none
+      }
+
+      .topbar-logo {
+        height: 22px;
+        max-width: 96px;
+        margin-left: 4px;
+        flex: none
+      }
+
+      .top-actions {
+        gap: 6px;
+        flex: 0 1 auto;
+        justify-content: flex-end;
+        flex-wrap: nowrap
+      }
+
+      /* swap to compact button text */
+      .btn {
+        padding: 6px 10px;
+        font-size: 9.5px;
+        letter-spacing: .12em;
+        border-radius: 9px;
+        white-space: nowrap
+      }
+
+      .btn .full {
+        display: none
+      }
+
+      .btn .short {
+        display: inline
+      }
+
+      /* Floating "i" toggle that opens the info panel */
+      .info-toggle {
+        display: grid;
+        place-items: center;
+        position: fixed;
+        left: 12px;
+        top: 62px;
+        z-index: 11;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .04));
+        border: 1px solid var(--hairline-strong);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        color: var(--ink);
+        font-style: italic;
+        font-weight: 700;
+        font-size: 16px;
+        font-family: Georgia, "Times New Roman", serif;
+        cursor: pointer;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, .4);
+      }
+
+      .info-toggle:active {
+        transform: scale(.96)
+      }
+
+      /* Info panel hidden by default on phone; shown when .show is toggled. */
+      .info {
+        display: none
+      }
+
+      .info.show {
+        display: block;
+        animation: infoSlide .22s ease-out
+      }
+
+      @keyframes infoSlide {
+        from {
+          transform: translateY(-8px);
+          opacity: 0
+        }
+
+        to {
+          transform: translateY(0);
+          opacity: 1
+        }
+      }
+
+      .info {
+        left: 12px;
+        right: 12px;
+        width: auto;
+        top: 62px;
+        padding: 36px 14px 14px;
+        border-radius: 18px;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+      }
+
+      .info-close {
+        display: grid;
+        place-items: center;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .08);
+        border: 1px solid var(--hairline);
+        color: var(--ink);
+        font-size: 18px;
+        font-weight: 300;
+        line-height: 1;
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      .info-close:active {
+        background: rgba(255, 255, 255, .16)
+      }
+
+      .info h3 {
+        font-size: 9.5px;
+        letter-spacing: .22em;
+        margin-bottom: 8px;
+        padding-right: 32px
+      }
+
+      .info p {
+        font-size: 12.5px;
+        line-height: 1.5
+      }
+
+      .tier-row {
+        gap: 6px;
+        margin-top: 10px
+      }
+
+      .tier {
+        padding: 9px 10px;
+        border-radius: 11px;
+        gap: 4px
+      }
+
+      .tier .swatch {
+        width: 22px;
+        height: 22px
+      }
+
+      .tier .label {
+        font-size: 9.5px;
+        letter-spacing: .18em
+      }
+
+      .tier .price {
+        font-size: 10.5px;
+        letter-spacing: .04em
+      }
+
+      .legend {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        padding: 8px 12px;
+        justify-content: center;
+        gap: 10px;
+        border-radius: 999px;
+      }
+
+      .legend .item {
+        font-size: 9px;
+        letter-spacing: .16em;
+        gap: 6px
+      }
+
+      .legend .dot {
+        width: 7px;
+        height: 7px
+      }
+
+      .hint {
+        display: none
+      }
+
+      .modal-wrap {
+        padding: 14px
+      }
+
+      .modal {
+        border-radius: 18px
+      }
+
+      .modal header {
+        padding: 16px 18px 12px;
+        gap: 10px
+      }
+
+      .modal header h2 {
+        font-size: 9px;
+        letter-spacing: .22em
+      }
+
+      .modal header h2 .num {
+        font-size: 22px;
+        margin-top: 4px
+      }
+
+      .modal header .tier-pill {
+        font-size: 9px;
+        padding: 5px 9px
+      }
+
+      .modal .body {
+        padding: 16px 18px 6px
+      }
+
+      .row {
+        margin-bottom: 12px;
+        gap: 6px
+      }
+
+      .row label {
+        font-size: 9px;
+        letter-spacing: .22em
+      }
+
+      .row input {
+        padding: 11px 12px;
+        font-size: 14px;
+        border-radius: 11px
+      }
+
+      .summary {
+        padding: 10px 12px;
+        font-size: 11.5px;
+        border-radius: 12px;
+        margin-bottom: 14px
+      }
+
+      .privacy {
+        font-size: 10.5px
+      }
+
+      .modal footer {
+        padding: 12px 18px 16px;
+        gap: 8px
+      }
+
+      .wa-btn {
+        padding: 11px 14px;
+        font-size: 10.5px;
+        letter-spacing: .14em;
+        border-radius: 12px
+      }
+
+      .wa-btn svg {
+        width: 14px;
+        height: 14px
+      }
+
+      .ok-screen {
+        padding: 26px 20px 22px
+      }
+
+      .ok-screen .check {
+        width: 56px;
+        height: 56px;
+        font-size: 26px;
+        margin-bottom: 12px
+      }
+
+      .ok-screen h3 {
+        font-size: 11px;
+        letter-spacing: .22em
+      }
+
+      .ok-screen p {
+        font-size: 12.5px
+      }
+
+      .tip {
+        font-size: 9.5px;
+        letter-spacing: .14em;
+        padding: 6px 10px
+      }
+    }
+
+    /* â”€â”€â”€â”€â”€ Tiny phones â”€â”€â”€â”€â”€ */
+    @media (max-width:380px) {
+      .brand .name {
+        font-size: 9.5px;
+        letter-spacing: .16em
+      }
+
+      .brand .mark {
+        width: 28px;
+        height: 28px;
+        font-size: 11px
+      }
+
+      .topbar-logo {
+        height: 20px;
+        max-width: 92px
+      }
+
+      .btn {
+        padding: 6px 9px;
+        font-size: 9px;
+        letter-spacing: .12em
+      }
+
+      .info {
+        top: 68px;
+        padding: 11px 12px 10px
+      }
+
+      .tier .swatch {
+        width: 20px;
+        height: 20px
+      }
+
+      .modal header h2 .num {
+        font-size: 20px
+      }
+
+      .row input {
+        padding: 10px 11px;
+        font-size: 13.5px
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="scene"></canvas>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Back to Open Air Colombo home">
+      <div class="mark">OAC</div>
+      <div>
+        <div class="name">OPEN AIR COLOMBO — VVIP Tables</div>
+        <div class="sub">Tap a table to request a reservation</div>
+      </div>
+    </a>
+    <div class="top-actions">
+      <button class="btn" id="topView" aria-label="Top view"><span class="full">Top view</span><span
+          class="short">Top</span></button>
+      <button class="btn" id="resetView" aria-label="Reset view"><span class="full">Reset view</span><span
+          class="short">Reset</span></button>
+      <a class="topbar-logo-link" href="/" aria-label="Back to Open Air Colombo home">
+        <img class="topbar-logo" src="assets/oac-logo.png" alt="Open Air Colombo"  />
+      </a>
+    </div>
+  </header>
+
+  <!-- Mobile-only toggle that opens the venue info panel -->
+  <button class="info-toggle" id="infoToggle" aria-label="Venue info">i</button>
+
+  <aside class="info show" id="infoPanel">
+    <button class="info-close" id="infoClose" aria-label="Close">Ã—</button>
+    <h3>Venue overview</h3>
+    <p>Beneath the Lotus Tower. Stage front-centre, open floor in the middle. 16 VIP tables sit on tiered side platforms — Gold on the left,
+      Platinum on the right, back rows raised for clear sightlines.</p>
+    <div class="tier-row">
+      <div class="tier">
+        <div class="swatch gold"></div>
+        <div class="label">Gold · Left</div>
+        <div class="price">8 tables · LKR 100,000</div>
+      </div>
+      <div class="tier">
+        <div class="swatch platinum"></div>
+        <div class="label">Platinum · Right</div>
+        <div class="price">8 tables · LKR 180,000</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="legend" style="display:none">
+    <div class="item"><span class="dot av"></span> Available</div>
+    <div class="item"><span class="dot pd"></span> Pending</div>
+    <div class="item"><span class="dot rs"></span> Reserved</div>
+  </div>
+
+  <div class="hint">
+    <b>Drag</b> to orbit · <b>Scroll / pinch</b> to zoom · <b>Click a table</b> to book
+  </div>
+
+  <div class="tip" id="tip"></div>
+
+  <!-- Booking modal -->
+  <div class="modal-wrap" id="modalWrap" role="dialog" aria-modal="true">
+    <div class="modal" id="modal">
+      <header>
+        <h2>Table<span class="num" id="modalTitle">—</span></h2>
+        <span class="tier-pill" id="modalPill">Gold</span>
+      </header>
+      <div class="body" id="modalBody">
+        <div class="summary">
+          <div>Selected table: <b id="sumTable">—</b></div>
+          <div style="margin-left:auto">Tier: <b id="sumTier">—</b></div>
+        </div>
+        <div class="row">
+          <label for="gName">Full name *</label>
+          <input id="gName" type="text" placeholder="Your full name" autocomplete="name" />
+          <div class="err" id="errName"></div>
+        </div>
+        <div class="row">
+          <label for="gPhone">Mobile number *</label>
+          <input id="gPhone" type="tel" placeholder="+94 7X XXX XXXX" autocomplete="tel" />
+          <div class="err" id="errPhone"></div>
+        </div>
+        <div class="row">
+          <label for="gEmail">Email (optional)</label>
+          <input id="gEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+          <div class="err" id="errEmail"></div>
+        </div>
+        <div class="privacy">Your details are shared with the event organiser only.</div>
+        <details class="terms">
+          <summary>Terms &amp; Conditions apply</summary>
+          <ol>
+            <li>Tickets are non-refundable and non-exchangeable unless the event is cancelled by the organizer.</li>
+            <li>Tickets may not be resold, transferred, or used for commercial purposes without prior written approval from the organizer.</li>
+            <li>Entry will only be permitted upon presentation of a valid ticket.</li>
+            <li>Tickets are limited and will be sold on a first-come, first-served basis.</li>
+          </ol>
+        </details>
+      </div>
+      <footer>
+        <button class="btn" id="cancelBtn">Cancel</button>
+        <button class="wa-btn" id="submitBtn" type="button" style="background:linear-gradient(135deg,#ffe6a8,#e0922f);color:#1a1408;border-color:transparent;">
+          Confirm Booking
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Confirmation modal (reuses .modal-wrap) -->
+  <div class="modal-wrap" id="okWrap">
+    <div class="modal">
+      <div class="ok-screen">
+        <div class="check">âœ“</div>
+        <h3>Request sent</h3>
+        <p id="okLine1">Your reservation request for <b>Table —</b> has been recorded.</p>
+        <p id="okLine2" style="margin-bottom:14px">Our team will contact you shortly to confirm your reservation.</p>
+        <button class="btn primary" id="okClose">Back to seating plan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    /* ============================================================
+       OPEN AIR COLOMBO — VVIP 3D Seating Plan
+       - Single-file demo (no build step)
+       - Modern minimal theme
+       - 16 tables (8 Gold left, 8 Platinum right) flanking the stage
+       - Click a table -> booking modal -> demo confirmation
+       ============================================================ */
+
+    const CONFIG = {
+      goldPriceLabel: 'LKR 100,000',
+      platinumPriceLabel: 'LKR 180,000'
+    };
+
+    /* Pick up which tier the visitor came from on the Tiers page (?tier=gold/platinum).
+       We reflect it in the side panel + brand sub-line, but the user can still
+       click any of the 16 tables — the WhatsApp message records whichever they pick. */
+    const PREFERRED_TIER = (() => {
+      try { return (new URL(window.location.href)).searchParams.get('tier'); }
+      catch (_) { return null; }
+    })();
+    if (PREFERRED_TIER === 'gold' || PREFERRED_TIER === 'platinum') {
+      document.addEventListener('DOMContentLoaded', () => {
+        const sub = document.querySelector('.brand .sub');
+        if (sub) sub.textContent = (PREFERRED_TIER === 'gold' ? 'GOLD' : 'PLATINUM') + ' · Pick your table';
+        const info = document.querySelector('.info p');
+        if (info) {
+          info.textContent = (PREFERRED_TIER === 'gold'
+            ? 'You chose the Gold tier. Pick any green table on the left wing to send your reservation — or any other available table if you change your mind.'
+            : 'You chose the Platinum tier. Pick any green table on the right wing to send your reservation — or any other available table if you change your mind.');
+        }
+      });
+    }
+
+    /* ---------- Table layout (angled horseshoe wings) ----------
+       Top-down view forms a horseshoe / fan around the stage:
+         - Stage: back-centre (negative z)
+         - Left wing  (Gold)     pivots inward by +22Â° — narrow near the stage,
+                                  opening outward toward the audience.
+         - Right wing (Platinum) mirrors with -22Â°.
+         - The middle is completely empty (open dance floor).
+       Each wing carries 8 tables across 2 stepped tiers:
+         T1 (lower, closer to stage) and T2 (higher, further from stage).
+    */
+    const TIER_Y = { T1: 0.45, T2: 1.25 };
+    // Wings are unrotated (their long axis is along x, parallel to the stage
+    // front) and meet the middle block via their inner SHORT face. Together
+    // they form one continuous row — gold wing | middle block | platinum wing —
+    // behind the stage, with the middle block bridging south to the stage.
+    const WING_ANGLE = 0;
+
+    // 2-D rotation in the XZ plane (around Y axis) — matches Three.js's
+    // Object3D.rotation.y so a point computed here lands exactly where the
+    // same point on a rotated box renders.
+    function rotXZ(lx, lz, a) {
+      const c = Math.cos(a), s = Math.sin(a);
+      return { x: lx * c + lz * s, z: -lx * s + lz * c };
+    }
+
+    // Wings are now LONG along the x-axis (parallel to the stage front) instead
+    // of along z. Their inner SHORT face touches the middle block at x=Â±10, and
+    // they sit at the same z-range as the middle block — so gold-wing | middle
+    // block | platinum-wing reads as one continuous horizontal row behind the
+    // stage. Anchors are the wing CENTRES, and each wing is 18 wide Ã— 7 deep.
+    const WING_LENGTH = 18;            // along world x
+    const WING_DEPTH = 7;             // along world z
+    const WING_CENTER_Z = -4.5;        // wing z-range: [-8, -1]
+    const GOLD_WING = { x: -10 - WING_LENGTH / 2, z: WING_CENTER_Z, angle: 0 }; // x = -19
+    const PLAT_WING = { x: 10 + WING_LENGTH / 2, z: WING_CENTER_Z, angle: 0 }; // x = +19
+
+    // Tables: 4 columns along the wing's long axis (x), 2 rows along the short
+    // axis (z), generously spaced inside the 18 Ã— 7 platform.
+    const GOLD_LOCAL = [
+      { lx: -6.5, lz: -1.6, y: TIER_Y.T2 },
+      { lx: -2.2, lz: -1.6, y: TIER_Y.T2 },
+      { lx: 2.2, lz: -1.6, y: TIER_Y.T2 },
+      { lx: 6.5, lz: -1.6, y: TIER_Y.T2 },
+      { lx: -6.5, lz: 1.6, y: TIER_Y.T2 },
+      { lx: -2.2, lz: 1.6, y: TIER_Y.T2 },
+      { lx: 2.2, lz: 1.6, y: TIER_Y.T2 },
+      { lx: 6.5, lz: 1.6, y: TIER_Y.T2 },
+    ];
+    const PLAT_LOCAL = GOLD_LOCAL.map(p => ({ lx: -p.lx, lz: p.lz, y: p.y }));
+
+    const TABLES = [];
+    let _id = 1;
+    for (const p of GOLD_LOCAL) {
+      const w = rotXZ(p.lx, p.lz, GOLD_WING.angle);
+      TABLES.push({
+        id: _id++, tier: 'gold', status: 'available',
+        x: GOLD_WING.x + w.x, y: p.y, z: GOLD_WING.z + w.z
+      });
+    }
+    for (const p of PLAT_LOCAL) {
+      const w = rotXZ(p.lx, p.lz, PLAT_WING.angle);
+      TABLES.push({
+        id: _id++, tier: 'platinum', status: 'available',
+        x: PLAT_WING.x + w.x, y: p.y, z: PLAT_WING.z + w.z
+      });
+    }
+    // (16 tables — IDs 1..8 Gold, 9..16 Platinum)
+
+    /* ---------- Three.js boot ---------- */
+    const canvas = document.getElementById('scene');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a1f20);
+    scene.fog = new THREE.Fog(0x0a1f20, 60, 140);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 500);
+    const HOME_POS = new THREE.Vector3(0, 26, 34);
+    const HOME_TGT = new THREE.Vector3(0, 1, 0);
+    camera.position.copy(HOME_POS);
+    camera.lookAt(HOME_TGT);
+
+    /* ---------- Lighting (night-event mood) ---------- */
+    // Cool hemisphere + low ambient = night base
+    scene.add(new THREE.HemisphereLight(0x3f6f64, 0x07181a, 0.4));
+    scene.add(new THREE.AmbientLight(0x6ea596, 0.2));
+
+    // Moonlight: cool-tinted directional key light
+    const moonLight = new THREE.DirectionalLight(0xc4d0e8, 0.6);
+    moonLight.position.set(-38, 50, -28);
+    moonLight.castShadow = true;
+    moonLight.shadow.mapSize.set(2048, 2048);
+    moonLight.shadow.camera.left = -32;
+    moonLight.shadow.camera.right = 32;
+    moonLight.shadow.camera.top = 32;
+    moonLight.shadow.camera.bottom = -32;
+    moonLight.shadow.camera.near = 1;
+    moonLight.shadow.camera.far = 110;
+    moonLight.shadow.bias = -0.0005;
+    scene.add(moonLight);
+
+    // Soft cool fill from the opposite side
+    const fill = new THREE.DirectionalLight(0x6ea596, 0.18);
+    fill.position.set(24, 22, 28);
+    scene.add(fill);
+
+    // Warm spotlight on the stage (concert vibe)
+    const stageSpot = new THREE.SpotLight(0xffc870, 3.2, 38, Math.PI / 4.6, 0.45, 1);
+    stageSpot.position.set(0, 20, 4);
+    stageSpot.target.position.set(0, 0, -6);   // aimed at the new (forward) stage
+    stageSpot.castShadow = true;
+    stageSpot.shadow.mapSize.set(1024, 1024);
+    scene.add(stageSpot);
+    scene.add(stageSpot.target);
+
+    // Subtle gold uplight skimming the middle block (back-area accent)
+    const backBarLight = new THREE.PointLight(0xc9a14a, 2.0, 24);
+    backBarLight.position.set(0, 4, -3.25);
+    scene.add(backBarLight);
+
+    // Faint coloured uplights on each wing tier (one warm gold, one cool silver)
+    const goldUplight = new THREE.PointLight(0xc9a14a, 1.6, 20);
+    goldUplight.position.set(-13, 1.5, -6);
+    scene.add(goldUplight);
+    const platUplight = new THREE.PointLight(0x9fc4b6, 1.6, 20);
+    platUplight.position.set(13, 1.5, -6);
+    scene.add(platUplight);
+
+    /* ---------- Elevated venue floor & surrounding ground ----------
+       The venue sits on a raised podium so everything (stage + table tiers)
+       reads as elevated. The outer ground drops 0.6m below the podium top. */
+    const PODIUM_H = 0.6;
+    const floorMat = new THREE.MeshStandardMaterial({
+      color: 0x0e2a2b, roughness: 0.55, metalness: 0.35
+    });
+    // Podium widened so it comfortably contains the wings (which reach x=Â±28).
+    const floor = new THREE.Mesh(new THREE.BoxGeometry(64, PODIUM_H, 42), floorMat);
+    floor.position.set(0, -PODIUM_H / 2, -2);   // top face sits at y = 0
+    floor.castShadow = true;
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // Gold trim line around the front edge of the podium (audience side)
+    const trim = new THREE.Mesh(
+      new THREE.BoxGeometry(64.2, 0.08, 0.2),
+      new THREE.MeshStandardMaterial({ color: 0xc9a14a, metalness: 0.8, roughness: 0.3, emissive: 0xc9a14a, emissiveIntensity: 0.18 })
+    );
+    trim.position.set(0, 0.04, 19);
+    scene.add(trim);
+
+    // Outer ground (lower, dark) — visible beyond the podium edges
+    const outerGround = new THREE.Mesh(
+      new THREE.PlaneGeometry(220, 220),
+      new THREE.MeshStandardMaterial({ color: 0x06181a, roughness: 0.95 })
+    );
+    outerGround.rotation.x = -Math.PI / 2;
+    outerGround.position.y = -PODIUM_H;
+    outerGround.receiveShadow = true;
+    scene.add(outerGround);
+
+    // Subtle grid on the podium top (matches the widened podium)
+    const grid = new THREE.GridHelper(64, 32, 0x2f6b60, 0x16413a);
+    grid.position.y = 0.01;
+    grid.material.transparent = true;
+    grid.material.opacity = 0.45;
+    scene.add(grid);
+
+    // Tinted zones (very subtle so the minimal look stays clean)
+    function zone(w, d, x, z, color, alpha = 0.18) {
+      const m = new THREE.Mesh(
+        new THREE.PlaneGeometry(w, d),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: alpha })
+      );
+      m.rotation.x = -Math.PI / 2;
+      m.position.set(x, 0.01, z);
+      scene.add(m);
+      return m;
+    }
+    // Floor tints removed — the angled wing platforms (below) provide the tier colour cue.
+
+    /* ---------- Walls (low, deep navy — barely visible at night) ---------- */
+    function wall(w, h, d, x, y, z, color = 0x123a36) {
+      const m = new THREE.Mesh(
+        new THREE.BoxGeometry(w, h, d),
+        new THREE.MeshStandardMaterial({ color, roughness: 0.9, metalness: 0.05 })
+      );
+      m.position.set(x, y, z);
+      m.receiveShadow = true;
+      scene.add(m);
+      return m;
+    }
+    // Back wall only — side walls removed (they were clipping the wing back-outer
+    // corners of the inverted trapezium and reading as visible sticks/lines).
+    wall(40, 3, 0.4, 0, 1.5, -20);
+
+    /* ---------- Night sky: stars + moon ---------- */
+    {
+      // Star field on a hemisphere above the venue
+      const N = 700;
+      const pos = new Float32Array(N * 3);
+      for (let i = 0; i < N; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 0.95); // bias toward the upper sky
+        const r = 90 + Math.random() * 50;
+        pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        pos[i * 3 + 1] = r * Math.cos(phi) + 8;          // lift the centre a touch
+        pos[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+      }
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+      const m = new THREE.PointsMaterial({
+        color: 0xffffff, size: 1.7, sizeAttenuation: false,
+        transparent: true, opacity: 0.85, depthWrite: false
+      });
+      scene.add(new THREE.Points(g, m));
+
+      // A second, sparser layer of brighter "lead" stars
+      const N2 = 60;
+      const pos2 = new Float32Array(N2 * 3);
+      for (let i = 0; i < N2; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 0.9);
+        const r = 80 + Math.random() * 40;
+        pos2[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+        pos2[i * 3 + 1] = r * Math.cos(phi) + 10;
+        pos2[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+      }
+      const g2 = new THREE.BufferGeometry();
+      g2.setAttribute('position', new THREE.BufferAttribute(pos2, 3));
+      const m2 = new THREE.PointsMaterial({
+        color: 0xfff5d0, size: 3.2, sizeAttenuation: false,
+        transparent: true, opacity: 0.95, depthWrite: false
+      });
+      scene.add(new THREE.Points(g2, m2));
+
+      // Moon
+      const moon = new THREE.Mesh(
+        new THREE.SphereGeometry(3.2, 32, 18),
+        new THREE.MeshBasicMaterial({ color: 0xfff8e1 })
+      );
+      moon.position.set(-42, 38, -46);
+      scene.add(moon);
+      // Soft moon halo
+      const halo = new THREE.Mesh(
+        new THREE.SphereGeometry(4.6, 32, 18),
+        new THREE.MeshBasicMaterial({ color: 0xfff8e1, transparent: true, opacity: 0.18, depthWrite: false })
+      );
+      halo.position.copy(moon.position);
+      scene.add(halo);
+    }
+
+    /* ---------- Stage ---------- */
+    const stageGroup = new THREE.Group();
+
+    const stageBase = new THREE.Mesh(
+      new THREE.BoxGeometry(15, TIER_Y.T2, 5),                          // raised to T2 height
+      new THREE.MeshStandardMaterial({ color: 0x163f3b, roughness: 0.55, metalness: 0.25 })
+    );
+    stageBase.position.set(0, TIER_Y.T2 / 2, -13);
+    stageBase.castShadow = true;
+    stageBase.receiveShadow = true;
+    stageGroup.add(stageBase);
+
+    // Gold trim along the top edges of the stage (4 thin strips outlining the stage top)
+    const stageTrimMat = new THREE.MeshStandardMaterial({
+      color: 0xc9a14a, metalness: 0.85, roughness: 0.25,
+      emissive: 0xc9a14a, emissiveIntensity: 0.18
+    });
+    function stageTrim(w, d, x, z) {
+      const t = new THREE.Mesh(new THREE.BoxGeometry(w, 0.05, d), stageTrimMat);
+      t.position.set(x, TIER_Y.T2 + 0.027, z);
+      stageGroup.add(t);
+    }
+    stageTrim(15, 0.1, 0, -10.55);   // front
+    stageTrim(15, 0.1, 0, -15.45);   // back
+    stageTrim(0.1, 5, -7.55, -13);      // left
+    stageTrim(0.1, 5, 7.55, -13);      // right
+
+    // (LED backdrop + glowing "STAGE" strip removed — the stage now has an
+    // open back so the backstage speakers and crew on the middle block are
+    // fully visible from the audience side.)
+
+    // Bring the stage forward toward the audience — translates the whole group
+    // (stage base + trim) by +z so it sits in front of the middle block.
+    stageGroup.position.z = 17;  // stage block pushed strongly toward the audience side
+
+    scene.add(stageGroup);
+
+    // "STAGE" floor label (in front of stage)
+    function floorLabel(text, w, h, x, z, bg = '#ffffff', fg = '#0f172a') {
+      const c = document.createElement('canvas'); c.width = 512; c.height = 128;
+      const cx = c.getContext('2d');
+      cx.fillStyle = bg; cx.fillRect(0, 0, 512, 128);
+      cx.strokeStyle = '#cbd5e1'; cx.lineWidth = 4; cx.strokeRect(2, 2, 508, 124);
+      cx.fillStyle = fg; cx.font = 'bold 64px -apple-system,system-ui,sans-serif';
+      cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText(text, 256, 64);
+      const t = new THREE.CanvasTexture(c);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: t, transparent: true }));
+      m.rotation.x = -Math.PI / 2;
+      m.position.set(x, 0.02, z);
+      scene.add(m);
+    }
+    // Floor labels — placed on visible floor in front of each block, so they
+    // aren't hidden under the raised platforms.
+    floorLabel('STAGE', 5, 1.2, 0, 7.6);
+    floorLabel('GOLD', 4, 1, -19, 0.5, '#fff8e5', '#8a6a1f');
+    floorLabel('PLATINUM', 5, 1, 19, 0.5, '#f1f5f9', '#334155');
+
+    /* ---------- Side wing platforms (single elevation) ----------
+       Each wing is one box at T2 height, oriented with its long axis along x
+       (parallel to the stage front). The wing's inner SHORT face touches the
+       middle block at x=Â±10, and a coloured nosing runs along the audience-
+       facing (south) long edge for a tier accent. */
+    function buildAngledWing(anchor, accent) {
+      const platColor = 0x8fa79e;
+
+      function step(localCz, w, h, d, color) {
+        const wld = rotXZ(0, localCz, anchor.angle);
+        const m = new THREE.Mesh(
+          new THREE.BoxGeometry(w, h, d),
+          new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0.18 })
+        );
+        m.position.set(anchor.x + wld.x, h / 2, anchor.z + wld.z);
+        m.rotation.y = anchor.angle;
+        m.castShadow = true; m.receiveShadow = true;
+        scene.add(m);
+      }
+      function nosing(localCz, y, w) {
+        const wld = rotXZ(0, localCz, anchor.angle);
+        const m = new THREE.Mesh(
+          new THREE.BoxGeometry(w, 0.06, 0.18),
+          new THREE.MeshStandardMaterial({
+            color: accent, metalness: 0.85, roughness: 0.25,
+            emissive: accent, emissiveIntensity: 0.10
+          })
+        );
+        m.position.set(anchor.x + wld.x, y, anchor.z + wld.z);
+        m.rotation.y = anchor.angle;
+        scene.add(m);
+      }
+
+      // Single elevated platform: 18 wide (along x) Ã— 7 deep (along z).
+      step(0, WING_LENGTH, TIER_Y.T2, WING_DEPTH, platColor);
+
+      // Audience-facing front edge — tier-colour nosing along the south long edge
+      nosing(WING_DEPTH / 2, TIER_Y.T2 + 0.005, WING_LENGTH);
+    }
+    buildAngledWing(GOLD_WING, 0xc9a14a);
+    buildAngledWing(PLAT_WING, 0xaff3d4);
+
+    /* ---------- Middle block (between the two wings, bridging to the stage) ----
+       The old back platform is gone. The middle block now shares its north face
+       with the wings' inner SHORT faces at x=Â±10, and extends south to meet the
+       stage's back face — so gold-wing | middle block | platinum-wing reads as
+       one continuous row behind the stage. */
+    {
+      const STAGE_BACK_Z = -15.5 + 17;                       // world z of stage back
+      const midNorthZ = WING_CENTER_Z - WING_DEPTH / 2;        // = -8 (wings' north)
+      const midSouthZ = STAGE_BACK_Z;                        // = +1.5 (stage back)
+      const midDepth = midSouthZ - midNorthZ;
+      const midZ = (midNorthZ + midSouthZ) / 2;
+      const midWidth = 20;                                  // xâˆˆ[-10,+10] — between wings
+
+      const mid = new THREE.Mesh(
+        new THREE.BoxGeometry(midWidth, TIER_Y.T2, midDepth),
+        new THREE.MeshStandardMaterial({ color: 0x15433d, roughness: 0.55, metalness: 0.2 })
+      );
+      mid.position.set(0, TIER_Y.T2 / 2, midZ);
+      mid.castShadow = true; mid.receiveShadow = true;
+      scene.add(mid);
+    }
+
+    /* ---------- Speakers + people on the middle block ----------------------
+       The backstage crew (speakers + figures) sits on top of the middle block,
+       between the stage's back face and the rear of the middle block. */
+    {
+      const STAGE_TOP_Y = TIER_Y.T2;          // top of all elevated platforms
+      // Two speaker stacks just behind the LED wall, facing the audience (+z).
+      const speakerEnds = [
+        { x: -5.6, z: -1.2, ry: 0 },
+        { x: 5.6, z: -1.2, ry: 0 },
+      ];
+      for (const sp of speakerEnds) {
+        const grp = new THREE.Group();
+        const cab = new THREE.Mesh(
+          new THREE.BoxGeometry(1.5, 1.8, 1.0),
+          new THREE.MeshStandardMaterial({ color: 0x0a0f24, metalness: 0.3, roughness: 0.75 })
+        );
+        cab.castShadow = true; cab.receiveShadow = true;
+        grp.add(cab);
+        const cone = new THREE.Mesh(
+          new THREE.CircleGeometry(0.46, 24),
+          new THREE.MeshStandardMaterial({ color: 0x1f2a4a, metalness: 0.4, roughness: 0.6 })
+        );
+        cone.position.set(0, 0, 0.51);
+        grp.add(cone);
+        const dot = new THREE.Mesh(
+          new THREE.CircleGeometry(0.14, 18),
+          new THREE.MeshStandardMaterial({ color: 0x0e1530, metalness: 0.4, roughness: 0.6 })
+        );
+        dot.position.set(0, 0, 0.515);
+        grp.add(dot);
+        const tweeter = new THREE.Mesh(
+          new THREE.CircleGeometry(0.16, 18),
+          new THREE.MeshStandardMaterial({ color: 0x111a36 })
+        );
+        tweeter.position.set(0, 0.62, 0.515);
+        grp.add(tweeter);
+
+        grp.position.set(sp.x, STAGE_TOP_Y + 0.9, sp.z);
+        grp.rotation.y = sp.ry;
+        scene.add(grp);
+      }
+
+      // Backstage figures on the middle block — bodies face the audience (+z).
+      function person(x, z, bodyColor, ry) {
+        const g = new THREE.Group();
+        const body = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.20, 0.26, 1.05, 14),
+          new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.85 })
+        );
+        body.position.y = 0.525; body.castShadow = true; g.add(body);
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(0.20, 18, 14),
+          new THREE.MeshStandardMaterial({ color: 0xe6c9a8, roughness: 0.7 })
+        );
+        head.position.y = 1.27; head.castShadow = true; g.add(head);
+        const hair = new THREE.Mesh(
+          new THREE.SphereGeometry(0.205, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2),
+          new THREE.MeshStandardMaterial({ color: 0x1a120a, roughness: 0.95 })
+        );
+        hair.position.y = 1.33; g.add(hair);
+        g.position.set(x, STAGE_TOP_Y, z);
+        g.rotation.y = ry;
+        g.castShadow = true;
+        return g;
+      }
+      // Backstage crew on the middle block (all behind the LED wall, facing +z).
+      // x stays within the middle block's inner span (â‰ˆ Â±9) and z sits between
+      // the speaker line (-1.2) and the back edge of the middle block (-8).
+      const stagePeople = [
+        { x: 0.0, z: -2.4, c: 0x4a5878, ry: 0.0 },
+        { x: -2.2, z: -3.0, c: 0x334155, ry: 0.1 },
+        { x: 2.2, z: -3.0, c: 0x475569, ry: -0.1 },
+        { x: -3.6, z: -4.0, c: 0x1f2937, ry: 0.2 },
+        { x: 3.6, z: -4.0, c: 0x64748b, ry: -0.2 },
+        { x: -1.2, z: -5.0, c: 0x2a3651, ry: 0.0 },
+        { x: 1.2, z: -5.0, c: 0x4b5563, ry: 0.0 },
+      ];
+      for (const p of stagePeople) {
+        scene.add(person(p.x, p.z, p.c, p.ry));
+      }
+    }
+
+    /* ---------- Tables ---------- */
+    const STATUS_COLOR = { available: 0x16a34a, pending: 0xf59e0b, reserved: 0xdc2626 };
+    const TIER_TOP_COLOR = {
+      gold: { color: 0xd4a84a, emissive: 0x3a2a08, metalness: 0.7, roughness: 0.35 },
+      platinum: { color: 0xc7e7dc, emissive: 0x14332e, metalness: 0.8, roughness: 0.3 }
+    };
+
+    const tableMeshes = [];   // root groups (raycaster targets)
+    const tableById = {};   // id -> { table, group, ring, top, label, glow }
+
+    function makeNumberLabel(num, tier) {
+      const c = document.createElement('canvas'); c.width = 256; c.height = 128;
+      const cx = c.getContext('2d');
+      // Dark glass card
+      cx.fillStyle = 'rgba(8, 24, 24, 0.94)';
+      cx.fillRect(0, 0, 256, 128);
+      // Tier-color border
+      const border = tier === 'gold' ? '#c9a14a' : '#aff3d4';
+      cx.strokeStyle = border;
+      cx.lineWidth = 6;
+      cx.strokeRect(3, 3, 250, 122);
+      // Soft accent line near the bottom
+      cx.strokeStyle = tier === 'gold' ? '#eac879' : '#e2e8f0';
+      cx.lineWidth = 2;
+      cx.beginPath(); cx.moveTo(22, 106); cx.lineTo(234, 106); cx.stroke();
+      // Number text in tier-bright colour
+      cx.fillStyle = tier === 'gold' ? '#fde68a' : '#f1f5f9';
+      cx.font = 'bold 60px -apple-system,system-ui,sans-serif';
+      cx.textAlign = 'center'; cx.textBaseline = 'middle';
+      cx.fillText('T' + num, 128, 58);
+      const t = new THREE.CanvasTexture(c);
+      const mat = new THREE.SpriteMaterial({ map: t, depthTest: false });
+      const s = new THREE.Sprite(mat);
+      s.scale.set(1.9, 0.95, 1);
+      s.renderOrder = 5;
+      return s;
+    }
+
+    function buildTable(t) {
+      const g = new THREE.Group();
+      g.position.set(t.x, t.y || 0, t.z);
+      g.userData = { table: t, type: 'tableRoot' };
+
+      const isGold = t.tier === 'gold';
+      const tierBright = isGold ? 0xeac879 : 0xeafaf1;
+      const tierMain = isGold ? 0xcfa44a : 0xaff3d4;
+      const tierDeep = isGold ? 0x8a6a1f : 0x4a7a6e;
+
+      // Base disc (sits on the platform)
+      const base = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 0.58, 0.06, 28),
+        new THREE.MeshStandardMaterial({ color: 0x0e1530, metalness: 0.45, roughness: 0.55 })
+      );
+      base.position.y = 0.03; base.castShadow = true; base.receiveShadow = true;
+      g.add(base);
+
+      // Slim pedestal
+      const ped = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.14, 0.22, 0.74, 18),
+        new THREE.MeshStandardMaterial({ color: 0x1c2547, metalness: 0.55, roughness: 0.4 })
+      );
+      ped.position.y = 0.41; ped.castShadow = true;
+      g.add(ped);
+
+      // Layered tabletop — under-rim (darker tier shade) for visual weight
+      const rim = new THREE.Mesh(
+        new THREE.CylinderGeometry(1.04, 1.04, 0.06, 40),
+        new THREE.MeshStandardMaterial({ color: tierDeep, metalness: 0.75, roughness: 0.3 })
+      );
+      rim.position.y = 0.79; rim.castShadow = true;
+      g.add(rim);
+
+      // Polished top surface
+      const top = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.99, 0.99, 0.10, 40),
+        new THREE.MeshStandardMaterial({
+          color: tierMain, metalness: 0.85, roughness: 0.25,
+          emissive: tierMain, emissiveIntensity: 0.08
+        })
+      );
+      top.position.y = 0.85; top.castShadow = true; top.receiveShadow = true;
+      g.add(top);
+
+      // Glowing LED rim around the tabletop edge — catchy in the dark
+      const ledRim = new THREE.Mesh(
+        new THREE.TorusGeometry(1.02, 0.028, 8, 44),
+        new THREE.MeshBasicMaterial({ color: tierBright, transparent: true, opacity: 0.95 })
+      );
+      ledRim.rotation.x = Math.PI / 2;
+      ledRim.position.y = 0.86;
+      g.add(ledRim);
+
+      // Engraved inner circle on the tabletop
+      const inlay = new THREE.Mesh(
+        new THREE.RingGeometry(0.6, 0.76, 40),
+        new THREE.MeshBasicMaterial({ color: tierDeep, transparent: true, opacity: 0.85 })
+      );
+      inlay.rotation.x = -Math.PI / 2;
+      inlay.position.y = 0.911;
+      g.add(inlay);
+
+      // Centerpiece — slim candle with a flickering flame (decorative night vibe)
+      const candle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.065, 0.085, 0.22, 12),
+        new THREE.MeshStandardMaterial({ color: 0xfff3cf, metalness: 0.05, roughness: 0.55 })
+      );
+      candle.position.y = 1.02; g.add(candle);
+      const flame = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 8, 6),
+        new THREE.MeshBasicMaterial({ color: 0xffd47a })
+      );
+      flame.position.y = 1.18;
+      g.add(flame);
+
+      // (No chairs — tables stand alone on the elevated platform)
+
+      // Floating number label above the table
+      const label = makeNumberLabel(t.id, t.tier);
+      label.position.set(0, 2.05, 0);
+      g.add(label);
+
+      scene.add(g);
+      tableMeshes.push(g);
+      tableById[t.id] = { table: t, group: g, top, label, inlay, flame, ring: ledRim };
+    }
+    TABLES.forEach(buildTable);
+
+    function setStatus(id, status) {
+      const rec = tableById[id];
+      if (!rec) return;
+      rec.table.status = status;
+      const col = STATUS_COLOR[status];
+      if (rec.ring) rec.ring.material.color.setHex(col);
+      if (rec.top) {
+        if (status === 'available') {
+          const tierCol = rec.table.tier === 'gold' ? 0xcfa44a : 0xaff3d4;
+          rec.top.material.emissive.setHex(tierCol);
+          rec.top.material.emissiveIntensity = 0.08;
+        } else {
+          rec.top.material.emissive.setHex(col);
+          rec.top.material.emissiveIntensity = 0.22;
+        }
+      }
+    }
+
+    // Initialise all tables with the green "available" ring
+    TABLES.forEach(t => setStatus(t.id, 'available'));
+
+    /* ---------- Minimal Orbit Controls (mouse + touch) ---------- */
+    class Orbit {
+      constructor(cam, dom) {
+        this.cam = cam; this.dom = dom;
+        this.target = HOME_TGT.clone();
+        this.sph = new THREE.Spherical();
+        this.sph.setFromVector3(cam.position.clone().sub(this.target));
+        this.minR = 14; this.maxR = 80;
+        this.minP = 0.18; this.maxP = Math.PI / 2 - 0.06;
+        this.dragging = false; this.didDrag = false;
+        this.lx = 0; this.ly = 0; this.lastPinch = 0;
+        this._bind();
+      }
+      _bind() {
+        const d = this.dom;
+        d.addEventListener('mousedown', e => { this.dragging = true; this.didDrag = false; this.lx = e.clientX; this.ly = e.clientY; });
+        window.addEventListener('mouseup', () => { this.dragging = false; });
+        window.addEventListener('mousemove', e => {
+          if (!this.dragging) return;
+          const dx = e.clientX - this.lx, dy = e.clientY - this.ly;
+          if (Math.abs(dx) + Math.abs(dy) > 3) this.didDrag = true;
+          this.lx = e.clientX; this.ly = e.clientY;
+          this.sph.theta -= dx * 0.005;
+          this.sph.phi -= dy * 0.005;
+          this.sph.phi = Math.max(this.minP, Math.min(this.maxP, this.sph.phi));
+          this._apply();
+        });
+        d.addEventListener('wheel', e => {
+          e.preventDefault();
+          this.sph.radius *= (1 + e.deltaY * 0.0012);
+          this.sph.radius = Math.max(this.minR, Math.min(this.maxR, this.sph.radius));
+          this._apply();
+        }, { passive: false });
+
+        // Touch: 1-finger orbit, 2-finger pinch
+        d.addEventListener('touchstart', e => {
+          if (e.touches.length === 1) {
+            this.dragging = true; this.didDrag = false;
+            this.lx = e.touches[0].clientX; this.ly = e.touches[0].clientY;
+          } else if (e.touches.length === 2) {
+            this.dragging = false;
+            this.lastPinch = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+          }
+        }, { passive: true });
+        d.addEventListener('touchmove', e => {
+          if (e.touches.length === 1 && this.dragging) {
+            const x = e.touches[0].clientX, y = e.touches[0].clientY;
+            const dx = x - this.lx, dy = y - this.ly;
+            if (Math.abs(dx) + Math.abs(dy) > 4) this.didDrag = true;
+            this.lx = x; this.ly = y;
+            this.sph.theta -= dx * 0.005;
+            this.sph.phi -= dy * 0.005;
+            this.sph.phi = Math.max(this.minP, Math.min(this.maxP, this.sph.phi));
+            this._apply();
+            e.preventDefault();
+          } else if (e.touches.length === 2) {
+            const p = Math.hypot(
+              e.touches[0].clientX - e.touches[1].clientX,
+              e.touches[0].clientY - e.touches[1].clientY
+            );
+            if (this.lastPinch) {
+              this.sph.radius *= this.lastPinch / p;
+              this.sph.radius = Math.max(this.minR, Math.min(this.maxR, this.sph.radius));
+              this._apply();
+            }
+            this.lastPinch = p;
+            e.preventDefault();
+          }
+        }, { passive: false });
+        d.addEventListener('touchend', () => { this.dragging = false; this.lastPinch = 0; });
+      }
+      _apply() {
+        const v = new THREE.Vector3().setFromSpherical(this.sph);
+        this.cam.position.copy(this.target).add(v);
+        this.cam.lookAt(this.target);
+      }
+      animateTo(pos, tgt, ms = 600) {
+        const startPos = this.cam.position.clone();
+        const startTgt = this.target.clone();
+        const t0 = performance.now();
+        const tick = () => {
+          const k = Math.min(1, (performance.now() - t0) / ms);
+          const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // easeInOutQuad
+          this.cam.position.lerpVectors(startPos, pos, e);
+          this.target.lerpVectors(startTgt, tgt, e);
+          this.cam.lookAt(this.target);
+          if (k < 1) requestAnimationFrame(tick);
+          else { this.sph.setFromVector3(this.cam.position.clone().sub(this.target)); }
+        };
+        tick();
+      }
+    }
+    const orbit = new Orbit(camera, canvas);
+
+    /* ---------- Raycasting (hover + click) ---------- */
+    const raycaster = new THREE.Raycaster();
+    const ndc = new THREE.Vector2();
+    let hovered = null;
+    const tipEl = document.getElementById('tip');
+
+    function eventToNdc(e) {
+      const rect = canvas.getBoundingClientRect();
+      const px = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX);
+      const py = (e.clientY !== undefined) ? e.clientY : (e.touches && e.touches[0] && e.touches[0].clientY);
+      ndc.x = ((px - rect.left) / rect.width) * 2 - 1;
+      ndc.y = -((py - rect.top) / rect.height) * 2 + 1;
+      return { px, py };
+    }
+
+    function pickTable() {
+      raycaster.setFromCamera(ndc, camera);
+      const hits = raycaster.intersectObjects(tableMeshes, true);
+      if (!hits.length) return null;
+      let o = hits[0].object;
+      while (o && !(o.userData && o.userData.type === 'tableRoot')) o = o.parent;
+      return o || null;
+    }
+
+    canvas.addEventListener('mousemove', e => {
+      const { px, py } = eventToNdc(e);
+      const root = pickTable();
+      if (root && root !== hovered) {
+        if (hovered) hovered.userData.hovered = false;
+        hovered = root;
+        hovered.userData.hovered = true;
+      } else if (!root && hovered) {
+        hovered.userData.hovered = false;
+        hovered = null;
+      }
+      if (hovered) {
+        const t = hovered.userData.table;
+        tipEl.style.display = 'block';
+        tipEl.style.left = px + 'px';
+        tipEl.style.top = py + 'px';
+        tipEl.innerHTML = `<b>Table ${t.id}</b> · ${t.tier === 'gold' ? 'Gold' : 'Platinum'} · ${t.status}`;
+        canvas.style.cursor = (t.status === 'available') ? 'pointer' : 'not-allowed';
+      } else {
+        tipEl.style.display = 'none';
+        canvas.style.cursor = 'grab';
+      }
+    });
+
+    canvas.addEventListener('click', e => {
+      if (orbit.didDrag) return; // don't treat drag-release as click
+      eventToNdc(e);
+      const root = pickTable();
+      if (!root) return;
+      const t = root.userData.table;
+      if (t.status !== 'available') {
+        flashUnavailable(root);
+        return;
+      }
+      openModal(t);
+    });
+
+    // Touch-tap
+    let touchStartXY = null;
+    canvas.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) touchStartXY = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    });
+    canvas.addEventListener('touchend', e => {
+      if (!touchStartXY) return;
+      const last = e.changedTouches[0];
+      const dx = Math.abs(last.clientX - touchStartXY.x);
+      const dy = Math.abs(last.clientY - touchStartXY.y);
+      touchStartXY = null;
+      if (dx > 8 || dy > 8) return; // it was a drag
+      const rect = canvas.getBoundingClientRect();
+      ndc.x = ((last.clientX - rect.left) / rect.width) * 2 - 1;
+      ndc.y = -((last.clientY - rect.top) / rect.height) * 2 + 1;
+      const root = pickTable();
+      if (!root) return;
+      const t = root.userData.table;
+      if (t.status !== 'available') { flashUnavailable(root); return; }
+      openModal(t);
+    });
+
+    function flashUnavailable(root) {
+      const rec = tableById[root.userData.table.id];
+      if (!rec) return;
+      let a = 0.8, dir = -1;
+      const step = () => {
+        a += dir * 0.06; if (a < 0.2) { dir = 1; } if (a > 0.8) { rec.ring.material.opacity = 0.78; return; }
+        rec.ring.material.opacity = a;
+        requestAnimationFrame(step);
+      };
+      step();
+    }
+
+    /* ---------- Top view / Reset view ---------- */
+    /* Mobile info panel — toggle visibility */
+    (function () {
+      const t = document.getElementById('infoToggle');
+      const c = document.getElementById('infoClose');
+      const p = document.getElementById('infoPanel');
+      if (t && p) t.addEventListener('click', () => p.classList.toggle('show'));
+      if (c && p) c.addEventListener('click', () => p.classList.remove('show'));
+    })();
+
+    document.getElementById('topView').addEventListener('click', () => {
+      orbit.animateTo(new THREE.Vector3(0, 60, 0.01), new THREE.Vector3(0, 0, -2));
+    });
+    document.getElementById('resetView').addEventListener('click', () => {
+      orbit.animateTo(HOME_POS.clone(), HOME_TGT.clone());
+    });
+
+    /* ---------- Booking modal ---------- */
+    const modalWrap = document.getElementById('modalWrap');
+    const okWrap = document.getElementById('okWrap');
+    let activeTable = null;
+
+    function openModal(t) {
+      activeTable = t;
+      document.getElementById('modalTitle').textContent = 'T' + t.id;
+      const pill = document.getElementById('modalPill');
+      pill.textContent = t.tier === 'gold' ? 'Gold' : 'Platinum';
+      pill.className = 'tier-pill ' + t.tier;
+      document.getElementById('sumTable').textContent = '#' + t.id;
+      document.getElementById('sumTier').textContent =
+        (t.tier === 'gold' ? 'Gold · ' + CONFIG.goldPriceLabel : 'Platinum · ' + CONFIG.platinumPriceLabel);
+      ['gName', 'gPhone', 'gEmail'].forEach(id => document.getElementById(id).value = '');
+      ['errName', 'errPhone', 'errEmail'].forEach(id => document.getElementById(id).textContent = '');
+      modalWrap.classList.add('show');
+      setTimeout(() => document.getElementById('gName').focus(), 50);
+    }
+    function closeModal() { modalWrap.classList.remove('show'); activeTable = null; }
+    document.getElementById('cancelBtn').addEventListener('click', closeModal);
+    modalWrap.addEventListener('click', e => { if (e.target === modalWrap) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); okWrap.classList.remove('show'); } });
+
+    function validate() {
+      let ok = true;
+      const name = document.getElementById('gName').value.trim();
+      const phone = document.getElementById('gPhone').value.trim();
+      const email = document.getElementById('gEmail').value.trim();
+      document.getElementById('errName').textContent = '';
+      document.getElementById('errPhone').textContent = '';
+      document.getElementById('errEmail').textContent = '';
+      if (!name) { document.getElementById('errName').textContent = 'Please enter your full name.'; ok = false; }
+      if (!/^[\d+\s\-()]{7,}$/.test(phone)) { document.getElementById('errPhone').textContent = 'Enter a valid phone number.'; ok = false; }
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { document.getElementById('errEmail').textContent = 'Invalid email address.'; ok = false; }
+      return ok ? { name, phone, email } : null;
+    }
+
+    document.getElementById('submitBtn').addEventListener('click', () => {
+      if (!activeTable) return;
+      const data = validate(); if (!data) return;
+
+      const tierLabel = activeTable.tier === 'gold' ? 'Gold' : 'Platinum';
+
+      // Move table to PENDING
+      setStatus(activeTable.id, 'pending');
+
+      // Close booking modal, show confirmation
+      modalWrap.classList.remove('show');
+      document.getElementById('okLine1').innerHTML =
+        `Your reservation request for <b>Table ${activeTable.id}</b> (${tierLabel}) has been recorded.`;
+      okWrap.classList.add('show');
+      activeTable = null;
+    });
+    document.getElementById('okClose').addEventListener('click', () => okWrap.classList.remove('show'));
+
+    /* ---------- Render loop ---------- */
+    const clock = new THREE.Clock();
+    function render() {
+      const dt = clock.getDelta();
+      const t = clock.elapsedTime;
+
+      // Hover pulse on hovered table; subtle pulse on available rings everywhere;
+      // candle flame flicker on every table for a night-event feel.
+      tableMeshes.forEach(g => {
+        const rec = tableById[g.userData.table.id];
+        if (!rec) return;
+        const baseY = rec.table.y || 0;
+
+        if (rec.flame) {
+          const f = 1 + 0.08 * Math.sin(t * 10 + g.position.x * 0.7)
+            + 0.04 * Math.cos(t * 17 + g.position.z * 0.5);
+          rec.flame.scale.setScalar(f);
+        }
+
+        if (g.userData.hovered) {
+          g.position.y = baseY + 0.08 * (0.5 + 0.5 * Math.sin(t * 4));
+        } else {
+          g.position.y = baseY;
+        }
+      });
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(render);
+    }
+    render();
+
+    /* ---------- Resize ---------- */
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* All 16 tables start AVAILABLE. Status can be flipped from the browser console:
+         OAC_VIP.setStatus(<id>, 'pending' | 'reserved' | 'available')
+       where <id> is 1..8 (Gold left wing) or 9..16 (Platinum right wing). */
+
+    /* ---------- Expose for console debugging ---------- */
+    window.OAC_VIP = { TABLES, setStatus, tableById, orbit, camera };
+  </script>
+</body>
+
+</html>
+

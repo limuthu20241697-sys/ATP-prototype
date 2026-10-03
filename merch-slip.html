@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Transactional page reached from an order email — never index it. -->
+    <meta name="robots" content="noindex,nofollow" />
+    <!-- The URL carries an order number and a signed token; don't leak them
+         through Referer when the buyer taps the WhatsApp link. -->
+    <meta name="referrer" content="no-referrer" />
+    <title>Upload your payment slip — Anjunadeep Open Air Colombo</title>
+    <link rel="icon" href="/assets/favicon.png" />
+    <style>
+      /* Palette and type scale taken from index.html. This page is a standalone
+         transactional flow, so the tokens are duplicated rather than shared —
+         but they must stay in step with the site: the buyer crosses from the
+         shop to here mid-payment, and a palette change at that moment reads as
+         having landed somewhere else.
+
+         --gold is the site's primary accent (its most-used colour) and drives
+         the primary button; --mint is reserved for focus rings and success,
+         as on the site. These were previously swapped, which is why this page
+         used to render mint where the shop renders gold. */
+      :root {
+        --ink: #eafaf1;
+        --gold: #edae42;
+        --mint: #aff3d4;
+        --amber: #e07b30;
+        --body: #cfe7dc;
+        --muted: rgba(220, 238, 230, 0.72);
+        --faint: rgba(207, 231, 220, 0.45);
+        --line: rgba(175, 243, 212, 0.16);
+        --panel: rgba(255, 255, 255, 0.035);
+      }
+      /* Decima, same five weights and same relative paths as index.html. Served
+         from our own origin exactly as the main site does — this page sits on
+         the same domain, so it introduces no new font-licensing position. */
+      @font-face {
+        font-family: "Decima";
+        src: url("/assets/fonts/DecimaSans-Light.otf") format("opentype");
+        font-weight: 300; font-style: normal; font-display: swap;
+      }
+      @font-face {
+        font-family: "Decima";
+        src: url("/assets/fonts/DecimaSans-Regular.otf") format("opentype");
+        font-weight: 400; font-style: normal; font-display: swap;
+      }
+      @font-face {
+        font-family: "Decima";
+        src: url("/assets/fonts/DecimaSans-Medium.otf") format("opentype");
+        font-weight: 500; font-style: normal; font-display: swap;
+      }
+      @font-face {
+        font-family: "Decima";
+        src: url("/assets/fonts/DecimaSans-DemiBold.otf") format("opentype");
+        font-weight: 600; font-style: normal; font-display: swap;
+      }
+      @font-face {
+        font-family: "Decima";
+        src: url("/assets/fonts/DecimaSans-Bold.otf") format("opentype");
+        font-weight: 700; font-style: normal; font-display: swap;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        /* The site's background wash (#0a1f20 family), not the greener pair
+           this page used to carry. */
+        background: radial-gradient(circle at 50% 0%, #0c2425, #0a1f20 62%);
+        color: var(--ink);
+        font-family: "Decima", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap { max-width: 620px; margin: 0 auto; padding: clamp(28px, 7vw, 68px) clamp(20px, 6vw, 32px) 80px; }
+      .eyebrow {
+        font-size: 12px; letter-spacing: 0.34em; text-transform: uppercase;
+        color: var(--amber); font-weight: 600; margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0 0 14px; font-weight: 300; letter-spacing: -0.02em;
+        font-size: clamp(32px, 7vw, 52px); line-height: 1.02;
+      }
+      h1 b { color: var(--mint); font-weight: 600; }
+      .lede { margin: 0 0 28px; color: var(--muted); font-size: 16.5px; }
+      .panel {
+        background: var(--panel); border: 1px solid var(--line);
+        border-radius: 16px; padding: 20px; margin: 18px 0;
+      }
+      .panel h2 {
+        margin: 0 0 12px; font-size: 12px; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--faint); font-weight: 600;
+      }
+      dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; font-size: 15px; }
+      dt { color: var(--faint); }
+      dd { margin: 0; font-weight: 600; }
+      /* The amount is the single most important thing on this page — a buyer
+         transferring the wrong figure is the hardest case to reconcile. */
+      .amountbox {
+        margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--line);
+        display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; align-items: baseline;
+      }
+      .amountbox .k { color: var(--faint); font-size: 15px; }
+      /* Gold, not mint: this is the single figure the buyer must read and
+         transfer correctly, so it carries the brand's loudest accent. */
+      .amountbox .v { font-size: 25px; font-weight: 700; color: var(--gold); letter-spacing: -0.01em; }
+      .amountbox .ref { font-size: 17px; font-weight: 600; }
+      label { display: block; font-size: 13.5px; color: var(--muted); margin: 16px 0 6px; }
+      input[type="text"], input[type="email"] {
+        width: 100%; padding: 12px 14px; font: inherit; font-size: 16px;
+        color: var(--ink); background: rgba(0, 0, 0, 0.28);
+        border: 1px solid var(--line); border-radius: 10px;
+      }
+      input:focus-visible, .drop:focus-within, button:focus-visible, a:focus-visible {
+        outline: 2px solid var(--mint); outline-offset: 2px;
+      }
+      input[aria-invalid="true"] { border-color: #ff8f84; }
+      .drop {
+        margin-top: 8px; padding: 26px 18px; text-align: center; cursor: pointer;
+        border: 1.5px dashed rgba(175, 243, 212, 0.34); border-radius: 14px;
+        background: rgba(0, 0, 0, 0.18); color: var(--muted); font-size: 14.5px;
+        display: block;
+      }
+      .drop:hover, .drop[data-over] { border-color: var(--mint); color: var(--ink); }
+      /* Visually hidden rather than display:none — display:none removes the
+         input from the tab order, which made the picker keyboard-unreachable. */
+      .vh {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      #preview { display: none; margin-top: 14px; }
+      #preview img {
+        max-width: 100%; max-height: 260px; border-radius: 12px;
+        border: 1px solid var(--line); display: block; margin: 0 auto;
+      }
+      #preview .fname { text-align: center; font-size: 13px; color: var(--faint); margin-top: 8px; }
+      /* The site's primary CTA, verbatim: gold→orange on deep teal-black text,
+         full pill radius. Matching this matters more here than anywhere else —
+         it is the button a buyer presses after parting with money. */
+      button, .btn {
+        display: block; width: 100%; text-align: center; text-decoration: none;
+        padding: 14px 18px; margin-top: 14px; border-radius: 999px; border: 0;
+        font: inherit; font-size: 15.5px; font-weight: 600; cursor: pointer;
+        color: #0a1f20; background: linear-gradient(120deg, #edae42, #e07b30);
+        min-height: 48px;
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+      }
+      button:hover:not(:disabled), .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(224, 123, 48, 0.45);
+      }
+      button:disabled { opacity: 0.55; cursor: default; }
+      /* WhatsApp keeps its own brand green — that is a platform colour and
+         recolouring it would make the button harder to recognise. */
+      .btn.wa { background: linear-gradient(135deg, #25d366, #14ab52); color: #04210f; }
+      .btn.wa:hover { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.35); }
+      .btn.ghost {
+        background: none; color: var(--gold);
+        border: 1px solid rgba(237, 174, 66, 0.45);
+      }
+      .btn.ghost:hover {
+        box-shadow: none; border-color: rgba(237, 174, 66, 0.7);
+        background: rgba(237, 174, 66, 0.08);
+      }
+      /* Motion is decoration here; anyone who has asked for less of it should
+         not get a lift and a shadow on the button that takes their payment. */
+      @media (prefers-reduced-motion: reduce) {
+        button, .btn { transition: none; }
+        button:hover:not(:disabled), .btn:hover { transform: none; }
+      }
+      .bar { height: 6px; border-radius: 99px; background: rgba(255,255,255,.09); margin-top: 12px; overflow: hidden; display: none; }
+      .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#edae42,#e07b30); transition: width .18s ease; }
+      .msg { margin-top: 14px; font-size: 14px; min-height: 20px; }
+      .msg[data-err] { color: #ffb3aa; }
+      .msg[data-err]::before { content: "⚠ "; }
+      .msg[data-ok] { color: var(--mint); }
+      #done { display: none; }
+      .tick {
+        width: 54px; height: 54px; border-radius: 50%; margin: 0 auto 16px;
+        background: rgba(175, 243, 212, 0.14); border: 1px solid var(--line);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 26px; color: var(--mint);
+      }
+      .note { font-size: 13px; color: var(--faint); margin-top: 18px; }
+      .already {
+        margin: 18px 0; padding: 14px 16px; border-radius: 12px; font-size: 14px;
+        background: rgba(224, 123, 48, 0.12); border: 1px solid rgba(224, 123, 48, 0.34);
+        color: #f3d3b6; display: none;
+      }
+      .steps { margin: 18px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--muted); }
+      .steps li { padding: 7px 0 7px 26px; position: relative; }
+      .steps li::before {
+        content: ""; position: absolute; left: 4px; top: 15px;
+        width: 7px; height: 7px; border-radius: 50%; background: var(--mint); opacity: .55;
+      }
+      a.home { color: var(--faint); font-size: 13.5px; text-decoration: none; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="eyebrow">Payment</div>
+
+      <!-- STEP 1 — upload -->
+      <section id="form">
+        <h1>Upload your <b>payment slip</b></h1>
+        <p class="lede">
+          Once you've transferred the payment, upload a photo of your deposit
+          slip here. We'll confirm your order as soon as we've checked it.
+        </p>
+
+        <div class="panel">
+          <h2>Transfer to</h2>
+          <dl>
+            <dt>Bank</dt><dd data-bank-name>—</dd>
+            <dt>Account name</dt><dd data-bank-acc-name>—</dd>
+            <dt>Account no.</dt><dd data-bank-acc-no>—</dd>
+            <dt>Branch</dt><dd data-bank-branch>—</dd>
+          </dl>
+          <!-- Filled from /api/merch/order-summary once the order is known. -->
+          <div class="amountbox" id="amountbox" hidden>
+            <span class="k">Amount</span><span class="v" id="amtVal">—</span>
+            <span class="k">Reference</span><span class="ref" id="amtRef">—</span>
+          </div>
+          <p class="note" id="refHint">
+            Please use your order number as the payment reference.
+          </p>
+        </div>
+
+        <div class="already" id="already" role="status"></div>
+
+        <label for="order">Order number</label>
+        <input id="order" type="text" inputmode="numeric" placeholder="e.g. 1042"
+               autocomplete="off" aria-describedby="orderHelp msg" />
+        <p class="note" id="orderHelp" style="margin-top:6px">
+          It's at the top of your order confirmation email, like <b>#1042</b>.
+        </p>
+
+        <div id="emailrow">
+          <label for="email">Email used on the order</label>
+          <input id="email" type="email" placeholder="you@example.com"
+                 autocomplete="email" aria-describedby="msg" />
+        </div>
+
+        <label for="file">Payment slip</label>
+        <label class="drop" id="drop" for="file">
+          <input id="file" class="vh" type="file"
+                 accept="image/jpeg,image/png,image/webp,application/pdf" />
+          <span id="dropLabel">Tap to choose a photo, or drag it here<br /><small>JPG, PNG, WEBP or PDF · max 8 MB</small></span>
+        </label>
+
+        <div id="preview"><img id="previewImg" alt="Preview of the payment slip you selected" /><div class="fname" id="previewName"></div></div>
+
+        <button id="submit" type="button">Upload slip</button>
+        <div class="bar" id="bar"><i id="barFill"></i></div>
+        <!-- role=alert so errors are announced; colour alone was the only
+             signal before, which is invisible to screen readers. -->
+        <div class="msg" id="msg" role="alert" aria-live="assertive"></div>
+      </section>
+
+      <!-- STEP 2 — success + WhatsApp handoff -->
+      <section id="done" tabindex="-1">
+        <div class="tick" aria-hidden="true">✓</div>
+        <h1 style="text-align: center; font-size: clamp(26px, 6vw, 38px)">
+          Slip <b>received</b>
+        </h1>
+        <p class="lede" style="text-align: center">
+          We have your slip for order <b id="doneOrder"></b>.
+        </p>
+
+        <div class="panel">
+          <h2>What happens next</h2>
+          <ul class="steps">
+            <li>We check your slip against our bank account — usually within <b>24 hours</b> on working days.</li>
+            <li>Once confirmed, <b>Shopify emails you</b> a payment confirmation and your order moves to paid.</li>
+            <li>If anything doesn't match, we'll contact you on WhatsApp or email.</li>
+          </ul>
+        </div>
+
+        <p class="note" style="text-align: center; margin-bottom: 4px">
+          Let us know on WhatsApp so we can check it faster:
+        </p>
+
+        <!-- Always shown. A wa.me link carries text only — WhatsApp's
+             click-to-chat has no attachment parameter, so this cannot carry
+             the image itself. -->
+        <a class="btn wa" id="waText" href="#" target="_blank" rel="noopener noreferrer">Notify us on WhatsApp</a>
+
+        <!-- Progressive enhancement: hands the real file to WhatsApp via the
+             OS share sheet. Only shown when navigator.canShare({files}) passes
+             (mobile Chrome/Safari); hidden on Firefox and most desktops. -->
+        <button class="btn ghost" id="waShare" style="display: none">Send the slip image too</button>
+
+        <p class="note" id="shareNote" style="display: none">
+          Pick WhatsApp, then choose the Odeysse chat. The order number is in
+          the file name, so we can match it even if the caption doesn't send.
+        </p>
+
+        <p class="note" style="text-align: center">
+          <a class="home" href="/">← Back to the site</a>
+        </p>
+      </section>
+    </div>
+
+    <script>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var qs = new URLSearchParams(location.search);
+
+        // CONFIG — injected by the server from env (see GET /merch/slip).
+        var CFG = window.__SLIP_CFG__ || {};
+        // wa.me needs a full international number with no "+", spaces or
+        // leading zero. A Sri Lankan local number (0712345678) is an easy
+        // thing to paste into config by mistake and WhatsApp fails silently
+        // on it, so normalise 0XXXXXXXXX to 94XXXXXXXXX here.
+        var WA = (CFG.whatsapp || '').replace(/[^0-9]/g, '').replace(/^0(\d{9})$/, '94$1');
+
+        var bank = CFG.bank || {};
+        var setTxt = function (sel, v) {
+          var el = document.querySelector(sel);
+          if (el && v) el.textContent = v;
+        };
+        setTxt('[data-bank-name]', bank.name);
+        setTxt('[data-bank-acc-name]', bank.accountName);
+        setTxt('[data-bank-acc-no]', bank.accountNumber);
+        setTxt('[data-bank-branch]', bank.branch);
+
+        // Two modes.
+        //   post-order (default): the order exists; we look up its amount.
+        //   pre-order  (?mode=pre): the buyer pays BEFORE checkout, so there is
+        //     no order yet — the amount comes from the cart and we hand back a
+        //     UUID that rides on the cart permalink into Shopify.
+        // Checkout must use the Shopify PRIMARY domain, never the
+        // .myshopify.com host: that one 301-redirects, and redirects are where
+        // UTM / GA linker params get dropped.
+        var SHOP_ORIGIN = 'https://shop.anjunadeep.odeysse.com';
+
+        var PRE = qs.get('mode') === 'pre';
+
+        // The cart the buyer built on Shopify, as variant_id:quantity pairs —
+        // the same shape a Shopify cart permalink takes, so the trip back
+        // rebuilds exactly what was paid for.
+        //
+        // Parsed strictly: anything that is not digits:digits is dropped. This
+        // string arrives from a link the buyer can edit, and it is about to be
+        // pasted into a URL.
+        var items = String(qs.get('items') || '')
+          .split(',')
+          .map(function (pair) {
+            var m = /^(\d+):(\d+)$/.exec(pair.trim());
+            if (!m) return null;
+            var qty = parseInt(m[2], 10);
+            if (!(qty > 0) || qty > 99) return null;
+            return { id: m[1], qty: qty };
+          })
+          .filter(Boolean);
+
+        var totalQty = items.reduce(function (n, i) { return n + i.qty; }, 0);
+
+        // The amount is OURS, never the link's. Only the quantity comes from
+        // the buyer, and the cart we rebuild afterwards uses that same
+        // quantity — so what they transfer and what they order agree. A price
+        // in the URL could simply be edited down.
+        var PACK_PRICE = Number(CFG.packPrice || 0);
+        var preAmount = totalQty
+          ? PACK_PRICE * totalQty
+          : Number(qs.get('amount') || 0);   // older links from our own site
+
+        var order = (qs.get('order') || '').replace(/^#/, '');
+        var token = qs.get('t') || '';
+        if (order) $('order').value = order;
+        // Shopify's email template can't compute our HMAC, so links sent from
+        // the order confirmation carry ?order=&email= instead of a token. The
+        // email is the second factor — prefill it so the buyer taps once, and
+        // leave the field visible so they can correct it if it's wrong.
+        var qEmail = (qs.get('email') || '').trim();
+        if (qEmail && $('email')) $('email').value = qEmail;
+        // A valid signed token proves ownership on its own, so hide the email
+        // row only in that case. Never in pre-order mode: there the email is
+        // the only thing tying the payment to a person.
+        if (token && !PRE) $('emailrow').style.display = 'none';
+
+        if (PRE) {
+          // No order exists yet, so hide the order-number field and show the
+          // cart total the buyer must transfer.
+          var orderLabel = document.querySelector('label[for="order"]');
+          if (orderLabel) orderLabel.style.display = 'none';
+          $('order').style.display = 'none';
+          $('orderHelp').style.display = 'none';
+          document.querySelector('h1').innerHTML = 'Pay, then <b>upload your slip</b>';
+          document.querySelector('.lede').textContent =
+            'Transfer the amount below, upload a photo of your deposit slip, then continue to checkout.';
+          $('amtVal').textContent = money(preAmount, 'LKR') || '—';
+          $('amtRef').textContent = 'Your name';
+          $('amountbox').hidden = false;
+          $('refHint').textContent =
+            'Use your own name as the payment reference — we match it to your order automatically.';
+          $('submit').textContent = 'Upload slip & continue';
+          // "Email used on the order" is wrong here — there is no order yet, and
+          // this is the address they'll use at checkout in a moment.
+          var emailLabel = document.querySelector('label[for="email"]');
+          if (emailLabel) emailLabel.textContent = 'Your email (use the same one at checkout)';
+
+          // A cart we could not read — a truncated link, or someone landing
+          // here directly. Say so plainly instead of showing LKR 0.00 next to
+          // a working upload button and failing only on submit.
+          if (!(preAmount > 0)) {
+            $('amountbox').hidden = true;
+            $('already').style.display = 'block';
+            $('already').innerHTML =
+              "<b>We couldn't read your order.</b><br>" +
+              'Head back to the shop, choose your pack, and press ' +
+              '&ldquo;Pay &amp; upload slip&rdquo; again.';
+            var back = document.createElement('a');
+            back.className = 'btn';
+            back.href = SHOP_ORIGIN + '/products/anjunadeep-merch-pack';
+            back.textContent = 'Back to the shop';
+            back.style.marginTop = '14px';
+            $('already').appendChild(back);
+            $('submit').disabled = true;
+            document.querySelector('.lede').textContent =
+              'We need to know what you are paying for before you transfer anything.';
+            return;
+          }
+
+          // Already paid for this exact cart and never finished checking out?
+          // Send them on rather than taking their money twice.
+          //
+          // This guard used to live on the shop page, which the buyer no longer
+          // passes through — they now come straight from Shopify's cart, so it
+          // belongs here.
+          offerExistingSlip();
+        }
+
+        // If a stored slip covers this exact cart, has not expired, and the
+        // server still considers it unspent, offer to continue instead of
+        // asking for payment again.
+        //
+        // All three conditions matter. The cart match stops one payment
+        // unlocking a different or larger order; the server check is what
+        // notices the buyer already completed an order with it — the browser
+        // cannot know that on its own, because after handing off to Shopify
+        // nothing of ours runs again.
+        function offerExistingSlip() {
+          if (!items.length) return;
+          var v = null;
+          try {
+            v = JSON.parse(localStorage.getItem('oac-merch-slip') || 'null');
+          } catch (_) { return; }
+          if (!v || !v.slipUuid || !v.at) return;
+
+          var SIX_HOURS = 6 * 60 * 60 * 1000;
+          if (Date.now() - v.at > SIX_HOURS) return;
+
+          var sig = items.map(function (i) { return i.id + ':' + i.qty; }).sort().join('|');
+          if (v.sig !== sig) return;
+          if (Math.abs(Number(v.amount) - preAmount) > 0.01) return;
+
+          fetch('/api/merch/slip/state?uuid=' + encodeURIComponent(v.slipUuid), {
+            headers: { Accept: 'application/json' }
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+              if (!d || !d.ok || d.usable !== true) {
+                // Spent, or gone. Clear it so a stale reference cannot ride
+                // onto a later order, and let them pay normally.
+                try { localStorage.removeItem('oac-merch-slip'); } catch (_) {}
+                return;
+              }
+              showAlreadyPaid(v);
+            })
+            .catch(function () { /* offline — let them pay as usual */ });
+        }
+
+        function showAlreadyPaid(v) {
+          var box = $('already');
+          box.style.display = 'block';
+          box.innerHTML =
+            '<b>You have already paid for this order.</b><br>' +
+            'We have your slip. You just need to finish checkout.';
+
+          var go = document.createElement('a');
+          go.className = 'btn';
+          go.textContent = 'Continue to checkout →';
+          go.style.marginTop = '14px';
+          var u = new URL(SHOP_ORIGIN + '/cart/' +
+            items.map(function (i) { return i.id + ':' + i.qty; }).join(','));
+          u.searchParams.set('attributes[slip]', v.slipUuid);
+          u.searchParams.set('attributes[source]', 'anjunadeep-site');
+          u.searchParams.set('attributes[campaign]', 'merch-drop-2026');
+          if (v.email) u.searchParams.set('checkout[email]', v.email);
+          u.searchParams.set('note', 'source=anjunadeep-site; campaign=merch-drop-2026; slip=' + v.slipUuid);
+          go.href = u.toString();
+          box.appendChild(go);
+
+          // The upload form stays available underneath — if their first slip
+          // was wrong, they can still send another.
+          var lede = document.querySelector('.lede');
+          if (lede) {
+            lede.textContent =
+              'If your payment slip was wrong or incomplete, you can upload another below.';
+          }
+        }
+
+        // ---- Order summary: amount, reference, and any slip already sent ----
+        // Without this the buyer was never told what to transfer anywhere on
+        // our side; they had to dig the total out of a Shopify email.
+        function money(v, cur) {
+          var n = Number(v);
+          if (!isFinite(n)) return null;
+          return (cur || 'LKR') + ' ' + n.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
+        async function loadSummary() {
+          // Nothing to look up before the order exists — the amount in
+          // pre-order mode comes from the cart, not from Shopify.
+          if (PRE) return;
+          var ord = $('order').value.trim().replace(/^#/, '');
+          if (!ord) return;
+          var p = new URLSearchParams({ order: ord });
+          if (token) p.set('t', token);
+          var em = $('email') ? $('email').value.trim() : '';
+          if (em) p.set('email', em);
+          try {
+            var r = await fetch('/api/merch/order-summary?' + p.toString());
+            var d = await r.json().catch(function () { return {}; });
+            if (!d.ok || !d.authorised) return;
+
+            var amt = money(d.amount, d.currency);
+            if (amt) {
+              $('amtVal').textContent = amt;
+              $('amtRef').textContent = d.reference || ('#' + ord);
+              $('amountbox').hidden = false;
+              $('refHint').textContent = 'Use the reference above so we can match your payment.';
+            }
+            if (d.slips && d.slips.length) {
+              var last = d.slips[0];
+              var when = new Date(last.uploadedAt).toLocaleString('en-GB');
+              $('already').style.display = 'block';
+              $('already').textContent =
+                d.slips.length === 1
+                  ? 'We already have a slip for this order, uploaded ' + when +
+                    ' (' + last.status + '). You only need to upload again if the first one was wrong.'
+                  : 'We already have ' + d.slips.length + ' slips for this order. The most recent was ' + when + '.';
+            }
+          } catch (_) { /* summary is an enhancement — never block the upload */ }
+        }
+        loadSummary();
+        $('order').addEventListener('change', loadSummary);
+        if ($('email')) $('email').addEventListener('change', loadSummary);
+
+        // ---- File selection ----
+        var chosen = null;
+        var fileInput = $('file');
+        var drop = $('drop');
+        var MAX = 8 * 1024 * 1024;
+
+        function showPreview(f) {
+          $('dropLabel').innerHTML = 'Choose a different file';
+          var p = $('preview');
+          $('previewName').textContent = f.name + ' · ' + Math.round(f.size / 1024) + ' KB';
+          if (/^image\//.test(f.type)) {
+            var rd = new FileReader();
+            rd.onload = function (e) { $('previewImg').src = e.target.result; p.style.display = 'block'; };
+            rd.onerror = function () { say('That file could not be read. Try another photo.', 'err'); };
+            rd.readAsDataURL(f);
+          } else {
+            $('previewImg').removeAttribute('src');
+            p.style.display = 'block';
+          }
+        }
+
+        function accept(f) {
+          if (!f) return;
+          if (f.size > MAX) { say(ERRORS.file_too_large, 'err'); return; }
+          chosen = f;
+          say('');
+          showPreview(f);
+        }
+
+        fileInput.addEventListener('change', function () {
+          if (fileInput.files && fileInput.files[0]) accept(fileInput.files[0]);
+        });
+        ['dragenter', 'dragover'].forEach(function (ev) {
+          drop.addEventListener(ev, function (e) { e.preventDefault(); drop.setAttribute('data-over', ''); });
+        });
+        ['dragleave', 'drop'].forEach(function (ev) {
+          drop.addEventListener(ev, function (e) { e.preventDefault(); drop.removeAttribute('data-over'); });
+        });
+        drop.addEventListener('drop', function (e) {
+          accept(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+        });
+
+        var msg = $('msg');
+        function say(text, kind) {
+          msg.textContent = text;
+          msg.removeAttribute('data-err');
+          msg.removeAttribute('data-ok');
+          if (kind) msg.setAttribute('data-' + kind, '');
+          $('order').setAttribute('aria-invalid', kind === 'err' ? 'true' : 'false');
+        }
+
+        var ERRORS = {
+          invalid_order: 'Please enter a valid order number.',
+          no_file: 'Please choose your payment slip first.',
+          unsupported_type: 'That file type isn’t supported. Use a JPG, PNG, WEBP or PDF.',
+          file_too_large: 'That file is over 8 MB. Try a smaller photo.',
+          order_not_found: 'We couldn’t find that order number. Check your confirmation email and try again.',
+          verification_failed: 'That email doesn’t match the order. Please use the email you ordered with.',
+          too_many_slips: 'We already have several slips for this order — contact us on WhatsApp instead.',
+          storage_unconfigured: 'Uploads are temporarily unavailable. Please contact us on WhatsApp.',
+          upload_failed: 'That file couldn’t be read. Try taking the photo again.',
+          rate_limited: 'Too many attempts just now. Please wait a minute and try again.',
+          server_error: 'Something went wrong on our side. Please try again in a moment.',
+          invalid_email: 'Please enter a valid email address.',
+          invalid_amount: 'We couldn’t read your cart total. Go back to the shop and try again.'
+        };
+
+        var uploaded = null;
+
+        $('submit').addEventListener('click', function () {
+          var btn = this;
+          var ord = $('order').value.trim().replace(/^#/, '');
+          var em = $('email') ? $('email').value.trim() : '';
+          if (PRE) {
+            if (!em || em.indexOf('@') < 1) {
+              say('Please enter your email so we can match your payment.', 'err');
+              $('email').focus();
+              return;
+            }
+          } else if (!ord) {
+            say('Please enter your order number.', 'err'); $('order').focus(); return;
+          }
+          if (!chosen) { say('Please choose your payment slip.', 'err'); fileInput.focus(); return; }
+          if (chosen.size > MAX) { say(ERRORS.file_too_large, 'err'); return; }
+
+          btn.disabled = true;
+          say('Uploading…');
+          $('bar').style.display = 'block';
+          $('barFill').style.width = '0%';
+
+          var fd = new FormData();
+          fd.append('slip', chosen);
+          fd.append('email', em);
+          if (PRE) {
+            fd.append('amount', String(preAmount));
+          } else {
+            fd.append('order', ord);
+            fd.append('t', token);
+          }
+
+          // XHR rather than fetch: fetch exposes no upload progress, so an 8 MB
+          // photo on a weak mobile connection sat on a static "Uploading…" with
+          // no sign of life and no way to cancel.
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', PRE ? '/api/merch/slip/pre-order' : '/api/merch/slip');
+          xhr.timeout = 120000;
+
+          xhr.upload.addEventListener('progress', function (e) {
+            if (!e.lengthComputable) return;
+            var pct = Math.round((e.loaded / e.total) * 100);
+            $('barFill').style.width = pct + '%';
+            say(pct < 100 ? 'Uploading… ' + pct + '%' : 'Almost done…');
+          });
+
+          function fail(text) {
+            $('bar').style.display = 'none';
+            say(text, 'err');
+            btn.disabled = false;
+          }
+
+          xhr.addEventListener('load', function () {
+            var data = {};
+            try { data = JSON.parse(xhr.responseText || '{}'); } catch (_) {}
+            if (xhr.status >= 200 && xhr.status < 300 && data.ok) {
+              $('bar').style.display = 'none';
+              if (PRE) {
+                // Keep the reference so the shop page knows this bag is paid
+                // for if the buyer comes back rather than finishing checkout.
+                //
+                // What this payment covers, so a spent or mismatched slip
+                // cannot later unlock a different purchase. When the buyer came
+                // from Shopify the cart itself is the signature; the older
+                // sessionStorage value still applies to anyone arriving from
+                // our own site.
+                try {
+                  var sig = null;
+                  if (items.length) {
+                    sig = items.map(function (i) { return i.id + ':' + i.qty; }).sort().join('|');
+                  } else {
+                    try { sig = sessionStorage.getItem('oac-merch-sig'); } catch (_) {}
+                  }
+                  localStorage.setItem('oac-merch-slip', JSON.stringify({
+                    slipUuid: data.slipUuid, email: em, amount: preAmount,
+                    sig: sig || null, at: Date.now()
+                  }));
+                  try { sessionStorage.removeItem('oac-merch-sig'); } catch (_) {}
+                } catch (_) {}
+
+                // Back to Shopify, into a cart rebuilt from exactly what was
+                // paid for, with the slip reference attached.
+                //
+                // The reference has to travel two ways because attributes are
+                // documented to go missing through some gateway redirects and
+                // on resumed checkouts — silently, since the order still
+                // succeeds. `note` survives more reliably and the webhook falls
+                // back to parsing it.
+                var next = null;
+                if (items.length) {
+                  next = SHOP_ORIGIN + '/cart/' +
+                    items.map(function (i) { return i.id + ':' + i.qty; }).join(',');
+                } else {
+                  // No cart in the link: the buyer came from our own site,
+                  // which stashed the permalink before sending them here.
+                  try { next = sessionStorage.getItem('oac-merch-next'); } catch (_) {}
+                }
+                if (next) {
+                  try {
+                    var u = new URL(next);
+                    u.searchParams.set('attributes[slip]', data.slipUuid);
+                    u.searchParams.set('attributes[source]', 'anjunadeep-site');
+                    u.searchParams.set('attributes[campaign]', 'merch-drop-2026');
+                    u.searchParams.set('checkout[email]', em);
+                    var n = u.searchParams.get('note') || '';
+                    if (n.indexOf('slip=') === -1) {
+                      u.searchParams.set('note', (n ? n + '; ' : '') + 'slip=' + data.slipUuid);
+                    }
+                    try { sessionStorage.removeItem('oac-merch-next'); } catch (_) {}
+                    say('Slip received — taking you to checkout…', 'ok');
+                    location.href = u.toString();
+                    return;
+                  } catch (_) { /* malformed — fall through below */ }
+                }
+                say('Slip received — taking you back to the shop…', 'ok');
+                location.href = '/#oa-merch';
+                return;
+              }
+              uploaded = { file: chosen, name: data.filename, order: data.orderNumber };
+              showDone(data);
+              return;
+            }
+            fail(ERRORS[data.error] || 'Something went wrong. Please try again.');
+          });
+          xhr.addEventListener('error', function () {
+            fail('Network problem — check your connection and try again.');
+          });
+          xhr.addEventListener('timeout', function () {
+            fail('That took too long. Check your connection and try again.');
+          });
+
+          xhr.send(fd);
+        });
+
+        function showDone(data) {
+          $('form').style.display = 'none';
+          $('done').style.display = 'block';
+          $('doneOrder').textContent = '#' + data.orderNumber;
+          window.scrollTo(0, 0);
+          // Focus moves to the success panel — otherwise focus stays on a
+          // now-hidden button and AT users get no signal the step changed.
+          $('done').focus();
+
+          var lines = [
+            'Payment slip uploaded',
+            'Order: #' + data.orderNumber,
+            'Anjunadeep Open Air Colombo merch'
+          ].join('\n');
+          var wa = $('waText');
+          wa.href = WA
+            ? 'https://wa.me/' + WA + '?text=' + encodeURIComponent(lines)
+            : 'https://wa.me/?text=' + encodeURIComponent(lines);
+
+          try {
+            var probe = new File([uploaded.file], uploaded.name, { type: uploaded.file.type });
+            if (navigator.canShare && navigator.canShare({ files: [probe] })) {
+              $('waShare').style.display = 'block';
+              $('shareNote').style.display = 'block';
+            }
+          } catch (_) { /* File constructor unsupported — stay on the text path */ }
+        }
+
+        $('waShare').addEventListener('click', async function () {
+          if (!uploaded) return;
+          // The File must be built inside the click handler: an await before
+          // share() consumes the transient activation and the call is rejected.
+          try {
+            var f = new File([uploaded.file], uploaded.name, { type: uploaded.file.type });
+            await navigator.share({
+              files: [f],
+              // WhatsApp usually drops text when a file is attached — this is
+              // spec-sanctioned ("MAY discard or combine members"), which is
+              // why the order number is baked into the FILENAME as well.
+              title: 'Payment slip ' + uploaded.name,
+              text: 'Payment slip — Order #' + uploaded.order
+            });
+          } catch (err) {
+            // AbortError just means the user dismissed the share sheet.
+            if (err && err.name !== 'AbortError') {
+              $('shareNote').textContent =
+                'Couldn’t open the share sheet. Use the WhatsApp button above and attach the photo manually.';
+            }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

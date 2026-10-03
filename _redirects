@@ -1,0 +1,23 @@
+# Old ticket, booking and merch URLs that people may still have saved. Sending
+# them to the closing page explains what happened instead of showing a 404.
+#
+# 302 rather than 301: a permanent redirect is cached by the browser
+# indefinitely and would be painful to undo if any of these paths came back.
+#
+# NOTE: no "/*" catch-all here. Unlike Express -- where the static handler ran
+# first and the catch-all only ever saw true misses -- Cloudflare Pages
+# evaluates _redirects BEFORE serving static assets, so "/*" matches "/" and
+# every asset too and the site redirects to itself forever. Only specific
+# legacy paths are listed, and the 404 page below catches anything else.
+
+/reserve            /  302
+/reserve/*          /  302
+/merch              /  302
+/merch/*            /  302
+/admin              /  302
+/admin/*            /  302
+/api/*              /  302
+/tickets            /  302
+/tickets/*          /  302
+/vvip               /  302
+/vvip/*             /  302

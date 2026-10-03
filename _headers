@@ -1,0 +1,16 @@
+# Cache policy for Cloudflare Pages. Mirrors what server.js set via express.static,
+# so behaviour does not change when hosting moves. Compression is automatic on
+# Pages, so there is no equivalent of the compression() middleware here.
+
+/*.html
+  # Always revalidate, so a content change is visible immediately on deploy.
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/fonts/*
+  # Fonts are stable and referenced by name from the stylesheet.
+  Cache-Control: public, max-age=604800
+
+/assets/*
+  # Media: a week. Not "immutable" because filenames are not content-hashed,
+  # so a same-name replacement still refreshes within 7 days.
+  Cache-Control: public, max-age=604800

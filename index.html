@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Dark by design. Declaring it stops Gmail-style clients and browsers
+         remapping the palette for their own dark UI. -->
+    <meta name="color-scheme" content="only dark" />
+
+    <title>Anjunadeep Open Air Colombo &mdash; That's a wrap</title>
+    <link rel="icon" type="image/png" sizes="any" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+    <meta
+      name="description"
+      content="Anjunadeep Open Air Colombo took place on 22 August 2026 at Lotus Tower. Thank you to everyone who spent the day with us."
+    />
+
+    <!-- Share cards: reworded so a link shared today no longer advertises a sale. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Anjunadeep Colombo" />
+    <meta property="og:title" content="Anjunadeep Open Air Colombo &mdash; That's a wrap" />
+    <meta
+      property="og:description"
+      content="22 August 2026, Lotus Tower, Colombo. Thank you to everyone who spent the day with us."
+    />
+    <meta property="og:url" content="https://anjunadeep.odeysse.com/" />
+    <meta property="og:image" content="https://anjunadeep.odeysse.com/assets/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Anjunadeep Open Air Colombo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Anjunadeep Open Air Colombo &mdash; That's a wrap" />
+    <meta
+      name="twitter:description"
+      content="22 August 2026, Lotus Tower, Colombo. Thank you to everyone who spent the day with us."
+    />
+    <meta name="twitter:image" content="https://anjunadeep.odeysse.com/assets/og-image.png" />
+
+    <style>
+      @font-face{font-family:"Decima";src:url("assets/fonts/DecimaSans-Light.otf") format("opentype");font-weight:300;font-display:swap}
+      @font-face{font-family:"Decima";src:url("assets/fonts/DecimaSans-Regular.otf") format("opentype");font-weight:400;font-display:swap}
+      @font-face{font-family:"Decima";src:url("assets/fonts/DecimaSans-Medium.otf") format("opentype");font-weight:500;font-display:swap}
+      @font-face{font-family:"Decima";src:url("assets/fonts/DecimaSans-DemiBold.otf") format("opentype");font-weight:600;font-display:swap}
+      html{color-scheme:only dark}
+      body{margin:0;background:#0a1f20;color:#eafaf1;font-family:"Decima",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+      a{color:#aff3d4;text-decoration:none}a:hover{color:#edae42}
+      /* Both animations resolve to their end state (opacity:1), so disabling them
+         leaves the page fully visible rather than blank -- stated explicitly here
+         so it stays true if the keyframes are ever changed. */
+      @media (prefers-reduced-motion: reduce){
+        *{animation:none!important}
+        [data-fade]{opacity:1!important}
+      }
+      /* Short landscape phones: the centred stack has no room to breathe, so
+         pull the vertical rhythm in rather than let it crowd or clip. */
+      @media (max-height:520px) and (orientation:landscape){
+        .wrap{padding:20px 28px!important}
+        .headline{font-size:clamp(26px,4.4vw,44px)!important}
+        .stack{gap:12px!important}
+      }
+      @keyframes breathe{0%,100%{opacity:.72}50%{opacity:1}}
+      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    </style>
+  </head>
+  <body>
+    <div class="wrap" style="position:relative;min-height:100svh;background:#0a1f20;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;padding:clamp(28px,5vw,56px);box-sizing:border-box">
+      <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:min(84vw,84vh,760px);height:min(84vw,84vh,760px);transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle, rgba(253,233,184,0.05) 0%, rgba(237,174,66,0.07) 52%, rgba(237,174,66,0.55) 66%, rgba(224,123,48,0.30) 68.5%, rgba(168,85,32,0.10) 74%, rgba(10,31,32,0) 82%);animation:breathe 14s ease-in-out infinite;pointer-events:none"></div>
+      <div aria-hidden="true" style="position:absolute;left:50%;top:50%;width:min(84vw,84vh,760px);height:min(30vw,30vh,260px);transform:translate(-50%,-50%);background:radial-gradient(50% 50% at 50% 50%, rgba(224,123,48,0.14) 0%, rgba(10,31,32,0) 75%);pointer-events:none"></div>
+
+      <header data-fade style="position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(14px,1.8vw,20px);animation:fadeIn 1.4s both">
+        <img src="assets/anjunadeep-oac-logotype.png" alt="Anjunadeep Open Air Colombo" style="height:clamp(26px,3.4vw,40px);width:auto;opacity:0.9">
+        <p style="margin:0;font-size:clamp(11px,1.1vw,12px);letter-spacing:0.18em;text-transform:uppercase;color:#7ea296;font-weight:500">Saturday 22 August 2026</p>
+      </header>
+
+      <main data-fade class="stack" style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(20px,2.8vw,32px);animation:fadeIn 1.8s .3s both">
+        <h1 style="margin:0;max-width:17ch;font-weight:300;font-size:clamp(36px,7vw,96px);line-height:1.04;letter-spacing:-0.022em;text-wrap:balance;color:#eafaf1">The sun went down. <span style="font-weight:600;color:#aff3d4">That's a wrap.</span></h1>
+        <p style="margin:0;max-width:52ch;font-size:clamp(16px,1.3vw,18px);line-height:1.7;color:#cfe7dc;font-weight:300;text-wrap:pretty">Thank you to everyone who spent the day with us — ten in the morning to the last record of the night.</p>
+      </main>
+
+      <footer style="position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(12px,1.8vw,16px)">
+        <p style="margin:0;font-size:clamp(10px,1.2vw,12px);letter-spacing:0.18em;text-transform:uppercase;color:#eafaf1;font-weight:500;text-align:center">Lotus Tower &nbsp;·&nbsp; Colombo, Sri Lanka</p>
+        <p style="margin:0;font-size:clamp(11px,1.05vw,12px);letter-spacing:0.14em;text-transform:uppercase;color:#7ea296;font-weight:400;text-align:center;text-wrap:balance">Presented by Odeysse in partnership with Anjunadeep · Colombo, Sri Lanka</p>
+      </footer>
+    </div>
+  </body>
+</html>

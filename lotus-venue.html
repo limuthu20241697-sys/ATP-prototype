@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Microsoft Clarity analytics -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = "https://www.clarity.ms/tag/" + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, "clarity", "script", "x8s1id1ffm");
+    </script>
+    <title>Anjunadeep Open Air Colombo · Lotus Tower Venue</title>
+    <link rel="icon" type="image/png" sizes="any" href="assets/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/favicon.png" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: #0a1f20;
+        overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #eafaf1;
+      }
+      #stage {
+        position: fixed;
+        inset: 0;
+        cursor: grab;
+        touch-action: none;
+        background:
+          radial-gradient(
+            120% 120% at 50% 4%,
+            rgba(237, 174, 66, 0.16),
+            rgba(11, 33, 34, 0) 46%
+          ),
+          radial-gradient(
+            120% 110% at 50% 100%,
+            rgba(237, 174, 66, 0.18),
+            rgba(10, 31, 32, 0.9) 60%
+          ),
+          #0a1f20;
+      }
+      .ui {
+        position: fixed;
+        z-index: 5;
+        pointer-events: none;
+      }
+      #brand {
+        top: 26px;
+        left: 30px;
+      }
+      #brand .k {
+        font-size: 11px;
+        letter-spacing: 0.34em;
+        text-transform: uppercase;
+        color: #e07b30;
+        font-weight: 700;
+      }
+      #brand h1 {
+        margin-top: 6px;
+        font-size: clamp(26px, 4vw, 46px);
+        font-weight: 300;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
+      #brand h1 b {
+        color: #edae42;
+        font-weight: 600;
+      }
+      #brand p {
+        margin-top: 10px;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: rgba(207, 231, 220, 0.7);
+        max-width: 34ch;
+        line-height: 1.6;
+      }
+      #meta {
+        left: 30px;
+        bottom: 26px;
+        display: flex;
+        gap: 26px;
+        flex-wrap: wrap;
+      }
+      #meta div .l {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(207, 231, 220, 0.5);
+      }
+      #meta div .v {
+        margin-top: 5px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #dfeee6;
+      }
+      #hint {
+        right: 30px;
+        bottom: 26px;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(207, 231, 220, 0.55);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      #hint .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #edae42;
+        box-shadow: 0 0 10px rgba(237, 174, 66, 0.9);
+      }
+      #back {
+        top: 26px;
+        right: 30px;
+        pointer-events: auto;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-weight: 600;
+        color: #eafaf1;
+        background: rgba(20, 53, 54, 0.6);
+        border: 1px solid rgba(175, 243, 212, 0.25);
+        border-radius: 100px;
+        padding: 10px 18px;
+      }
+      #back:hover {
+        border-color: rgba(237, 174, 66, 0.6);
+      }
+      /* mobile: shrink fixed offsets and stack the bottom overlays so the venue
+     details (#meta) and the drag hint (#hint) no longer collide */
+      @media (max-width: 640px) {
+        #brand {
+          top: 16px;
+          left: 16px;
+          max-width: calc(100% - 120px);
+        }
+        #brand p {
+          display: none;
+        }
+        #back {
+          top: 16px;
+          right: 16px;
+          padding: 8px 14px;
+        }
+        #meta {
+          left: 16px;
+          right: 16px;
+          bottom: 44px;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px 14px;
+        }
+        #meta div .l {
+          font-size: 9px;
+        }
+        #meta div .v {
+          font-size: 13px;
+          margin-top: 3px;
+        }
+        #hint {
+          left: 0;
+          right: 0;
+          bottom: 14px;
+          justify-content: center;
+        }
+      }
+      @media (max-width: 380px) {
+        #brand {
+          top: 12px;
+          left: 12px;
+          max-width: calc(100% - 110px);
+        }
+        #back {
+          top: 12px;
+          right: 12px;
+        }
+        #meta {
+          left: 12px;
+          right: 12px;
+          gap: 8px 10px;
+        }
+      }
+      /* short / landscape phones: free up vertical room */
+      @media (max-height: 520px) {
+        #brand p {
+          display: none;
+        }
+        #hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="stage"
+      aria-label="Interactive 3D view of the Lotus Tower venue with the open-air party floor"
+    ></div>
+    <div class="ui" id="brand">
+      <div class="k">The location</div>
+      <h1>Lotus Tower<br /><b>Colombo</b></h1>
+      <p>
+        An open-air floor beneath Sri Lanka's tallest landmark. Drag to look
+        around the party.
+      </p>
+    </div>
+    <button class="ui" id="back" onclick="window.close()">← Close</button>
+    <div class="ui" id="meta">
+      <div>
+        <div class="l">Location</div>
+        <div class="v">Lotus Road, Colombo 01</div>
+      </div>
+      <div>
+        <div class="l">Setting</div>
+        <div class="v">Open-air · 18+</div>
+      </div>
+      <div>
+        <div class="l">Doors</div>
+        <div class="v">From 11:00 AM</div>
+      </div>
+      <div>
+        <div class="l">Height</div>
+        <div class="v">350 m</div>
+      </div>
+    </div>
+    <div class="ui" id="hint">
+      <span class="dot"></span>Drag to rotate · scroll-free
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="./lotus-scene.js?v=2-orange"></script>
+    <script>
+      (function () {
+        var stage = document.getElementById("stage");
+        var n = 0;
+        var poll = setInterval(function () {
+          n++;
+          if (
+            typeof window.buildLotusScene === "function" &&
+            typeof THREE !== "undefined"
+          ) {
+            clearInterval(poll);
+            window.buildLotusScene(stage, { immersive: true });
+          } else if (n > 80) {
+            clearInterval(poll);
+          }
+        }, 80);
+      })();
+    </script>
+  </body>
+</html>
