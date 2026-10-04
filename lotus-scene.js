@@ -1,4 +1,4 @@
-/* Anjunadeep Open Air Colombo — shared 3D venue scene.
+/* Open Air Colombo — shared 3D venue scene.
    Builds the Lotus Tower (orange petals) with a festival party area
    (stage, crowd, sweeping lights) in front of it.
    Requires THREE (r128) on the global scope.

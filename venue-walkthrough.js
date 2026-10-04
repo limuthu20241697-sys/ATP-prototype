@@ -1,4 +1,4 @@
-/* Anjunadeep Open Air Colombo — full venue walkthrough scene.
+/* Open Air Colombo — full venue walkthrough scene.
    Builds the Lotus Tower + entire festival grounds from the site plan:
    stage, backstage, artist rooms, VIP platforms, 360 bar, FOH, vendor stalls,
    checkpoints, entrance walkway, gates, parking, ambulances, fire truck,

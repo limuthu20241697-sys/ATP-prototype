@@ -8,8 +8,8 @@
     <!-- The URL carries an order number and a signed token; don't leak them
          through Referer when the buyer taps the WhatsApp link. -->
     <meta name="referrer" content="no-referrer" />
-    <title>Upload your payment slip — Anjunadeep Open Air Colombo</title>
-    <link rel="icon" href="/assets/favicon.png" />
+    <title>Upload your payment slip — Open Air Colombo</title>
+    <link rel="icon" href="/assets/favicon.png?v=2" />
     <style>
       /* Palette and type scale taken from index.html. This page is a standalone
          transactional flow, so the tokens are duplicated rather than shared —
@@ -291,7 +291,7 @@
         <button class="btn ghost" id="waShare" style="display: none">Send the slip image too</button>
 
         <p class="note" id="shareNote" style="display: none">
-          Pick WhatsApp, then choose the Odeysse chat. The order number is in
+          Pick WhatsApp, then choose the Open Air Colombo chat. The order number is in
           the file name, so we can match it even if the caption doesn't send.
         </p>
 
@@ -332,7 +332,7 @@
         // Checkout must use the Shopify PRIMARY domain, never the
         // .myshopify.com host: that one 301-redirects, and redirects are where
         // UTM / GA linker params get dropped.
-        var SHOP_ORIGIN = 'https://shop.anjunadeep.odeysse.com';
+        var SHOP_ORIGIN = 'https://shop.openaircolombo.atpevents.com';
 
         var PRE = qs.get('mode') === 'pre';
 
@@ -412,7 +412,7 @@
               '&ldquo;Pay &amp; upload slip&rdquo; again.';
             var back = document.createElement('a');
             back.className = 'btn';
-            back.href = SHOP_ORIGIN + '/products/anjunadeep-merch-pack';
+            back.href = SHOP_ORIGIN + '/products/oac-merch-pack';
             back.textContent = 'Back to the shop';
             back.style.marginTop = '14px';
             $('already').appendChild(back);
@@ -485,10 +485,10 @@
           var u = new URL(SHOP_ORIGIN + '/cart/' +
             items.map(function (i) { return i.id + ':' + i.qty; }).join(','));
           u.searchParams.set('attributes[slip]', v.slipUuid);
-          u.searchParams.set('attributes[source]', 'anjunadeep-site');
+          u.searchParams.set('attributes[source]', 'oac-site');
           u.searchParams.set('attributes[campaign]', 'merch-drop-2026');
           if (v.email) u.searchParams.set('checkout[email]', v.email);
-          u.searchParams.set('note', 'source=anjunadeep-site; campaign=merch-drop-2026; slip=' + v.slipUuid);
+          u.searchParams.set('note', 'source=oac-site; campaign=merch-drop-2026; slip=' + v.slipUuid);
           go.href = u.toString();
           box.appendChild(go);
 
@@ -717,7 +717,7 @@
                   try {
                     var u = new URL(next);
                     u.searchParams.set('attributes[slip]', data.slipUuid);
-                    u.searchParams.set('attributes[source]', 'anjunadeep-site');
+                    u.searchParams.set('attributes[source]', 'oac-site');
                     u.searchParams.set('attributes[campaign]', 'merch-drop-2026');
                     u.searchParams.set('checkout[email]', em);
                     var n = u.searchParams.get('note') || '';
@@ -762,7 +762,7 @@
           var lines = [
             'Payment slip uploaded',
             'Order: #' + data.orderNumber,
-            'Anjunadeep Open Air Colombo merch'
+            'Open Air Colombo merch'
           ].join('\n');
           var wa = $('waText');
           wa.href = WA

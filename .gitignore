@@ -13,3 +13,6 @@ backup/
 subscribers.csv
 combined_unique_phone_numbers.csv
 Text.lk-Contacts-Import.csv
+
+# Local editor/assistant config
+.claude/

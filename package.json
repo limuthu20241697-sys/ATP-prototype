@@ -1,8 +1,8 @@
 {
-  "name": "anjunadeep-odc",
+  "name": "open-air-colombo",
   "version": "1.0.0",
   "private": true,
-  "description": "Anjunadeep Open Air Colombo \u00e2\u20ac\u201d static site",
+  "description": "Open Air Colombo \u00e2\u20ac\u201d static site",
   "scripts": {
     "start": "node server.js",
     "optimize:images": "node scripts/optimize-images.js"

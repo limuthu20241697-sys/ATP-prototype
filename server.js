@@ -1,4 +1,4 @@
-// Static file server for the Anjunadeep Open Air Colombo site.
+// Static file server for the Open Air Colombo site.
 //
 // The event ran on 22 August 2026 and is over. The site is now a single closing
 // page, so this server does nothing but hand out files: gzip/brotli compression
@@ -9,7 +9,7 @@
 // newsletter API, and the timed sell-out gate. The Postgres data those routes
 // wrote (subscribers, merch orders, slips) is untouched and still in the
 // database; only the ways in are gone. The previous site is preserved verbatim
-// at anjunadeep-2026-archive.html, and all of the above is recoverable from git.
+// at oac-2026-archive.html, and all of the above is recoverable from git.
 
 require('dotenv').config();
 
@@ -74,5 +74,5 @@ app.use((req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Anjunadeep ODC site listening on port ${port}`);
+  console.log(`Open Air Colombo site listening on port ${port}`);
 });

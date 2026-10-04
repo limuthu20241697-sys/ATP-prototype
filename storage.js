@@ -17,7 +17,7 @@ const {
 } = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
-const BUCKET = process.env.R2_BUCKET || 'anjunadeep-slips';
+const BUCKET = process.env.R2_BUCKET || 'oac-slips';
 
 // Built lazily so the site still boots (and serves statically) when R2 isn't
 // configured — same fail-soft posture as db.js. isConfigured() gates the routes.
