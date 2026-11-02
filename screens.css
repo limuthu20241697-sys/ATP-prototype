@@ -1,0 +1,24 @@
+/* Parts in this file: 1 Forms, footer and pop-up | 3 Sign-up page | 4 Venues page | 5 Why, how it works, team, waitlist. See README. */
+
+/* ===== PART 1 (Menula De Pinto) · SHARED FORM PARTS: screen-reader-only text, text boxes (.control), labels (.field), tick boxes (.check). ===== */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.btn svg{width:18px;height:18px;margin-right:8px}
+.btn-lg{min-height:54px}
+.control{width:100%;min-height:48px;padding:0 14px;font-size:1rem;background-color:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:12px;transition:border-color 180ms ease}
+.control::placeholder{color:var(--muted)}
+.control:focus-visible{outline:2px solid var(--light);outline-offset:2px;border-color:var(--light)}
+.field{display:grid;gap:6px;font-size:.88rem;color:var(--ink-2)}
+.stack{display:grid;gap:14px}
+.muted-p{color:var(--ink-2);margin-top:6px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;min-height:44px;padding-top:4px}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--light);flex:none}
+.done-line{display:flex;gap:8px;align-items:center;font-size:.94rem;color:var(--light)}
+.done-line svg{flex:none}
+
+/* ===== RESPONSIVE (tablet and phone): PART 5 team/why/features grids, PART 1 footer columns, PART 2 hero search padding. ===== */
+@media (max-width:1180px){
+}
+@media (max-width:900px){
+}
+@media (max-width:620px){
+}
