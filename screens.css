@@ -1,0 +1,55 @@
+/* Parts in this file: 1 Forms, footer and pop-up | 3 Sign-up page | 4 Venues page | 5 Why, how it works, team, waitlist. See README. */
+
+/* ===== PART 1 (Menula De Pinto) · SHARED FORM PARTS: screen-reader-only text, text boxes (.control), labels (.field), tick boxes (.check). ===== */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.btn svg{width:18px;height:18px;margin-right:8px}
+.btn-lg{min-height:54px}
+.control{width:100%;min-height:48px;padding:0 14px;font-size:1rem;background-color:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:12px;transition:border-color 180ms ease}
+.control::placeholder{color:var(--muted)}
+.control:focus-visible{outline:2px solid var(--light);outline-offset:2px;border-color:var(--light)}
+.field{display:grid;gap:6px;font-size:.88rem;color:var(--ink-2)}
+.stack{display:grid;gap:14px}
+.muted-p{color:var(--ink-2);margin-top:6px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;min-height:44px;padding-top:4px}
+.check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--light);flex:none}
+.done-line{display:flex;gap:8px;align-items:center;font-size:.94rem;color:var(--light)}
+.done-line svg{flex:none}
+
+/* ===== PART 1 (Menula De Pinto) · FOOTER: the name and copyright on the left, four columns of links on the right,
+   and the name again as one big outlined word underneath. ===== */
+/* A soft white glow rising from the bottom edge of the footer, behind the big name. */
+.footer{isolation:isolate}
+.footer::after{content:"";position:absolute;z-index:-1;left:50%;bottom:-250px;width:min(1300px,140vw);height:440px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.3),transparent)}
+.footer-in{display:flex;justify-content:space-between;align-items:flex-start;gap:40px clamp(32px,6vw,96px);flex-wrap:wrap}
+.footer-brand strong{display:block;margin-bottom:14px;font:700 1rem/1.2 var(--sans);color:var(--light)}
+.footer-brand p{font-size:.92rem;line-height:2;color:var(--muted)}
+.footer-cols{display:grid;grid-template-columns:repeat(4,auto);gap:28px clamp(32px,5vw,72px)}
+.footer-cols strong{display:block;margin-bottom:8px;font:700 .95rem/1.2 var(--sans);color:var(--light)}
+.footer-cols a,.footer-cols button,.credits summary{display:flex;align-items:center;min-height:38px;font-size:.92rem;color:var(--ink-2);cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;transition:color 180ms ease,text-decoration-color 180ms ease}
+/* Photo credits open as a small box above the link. */
+.credits{position:relative}
+.credits summary{list-style:none}
+.credits summary::-webkit-details-marker{display:none}
+.credits p{position:absolute;right:0;bottom:calc(100% + 6px);width:min(80vw,520px);padding:14px 16px;border:1px solid var(--line-strong);border-radius:12px;background:var(--void);font-size:.88rem;z-index:5}
+.credits p a{display:inline;min-height:0;text-decoration-color:currentColor;text-underline-offset:2px}
+@media (hover:hover) and (pointer:fine){.footer-cols a:hover,.footer-cols button:hover,.credits summary:hover{color:var(--light);text-decoration-color:currentColor}}
+/* The big THE VOID at the very bottom: a picture (assets/images/the-void.png) of the words drawn as a grid of white dots. */
+.footer-word{display:flex;justify-content:center;margin:clamp(48px,8vw,110px) 0 0;padding-inline:var(--gutter)}
+.footer-word img{width:min(1240px,100%);height:auto;user-select:none}
+
+/* PART 1 (Menula De Pinto) · Pop-up window layout (title, body, buttons). */
+.sheet-body h2{padding-right:44px}
+.sheet-body{padding:28px 24px 24px}
+.modal-actions{display:grid;gap:10px;margin-top:16px}
+.modal-actions:empty{display:none}
+.sheet .stack{margin-top:14px}
+
+/* ===== RESPONSIVE (tablet and phone): PART 5 team/why/features grids, PART 1 footer columns, PART 2 hero search padding. ===== */
+@media (max-width:1180px){
+}
+@media (max-width:900px){
+  .footer-cols{grid-template-columns:repeat(2,auto);width:100%;justify-content:space-between}
+}
+@media (max-width:620px){
+  .credits p{right:auto;left:0}
+}
