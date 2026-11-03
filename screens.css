@@ -37,6 +37,13 @@
 .footer-word{display:flex;justify-content:center;margin:clamp(48px,8vw,110px) 0 0;padding-inline:var(--gutter)}
 .footer-word img{width:min(1240px,100%);height:auto;user-select:none}
 
+/* PART 1 (Menula De Pinto) · Pop-up window layout (title, body, buttons). */
+.sheet-body h2{padding-right:44px}
+.sheet-body{padding:28px 24px 24px}
+.modal-actions{display:grid;gap:10px;margin-top:16px}
+.modal-actions:empty{display:none}
+.sheet .stack{margin-top:14px}
+
 /* ===== RESPONSIVE (tablet and phone): PART 5 team/why/features grids, PART 1 footer columns, PART 2 hero search padding. ===== */
 @media (max-width:1180px){
 }
