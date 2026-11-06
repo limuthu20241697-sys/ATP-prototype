@@ -61,6 +61,28 @@
       </div>
     </section>
 
+    <!-- PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map (assets/images/venue.png).
+         The Fly / Walk / Orbit buttons move the picture: Walk zooms in, Orbit turns it slowly. The buttons are wired up in script.js ("3D venue view"). -->
+    <section class="venue" id="venue" aria-labelledby="venueTitle">
+      <div class="wrap venue-in">
+        <div class="venue-scene" id="venueScene" data-mode="fly">
+          <img class="venue-img" id="venueImg" src="assets/images/venue.png" alt="Venue map seen from above: the main stage at the back, the VIP deck on the right and the entry gate at the front." width="1120" height="1176">
+        </div>
+        <div class="venue-copy">
+          <p class="eyebrow"><b>01</b> / The 3D venue view</p>
+          <h2 id="venueTitle">Reach into the room <em>before you're in it.</em></h2>
+          <p class="venue-sub">Every stage, bar and VIP deck, mapped in 3D. Know where you'll stand before the gates open.</p>
+          <div class="toggle" id="venueToggle" role="group" aria-label="Camera mode">
+            <span class="toggle-thumb" aria-hidden="true"></span>
+            <button type="button" data-mode="fly" aria-pressed="true">Fly</button>
+            <button type="button" data-mode="walk" aria-pressed="false">Walk</button>
+            <button type="button" data-mode="orbit" aria-pressed="false">Orbit</button>
+          </div>
+          <p class="venue-mode" id="venueMode" aria-live="polite">Fly mode gives you the whole venue from above.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- PART 4 (Hansadi) · EVENT LIST. The filter bar (search, date, city, genre, price, sort) and the grid of event cards.
          The cards are drawn by renderGrid() in events-list.js from the events list in shared.js.
          Only the first 6 show here (data-limit="6"); the "More Events" button opens events.html with all of them. -->
