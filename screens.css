@@ -64,5 +64,6 @@
   .footer-cols{grid-template-columns:repeat(2,auto);width:100%;justify-content:space-between}
 }
 @media (max-width:620px){
+  .hero-search input{padding:0 12px}
   .credits p{right:auto;left:0}
 }

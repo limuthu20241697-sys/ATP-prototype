@@ -30,6 +30,88 @@
   <div id="nav"></div>
 
   <main id="main" tabindex="-1">
+    <!-- PART 2 (Ranuga Fernando) · HERO. The first screen: a glowing star inside a slowly turning portal, the headline, a short line, the search box and the city shortcuts.
+         The portal is a photo of a vortex with a star in the middle, with two CSS orbit rings turning around it (see Hero in styles.css). Search + city links are wired up in script.js; both open events.html. -->
+    <section class="hero" id="top" aria-labelledby="heroTitle" data-cursor-light>
+      <div class="stars" aria-hidden="true"></div>
+      <p class="giant giant-hero" aria-hidden="true">VOID</p>
+      <div class="portal" aria-hidden="true">
+        <img class="portal-img" src="assets/photos/void-portal.webp" alt="" width="540" height="540">
+        <div class="ring ring-a"><i class="node"></i></div>
+        <div class="ring ring-b"></div>
+      </div>
+
+      <div class="hero-top">
+        <p class="hero-pill rise" style="--d:0ms"><i aria-hidden="true"></i>8 live events · Sri Lanka</p>
+        <h1 id="heroTitle" aria-label="Step into the void.">
+          <span class="line rise" style="--d:60ms">Step into <em class="void-word">The V<img class="void-o" src="assets/photos/void-o.webp" alt="" width="560" height="420">id.</em></span>
+        </h1>
+        <p class="sub rise" style="--d:200ms">Every live night in Sri Lanka, in one place. Walk through the room in 3D before you buy, then book in seconds.</p>
+        <form class="hero-search rise" id="heroSearch" role="search" style="--d:270ms">
+          <label class="sr-only" for="heroQ">Search events or venues</label>
+          <input id="heroQ" type="search" placeholder="Find your next night…" autocomplete="off" spellcheck="false">
+          <button class="btn btn-primary" type="submit" data-magnetic>Find Events</button>
+        </form>
+        <p class="hero-cities rise" style="--d:330ms" id="heroCities"></p>
+      </div>
+
+      <div class="hero-foot rise" style="--d:400ms">
+        <span>6.9271° N, 79.8612° E · Colombo</span>
+        <a href="#featured">Scroll to descend <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- PART 2 (Ranuga Fernando) · OUT OF THE DARK (the Hot right now slider). A full-screen grayscale photo with the current event on the left and a row of cards for the next events on the right.
+         The cards are filled in by script.js (renderRail); the text on the left by renderText. -->
+    <section class="hot" id="featured" tabindex="0" aria-roledescription="carousel" aria-labelledby="featuredTitle">
+      <div class="hot-bg" aria-hidden="true">
+        <img class="hot-img is-on" src="assets/photos/colombo-night.webp" alt="" width="1800" height="1200">
+        <img class="hot-img" src="assets/photos/colombo-night.webp" alt="" width="1800" height="1200">
+      </div>
+      <div class="hot-open" aria-hidden="true"><img src="assets/photos/colombo-night.webp" alt=""></div>
+      <div class="hot-wash" aria-hidden="true"></div>
+      <h2 class="sr-only" id="featuredTitle">Hot right now</h2>
+      <div class="wrap hot-in">
+        <div class="hot-copy">
+          <p class="hot-tag" aria-hidden="true">Out of the dark</p>
+          <div class="hot-slide" id="hotSlide"></div>
+        </div>
+        <div class="hot-side">
+          <div class="hot-rail" id="hotRail"><div class="hot-track" id="hotTrack"></div></div>
+          <div class="hot-arrows">
+            <button class="icon-btn" id="hotPrev" type="button" aria-label="Previous event">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+            </button>
+            <button class="icon-btn" id="hotNext" type="button" aria-label="Next event">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map (assets/images/venue.png).
+         The Fly / Walk / Orbit buttons move the picture: Walk zooms in, Orbit turns it slowly. The buttons are wired up in script.js ("3D venue view"). -->
+    <section class="venue" id="venue" aria-labelledby="venueTitle">
+      <div class="wrap venue-in">
+        <div class="venue-scene" id="venueScene" data-mode="fly">
+          <img class="venue-img" id="venueImg" src="assets/images/venue.png" alt="Venue map seen from above: the main stage at the back, the VIP deck on the right and the entry gate at the front." width="1120" height="1176">
+        </div>
+        <div class="venue-copy">
+          <p class="eyebrow"><b>01</b> / The 3D venue view</p>
+          <h2 id="venueTitle">Reach into the room <em>before you're in it.</em></h2>
+          <p class="venue-sub">Every stage, bar and VIP deck, mapped in 3D. Know where you'll stand before the gates open.</p>
+          <div class="toggle" id="venueToggle" role="group" aria-label="Camera mode">
+            <span class="toggle-thumb" aria-hidden="true"></span>
+            <button type="button" data-mode="fly" aria-pressed="true">Fly</button>
+            <button type="button" data-mode="walk" aria-pressed="false">Walk</button>
+            <button type="button" data-mode="orbit" aria-pressed="false">Orbit</button>
+          </div>
+          <p class="venue-mode" id="venueMode" aria-live="polite">Fly mode gives you the whole venue from above.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- PART 4 (Hansadi) · EVENT LIST. The filter bar (search, date, city, genre, price, sort) and the grid of event cards.
          The cards are drawn by renderGrid() in events-list.js from the events list in shared.js.
          Only the first 6 show here (data-limit="6"); the "More Events" button opens events.html with all of them. -->
