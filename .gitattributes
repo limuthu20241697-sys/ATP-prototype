@@ -1,0 +1,5 @@
+# Keep every text file with plain LF line endings on every laptop, so the team patches apply cleanly.
+* text=auto eol=lf
+*.png binary
+*.webp binary
+*.svg text eol=lf
