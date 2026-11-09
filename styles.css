@@ -134,6 +134,17 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .hero-foot a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink-2)}
 @media (hover:hover) and (pointer:fine){.hero-foot a:hover{color:var(--light)}}
 
+/* PART 3 (Limuthu Liyanage) · Marquee strip: genres and cities sliding sideways for ever. It pauses while the mouse is over it. */
+.marquee{overflow:hidden;padding:18px 0;border-block:1px solid var(--line)}
+.marquee-track{display:flex;width:max-content;animation:voidMarquee 38s linear infinite}
+.marquee-track span{display:flex;align-items:center;gap:28px;padding-right:28px;font:700 clamp(1.3rem,2.6vw,2.2rem)/1 var(--display);letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
+.marquee-track i{font-style:normal;font-size:.6em;color:var(--muted)}
+/* The words take turns: solid, serif italic, outlined. */
+.marquee-track em{font-size:1.15em;text-transform:none}
+.marquee-track .out{font-weight:700;color:transparent;-webkit-text-stroke:1px var(--ink)}
+@keyframes voidMarquee{to{transform:translateX(-50%)}}
+@media (hover:hover) and (pointer:fine){.marquee:hover .marquee-track{animation-play-state:paused}}
+
 /* ===== PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map on the left, the text and the Fly / Walk / Orbit buttons on the right.
    It is one picture (assets/images/venue.png). data-mode on .venue-scene, set by the buttons, moves it: Fly shows all of it, Walk zooms in, Orbit turns it slowly. ===== */
 .venue{padding:clamp(72px,10vw,128px) 0;border-top:1px solid var(--line)}
@@ -350,4 +361,5 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;transition-delay:0ms !important}
   .giant{letter-spacing:.06em;opacity:1}
+  .marquee-track{animation:none}
 }
