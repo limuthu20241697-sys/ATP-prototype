@@ -55,6 +55,22 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 .giant.in{letter-spacing:.06em;opacity:1}
 .giant-bg{position:absolute;z-index:-1;left:0;right:0;top:clamp(16px,3vw,44px);font-size:clamp(90px,20vw,320px);-webkit-text-stroke-color:rgba(255,255,255,.09)}
 
+/* ===== PART 1 (Menula De Pinto) · BUTTONS. Used all over the site: .btn is the shape, .btn-primary the white main button, .btn-line the outlined one, .icon-btn the round one. ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:var(--r-pill);font-weight:600;font-size:.94rem;white-space:nowrap;transition:transform 160ms var(--ease-out),background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease}
+.btn:active{transform:scale(.97)}
+.btn-sm{min-height:44px;padding:0 18px;font-size:.88rem}
+.btn-wide{width:100%}
+.btn-primary{background:var(--light);color:#000}
+.btn-primary:focus-visible{box-shadow:var(--glow)}
+.btn-line{border:1px solid var(--line-strong);color:var(--ink)}
+.icon-btn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(0,0,0,.5);flex:none;transition:transform 160ms var(--ease-out),border-color 180ms ease,background-color 180ms ease,color 180ms ease}
+.icon-btn:active{transform:scale(.95)}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{box-shadow:var(--glow)}
+  .btn-line:hover{border-color:var(--light);background:rgba(255,255,255,.08)}
+  .icon-btn:hover{border-color:var(--light);background:rgba(255,255,255,.1)}
+}
+
 /* ===== RESPONSIVE RULES: PART 1 for the nav (full-screen phone menu), PART 4 for the filter bar and event grid, PART 2 for the hero. ===== */
 @media (max-width:1180px){
 }
