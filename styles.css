@@ -87,6 +87,22 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .nav-links a:hover{background:rgba(255,255,255,.1)}
 }
 
+/* ===== PART 4 (Hansadi) · EVENT LIST SECTION. .head (the title row) is shared with the Part 5 sections. ===== */
+.discover{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,40px)}
+.head h2,.head h1{font:700 clamp(40px,5.4vw,80px)/1.02 var(--display);letter-spacing:-.03em;margin-top:14px;text-wrap:balance}
+.result-count{color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
+
+/* PART 4 (Hansadi) · Filter bar: one search box and five drop-downs in a row. */
+.filters{display:grid;grid-template-columns:1.7fr repeat(5,minmax(0,1fr));gap:12px;margin-bottom:24px}
+.filters label{display:grid;gap:6px;min-width:0}
+.filters span{font-size:.8rem;color:var(--muted)}
+.filters input,.filters select{width:100%;min-height:48px;padding:0 14px;font-size:1rem;background-color:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:12px;transition:border-color 180ms ease}
+.filters input::placeholder{color:var(--muted)}
+.filters input:focus-visible,.filters select:focus-visible{outline:2px solid var(--light);outline-offset:2px;border-color:var(--light)}
+.filters option{background:var(--surface);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.filters input:hover,.filters select:hover{border-color:rgba(255,255,255,.5)}}
+
 /* ===== PART 1 (Menula De Pinto) · FOOTER (the rest of the footer styles are in screens.css). ===== */
 .footer{position:relative;overflow:clip;padding:clamp(56px,7vw,96px) 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
 
@@ -118,8 +134,13 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .nav-links.open a:nth-child(3){transition-delay:100ms}
   .nav-links.open a:nth-child(4){transition-delay:150ms}
   .nav-links.open a:nth-child(5){transition-delay:200ms}
+  .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .f-search{grid-column:1/-1}
 }
 @media (max-width:620px){
+  .filters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .filters label:last-child{grid-column:1/-1}
+  .head{align-items:flex-start}
 }
 
 /* PART 1 (Menula De Pinto) · Reduced motion: nothing moves by itself, and changes happen instantly. Always last. */
