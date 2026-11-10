@@ -90,6 +90,17 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 /* ===== PART 1 (Menula De Pinto) · FOOTER (the rest of the footer styles are in screens.css). ===== */
 .footer{position:relative;overflow:clip;padding:clamp(56px,7vw,96px) 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
 
+/* ===== PART 1 (Menula De Pinto) · POP-UP WINDOW (.sheet, used for Contact, Policies, Privacy and FAQ) and the small message at the bottom (.toast). ===== */
+.sheet{width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:1px solid var(--line-strong);border-radius:var(--r-panel);background:var(--void);color:var(--ink);overflow:auto;overscroll-behavior:contain;opacity:0;transform:scale(.98);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out),overlay 320ms allow-discrete,display 320ms allow-discrete}
+.sheet[open]{opacity:1;transform:none}
+@starting-style{.sheet[open]{opacity:0;transform:scale(.98)}}
+.sheet::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(10px)}
+.sheet-close{position:absolute;top:12px;right:12px;z-index:2}
+.sheet h2{font:700 2.1rem/1.05 var(--display);letter-spacing:-.03em;text-wrap:balance}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));z-index:80;max-width:calc(100vw - 32px);padding:12px 20px;border-radius:var(--r-pill);background:var(--light);color:#000;font-weight:500;font-size:.92rem;text-align:center;opacity:0;transform:translate(-50%,16px);pointer-events:none;transition:opacity 360ms var(--ease-out),transform 360ms var(--ease-out)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
 /* ===== RESPONSIVE RULES: PART 1 for the nav (full-screen phone menu), PART 4 for the filter bar and event grid, PART 2 for the hero. ===== */
 @media (max-width:1180px){
 }
@@ -109,4 +120,11 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .nav-links.open a:nth-child(5){transition-delay:200ms}
 }
 @media (max-width:620px){
+}
+
+/* PART 1 (Menula De Pinto) · Reduced motion: nothing moves by itself, and changes happen instantly. Always last. */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;transition-delay:0ms !important}
+  .giant{letter-spacing:.06em;opacity:1}
 }

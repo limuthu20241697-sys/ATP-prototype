@@ -125,3 +125,65 @@ function setMenu(open) {
   $('navToggle').setAttribute('aria-expanded', String(open));
   $('navToggle').setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
 }
+
+function openModal(title, body, actions = '') {
+  $('modalTitle').textContent = title;
+  $('modalBody').innerHTML = body;
+  $('modalActions').innerHTML = actions;
+  if (!$('modal').open) $('modal').showModal();
+  document.documentElement.style.overflow = 'hidden';
+}
+function closeModal() { $('modal').close(); }
+
+let toastTimer;
+function toast(message) {
+  const el = $('toast');
+  el.textContent = message;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3600);
+}
+
+const infoBodies = {
+  About: 'Void connects fans with live experiences across Sri Lanka.',
+  Contact: 'Contact the organizer at events.intothevoid@gmail.com. Support hours: Monday to Friday, 09:00 to 17:00, Asia/Colombo.',
+  Policies: [
+    'Terms: valid ID is required for age-restricted events. Tickets admit the named guest or party. A booking is confirmed after full payment. This prototype does not process real payments.',
+    'Refunds: request one from My Tickets. The organizer reviews eligibility. If a split-pay reservation expires unpaid, paid shares are returned and inventory is released.',
+  ],
+  'Privacy Notice': [
+    'What we collect: if you join the list or pre-register, we store your email address. If you book, we store your name, phone number and order details. We never store card numbers.',
+    'Why: to send event updates you asked for, issue your tickets, and contact you about a booking. We do not sell your data or share it with advertisers.',
+    'Your choices: every email has an unsubscribe link, and you can ask us to see or delete your data at events.intothevoid@gmail.com. This is a prototype, and in this demo nothing you enter leaves your browser.',
+  ],
+  FAQ: 'Where is my ticket? Open My Tickets. Can I split payment? Yes, each friend receives their own link. What if someone does not pay? The 48-hour reservation expires. Can I explore the venue? Use the venue preview.',
+};
+
+/* ===== PART 1 (Menula De Pinto) · BUTTONS AND FORMS. The click listener below opens the Contact / Policies / Privacy / FAQ pop-ups; "forms" says what each form does when it is sent. ===== */
+/* Pages add their own handlers to these maps. */
+const actions = {
+  'close-modal': closeModal,
+};
+const forms = {
+};
+
+document.addEventListener('click', (e) => {
+  const info = e.target.closest('[data-info]');
+  if (info) {
+    const body = infoBodies[info.dataset.info];
+    const html = (Array.isArray(body) ? body : [body]).map((t) => `<p class="muted-p">${t}</p>`).join('');
+    openModal(info.dataset.info, html);
+    return;
+  }
+  const trigger = e.target.closest('[data-action]');
+  if (trigger && actions[trigger.dataset.action]) actions[trigger.dataset.action](trigger, e);
+});
+document.addEventListener('submit', (e) => {
+  const form = e.target.closest('[data-form]');
+  if (!form || !forms[form.dataset.form]) return;
+  e.preventDefault();
+  forms[form.dataset.form](form, Object.fromEntries(new FormData(form).entries()));
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && $('navLinks')?.classList.contains('open')) { setMenu(false); $('navToggle').focus(); }
+});
