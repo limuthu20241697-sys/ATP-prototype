@@ -30,6 +30,63 @@
   <div id="nav"></div>
 
   <main id="main" tabindex="-1">
+    <!-- PART 4 (Hansadi) · EVENT LIST. The filter bar (search, date, city, genre, price, sort) and the grid of event cards.
+         The cards are drawn by renderGrid() in events-list.js from the events list in shared.js.
+         Only the first 6 show here (data-limit="6"); the "More Events" button opens events.html with all of them. -->
+    <section class="discover" id="events" aria-labelledby="discoverTitle">
+      <p class="giant giant-bg" aria-hidden="true">EVENTS</p>
+      <div class="wrap">
+        <div class="head">
+          <div>
+            <p class="eyebrow"><b>02</b> / What's on</p>
+            <h2 id="discoverTitle">Find your next <em>experience</em></h2>
+          </div>
+          <p class="result-count" id="resultCount" aria-live="polite">8 events / Sri Lanka</p>
+        </div>
+
+        <form class="filters" id="filters" role="search">
+          <label class="f-search"><span>Search</span>
+            <input id="q" name="q" type="search" placeholder="Find your next night…" autocomplete="off" spellcheck="false">
+          </label>
+          <label><span>Date</span>
+            <select id="date" name="date">
+              <option value="">Any date</option><option value="2027-02">February 2027</option><option value="2027-03">March 2027</option><option value="2027-04">April 2027</option><option value="2027-05">May 2027</option>
+            </select>
+          </label>
+          <label><span>City</span>
+            <select id="city" name="city">
+              <option value="">All cities</option><option>Colombo</option><option>Mirissa</option><option>Kandy</option><option>Galle</option>
+            </select>
+          </label>
+          <label><span>Genre</span>
+            <select id="genre" name="genre">
+              <option value="">All genres</option><option>Electronic</option><option>Live music</option><option>Jazz</option>
+            </select>
+          </label>
+          <label><span>Price</span>
+            <select id="price" name="price">
+              <option value="">Any price</option><option value="3000">Under LKR 3,000</option><option value="5000">Under LKR 5,000</option><option value="10000">Under LKR 10,000</option>
+            </select>
+          </label>
+          <label><span>Sort</span>
+            <select id="sort" name="sort">
+              <option value="date">Soonest first</option><option value="price">Price: low to high</option>
+            </select>
+          </label>
+        </form>
+
+        <div class="grid" id="grid" data-limit="6"></div>
+        <div class="more" id="moreWrap" hidden>
+          <p id="moreCount" aria-live="polite"></p>
+          <a class="btn btn-line" id="more" href="events.html">More Events</a>
+        </div>
+        <div class="empty" id="empty" hidden>
+          <p>No events match these filters.</p>
+          <button class="btn btn-line" id="reset" type="button">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- PART 1 (Menula De Pinto) · FOOTER. Built by renderChrome() in shared.js. shared.js also holds the pop-up windows (Contact, Policies, Privacy, FAQ). -->
