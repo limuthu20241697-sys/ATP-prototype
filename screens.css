@@ -44,6 +44,19 @@
 .modal-actions:empty{display:none}
 .sheet .stack{margin-top:14px}
 
+/* ===== PART 4 (Hansadi) · VENUES PAGE (venues.html): a grid of venue cards, each with a photo, upcoming dates and two buttons. ===== */
+.venue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.venue-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--surface)}
+.venue-card .photo{aspect-ratio:16/10}
+.venue-card-body{display:flex;flex-direction:column;gap:8px;flex:1;padding:20px 22px 22px}
+.venue-card h2{font:700 1.6rem/1.1 var(--display);letter-spacing:-.02em}
+.venue-shows{display:grid;gap:6px;margin:6px 0 4px;padding:0;list-style:none;font-size:.92rem;color:var(--ink-2)}
+.venue-shows time{display:inline-block;min-width:56px;font-weight:600;color:var(--light)}
+.venue-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:12px}
+@media (hover:hover) and (pointer:fine){.venue-card:hover .photo img{filter:grayscale(0) contrast(1) brightness(.9);transform:scale(1.04)}}
+@media (max-width:1180px){.venue-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:620px){.venue-grid{grid-template-columns:minmax(0,1fr)}}
+
 /* ===== RESPONSIVE (tablet and phone): PART 5 team/why/features grids, PART 1 footer columns, PART 2 hero search padding. ===== */
 @media (max-width:1180px){
 }
