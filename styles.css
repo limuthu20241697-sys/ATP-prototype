@@ -87,6 +87,65 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .nav-links a:hover{background:rgba(255,255,255,.1)}
 }
 
+/* ===== PART 4 (Hansadi) · EVENT LIST SECTION. .head (the title row) is shared with the Part 5 sections. ===== */
+.discover{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,40px)}
+.head h2,.head h1{font:700 clamp(40px,5.4vw,80px)/1.02 var(--display);letter-spacing:-.03em;margin-top:14px;text-wrap:balance}
+/* PART 4 (Hansadi) · The all-events page (events.html): extra room at the top for the fixed nav, and a "Back to home" link. */
+.discover-page{min-height:100svh;padding-top:clamp(120px,14vw,170px)}
+.back{margin-bottom:28px}
+.back a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink-2);text-decoration:underline;text-decoration-color:rgba(255,255,255,.35);text-underline-offset:5px}
+.result-count{color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
+
+/* PART 4 (Hansadi) · Filter bar: one search box and five drop-downs in a row. */
+.filters{display:grid;grid-template-columns:1.7fr repeat(5,minmax(0,1fr));gap:12px;margin-bottom:24px}
+.filters label{display:grid;gap:6px;min-width:0}
+.filters span{font-size:.8rem;color:var(--muted)}
+.filters input,.filters select{width:100%;min-height:48px;padding:0 14px;font-size:1rem;background-color:var(--surface);color:var(--ink);border:1px solid var(--line-strong);border-radius:12px;transition:border-color 180ms ease}
+.filters input::placeholder{color:var(--muted)}
+.filters input:focus-visible,.filters select:focus-visible{outline:2px solid var(--light);outline-offset:2px;border-color:var(--light)}
+.filters option{background:var(--surface);color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.filters input:hover,.filters select:hover{border-color:rgba(255,255,255,.5)}}
+
+/* PART 4 (Hansadi) · Event cards: photo, date badge, status chip, name, place, genre and price. 4 across on desktop, 1 slim row per event on phones.
+   Photos are black and white and turn to colour when the card is hovered or focused ("out of the dark"). */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.grid[hidden]{display:none}
+.event{position:relative;display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--surface);transition:transform 240ms var(--ease-out),border-color 200ms ease}
+.event .photo{position:relative;aspect-ratio:4/3;flex:none}
+.event-when{position:absolute;top:12px;left:12px;display:grid;justify-items:center;min-width:52px;padding:7px 8px 6px;border-radius:14px;background:rgba(0,0,0,.84);line-height:1}
+.event-when b{font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums}
+.event-when span{margin-top:3px;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+/* Status chips: each state has its own shape as well as its own words, so it never depends on colour alone. */
+.event-chip{position:absolute;top:12px;right:12px;padding:6px 11px;line-height:1.2;border:1px solid var(--line-strong);border-radius:var(--r-pill);background:rgba(0,0,0,.84);font-size:.75rem;font-weight:600;white-space:nowrap}
+.event-chip[data-state="Selling fast"]{background:var(--light);border-color:var(--light);color:#000}
+.event-chip[data-state="Sold out"]{border-color:var(--ember);color:var(--ember)}
+.event-chip[data-state="Registering interest"]{border-style:dashed}
+.event-body{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;padding:16px 18px 18px}
+.event h3{font:700 1.3rem/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.event h3 a::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.event h3 a:focus-visible{outline:0}
+.event h3 a:focus-visible::after{outline:2px solid var(--light);outline-offset:-3px}
+.event-place{font-size:.9rem;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.event-buy{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto;padding-top:12px}
+.event-genre{font-size:.8rem;color:var(--muted)}
+.event-price{font-weight:600;font-size:.95rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.event[data-soldout] h3{color:var(--muted)}
+.photo{overflow:hidden;background:var(--surface-2)}
+.photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.12) brightness(.82);transition:filter 600ms ease,transform 900ms var(--ease-out)}
+.event:focus-within .photo img{filter:grayscale(0) contrast(1) brightness(.9)}
+.event[data-soldout] .photo img{filter:grayscale(1) brightness(.55)}
+@media (hover:hover) and (pointer:fine){
+  .event:hover{transform:translateY(-3px);border-color:var(--line-strong)}
+  .event:hover .photo img{filter:grayscale(0) contrast(1) brightness(.9);transform:scale(1.04)}
+  .event[data-soldout]:hover .photo img{filter:grayscale(1) brightness(.55)}
+}
+.more{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:24px}
+.more[hidden]{display:none}
+.more p{font-size:.85rem;color:var(--muted)}
+.empty{display:grid;justify-items:start;gap:14px;padding:40px 24px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);color:var(--muted)}
+.empty[hidden]{display:none}
+
 /* ===== PART 1 (Menula De Pinto) · FOOTER (the rest of the footer styles are in screens.css). ===== */
 .footer{position:relative;overflow:clip;padding:clamp(56px,7vw,96px) 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
 
@@ -103,6 +162,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 
 /* ===== RESPONSIVE RULES: PART 1 for the nav (full-screen phone menu), PART 4 for the filter bar and event grid, PART 2 for the hero. ===== */
 @media (max-width:1180px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:900px){
   .nav{grid-template-columns:1fr auto}
@@ -118,8 +178,24 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .nav-links.open a:nth-child(3){transition-delay:100ms}
   .nav-links.open a:nth-child(4){transition-delay:150ms}
   .nav-links.open a:nth-child(5){transition-delay:200ms}
+  .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .f-search{grid-column:1/-1}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:620px){
+  /* phones: one slim row per event */
+  .grid{grid-template-columns:minmax(0,1fr);gap:10px}
+  .event{flex-direction:row;border-radius:18px}
+  .event .photo{width:112px;aspect-ratio:auto;min-height:112px}
+  .event-when{top:8px;left:8px;min-width:44px;padding:5px 6px}
+  .event-when b{font-size:1.1rem}
+  .event-chip{top:auto;bottom:8px;left:8px;right:8px;padding:4px 6px;font-size:.66rem;text-align:center;overflow:hidden;text-overflow:ellipsis}
+  .event-body{padding:12px 14px}
+  .event h3{font-size:1.05rem}
+  .event-buy{padding-top:8px}
+  .filters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .filters label:last-child{grid-column:1/-1}
+  .head{align-items:flex-start}
 }
 
 /* PART 1 (Menula De Pinto) · Reduced motion: nothing moves by itself, and changes happen instantly. Always last. */
