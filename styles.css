@@ -108,9 +108,13 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 .ring-a{inset:5%;border:1px solid rgba(255,255,255,.2);animation:voidSpin 60s linear infinite}
 .ring-b{inset:17%;border:1px dashed rgba(255,255,255,.16);animation:voidSpinBack 90s linear infinite}
 .node{position:absolute;left:50%;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 14px 3px rgba(255,255,255,.7)}
+.is-paused{animation-play-state:paused}
 @keyframes voidSpin{to{transform:rotate(360deg)}}
 @keyframes voidSpinBack{to{transform:rotate(-360deg)}}
 @keyframes voidPulse{0%,100%{opacity:.82;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
+/* A soft light that follows the mouse (added by initMotion in shared.js to any section with data-cursor-light). */
+.cursor-light{position:absolute;left:0;top:0;z-index:0;width:600px;height:600px;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,rgba(255,255,255,.1),transparent);opacity:0;transition:transform 120ms linear,opacity 400ms ease}
+
 .hero-top{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:1240px;margin-top:clamp(150px,25vh,250px)}
 .hero-pill{display:inline-flex;align-items:center;gap:10px;min-height:36px;margin-bottom:20px;padding:0 16px;border:1px solid var(--line-strong);border-radius:var(--r-pill);background:rgba(0,0,0,.6);font:600 .8125rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
 .hero-pill i{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 10px 2px rgba(255,255,255,.7)}
@@ -133,6 +137,17 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .hero-foot{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;width:100%;margin-top:auto;padding-top:28px;font:600 .8125rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 .hero-foot a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink-2)}
 @media (hover:hover) and (pointer:fine){.hero-foot a:hover{color:var(--light)}}
+
+/* PART 3 (Limuthu Liyanage) · Marquee strip: genres and cities sliding sideways for ever. It pauses while the mouse is over it. */
+.marquee{overflow:hidden;padding:18px 0;border-block:1px solid var(--line)}
+.marquee-track{display:flex;width:max-content;animation:voidMarquee 38s linear infinite}
+.marquee-track span{display:flex;align-items:center;gap:28px;padding-right:28px;font:700 clamp(1.3rem,2.6vw,2.2rem)/1 var(--display);letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
+.marquee-track i{font-style:normal;font-size:.6em;color:var(--muted)}
+/* The words take turns: solid, serif italic, outlined. */
+.marquee-track em{font-size:1.15em;text-transform:none}
+.marquee-track .out{font-weight:700;color:transparent;-webkit-text-stroke:1px var(--ink)}
+@keyframes voidMarquee{to{transform:translateX(-50%)}}
+@media (hover:hover) and (pointer:fine){.marquee:hover .marquee-track{animation-play-state:paused}}
 
 /* ===== PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map on the left, the text and the Fly / Walk / Orbit buttons on the right.
    It is one picture (assets/images/venue.png). data-mode on .venue-scene, set by the buttons, moves it: Fly shows all of it, Walk zooms in, Orbit turns it slowly. ===== */
@@ -350,4 +365,6 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;transition-delay:0ms !important}
   .giant{letter-spacing:.06em;opacity:1}
+  .marquee-track{animation:none}
+  .cursor-light{display:none}
 }

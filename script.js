@@ -2,9 +2,18 @@
 
 /* PART 1 (Menula De Pinto) · Build the nav bar and footer (code is in shared.js). */
 renderChrome();
+/* PART 3 (Limuthu Liyanage) · Switch on the mouse light, the magnetic buttons and the off-screen pause (code is in shared.js). */
+initMotion();
+
 /* PART 2 (Ranuga Fernando) · HERO city shortcuts: one link per city that appears in the events list. Clicking one opens the events page filtered to that city. */
 const cities = [...new Set(events.map((e) => e.city))];
 $('heroCities').innerHTML = cities.map((c) => `<a href="events.html?city=${encodeURIComponent(c)}">${c}</a>`).join('');
+
+/* PART 3 (Limuthu Liyanage) · Marquee strips: every genre and city from the events list. The group is written four times so the loop has no gap. */
+const marqueeWords = [...new Set(events.flatMap((e) => [e.genre, e.city]))];
+const marqueeStyles = [(w) => w, (w) => `<em>${w}</em>`, (w) => `<b class="out">${w}</b>`]; /* solid, serif italic, outlined */
+const marqueeGroup = `<span>${marqueeWords.map((word, i) => `${marqueeStyles[i % 3](word)}<i>✦</i>`).join('')}</span>`;
+document.querySelectorAll('.marquee-track').forEach((track) => { track.innerHTML = marqueeGroup.repeat(4); });
 
 /* PART 2 (Ranuga Fernando) · 3D venue view: the Fly / Walk / Orbit buttons. Clicking one slides the white pill to it,
    moves the venue picture for that camera angle (CSS reads data-mode), and swaps the line of text underneath. */
