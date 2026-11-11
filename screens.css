@@ -65,6 +65,26 @@
 .signup-panel{display:flex;flex-direction:column;justify-content:center;width:100%;max-width:560px;margin:0 auto;padding:clamp(40px,6vw,80px) var(--gutter)}
 .signup-panel h1{margin-top:14px;font:700 clamp(36px,4.2vw,60px)/1.02 var(--display);letter-spacing:-.03em}
 .signup-sub{margin-top:14px;color:var(--ink-2)}
+.signup-form{display:grid;gap:6px;margin-top:28px}
+.signup-form .field{margin-top:10px}
+/* Error text under a box; the box gets a red edge too, so the problem is not shown by colour alone. */
+.field-error{min-height:1.2em;font-size:.84rem;color:var(--ember)}
+.control[aria-invalid="true"]{border-color:var(--ember)}
+/* Password box with a Show / Hide button inside it. */
+.password{position:relative;display:block}
+.password .control{padding-right:76px}
+.password button{position:absolute;right:6px;top:50%;min-height:36px;padding:0 12px;border-radius:8px;transform:translateY(-50%);font-size:.85rem;font-weight:600;color:var(--ink-2)}
+.signup-likes{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 6px;padding:0;border:0}
+.signup-likes legend{width:100%;margin-bottom:8px;font-size:.88rem;color:var(--ink-2)}
+.signup-likes label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--line-strong);border-radius:var(--r-pill);font-size:.92rem;cursor:pointer}
+.signup-likes input{width:16px;height:16px;margin:0;accent-color:var(--light)}
+.signup-likes label:has(input:checked){border-color:var(--light);background:rgba(255,255,255,.1)}
+.signup-form .check button{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.signup-form .btn{margin-top:12px}
+.signup-note{margin-top:10px;font-size:.84rem;color:var(--muted);text-align:center}
+.signup-done{display:grid;justify-items:start;gap:16px}
+.signup-done h2{font:700 clamp(36px,4.2vw,56px)/1.02 var(--display);letter-spacing:-.03em}
+.signup-done p{color:var(--ink-2)}
 @media (max-width:900px){
   .signup{grid-template-columns:minmax(0,1fr)}
   .signup-art{border-right:0;border-bottom:1px solid var(--line);padding-block:40px}
