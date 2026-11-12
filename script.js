@@ -6,6 +6,23 @@ renderChrome();
 const cities = [...new Set(events.map((e) => e.city))];
 $('heroCities').innerHTML = cities.map((c) => `<a href="events.html?city=${encodeURIComponent(c)}">${c}</a>`).join('');
 
+/* PART 2 (Ranuga Fernando) · 3D venue view: the Fly / Walk / Orbit buttons. Clicking one slides the white pill to it,
+   moves the venue picture for that camera angle (CSS reads data-mode), and swaps the line of text underneath. */
+const venueText = {
+  fly: 'Fly mode gives you the whole venue from above.',
+  walk: 'Walk mode puts you on the floor, at eye level.',
+  orbit: 'Orbit mode turns the venue slowly so you see every side.',
+};
+$('venueToggle').addEventListener('click', (e) => {
+  const chosen = e.target.closest('[data-mode]');
+  if (!chosen) return;
+  const buttons = [...$('venueToggle').querySelectorAll('[data-mode]')];
+  buttons.forEach((btn) => btn.setAttribute('aria-pressed', String(btn === chosen)));
+  $('venueToggle').style.setProperty('--at', buttons.indexOf(chosen));
+  $('venueScene').dataset.mode = chosen.dataset.mode;
+  $('venueMode').textContent = venueText[chosen.dataset.mode];
+});
+
 /* PART 2 (Ranuga Fernando) → PART 4 (Hansadi) · Hero search box: open the events page with what was typed already in its search box.
    (The city links above do the same with ?city=.) */
 $('heroSearch').addEventListener('submit', (e) => {
