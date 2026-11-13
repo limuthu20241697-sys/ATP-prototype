@@ -158,6 +158,77 @@ function startHotTimer() {
   }, HOT_MS);
 }
 
+/* PART 2 (Ranuga Fernando) · Controls: the two arrow buttons, leaving the section restarts the timer, and clicking a card shows that event. */
+$('hotNext').addEventListener('click', () => showHot(hotAt + 1));
+$('hotPrev').addEventListener('click', () => showHot(hotAt - 1));
+hotBox.addEventListener('mouseleave', startHotTimer);
+hotTrack.addEventListener('click', (e) => {
+  const card = e.target.closest('[data-pos]');
+  if (card) showHot(Number(card.dataset.pos));
+});
+
+/* Drag with the mouse or swipe with a finger. Dragging left goes forward and dragging right goes back.
+   On a phone the row of cards scrolls by itself, so only the rest of the section reacts to swipes. */
+hotBox.addEventListener('pointerdown', (e) => {
+  hotMoved = false;
+  const onPhoneRow = phone.matches && e.target.closest('.hot-rail');
+  if (hotBusy || onPhoneRow || e.target.closest('.hot-arrows, .hot-cta')) { hotDrag = null; return; }
+  hotDrag = { from: e.clientX };
+  clearTimeout(hotTimer);
+});
+addEventListener('pointermove', (e) => {
+  if (!hotDrag) return;
+  const moved = e.clientX - hotDrag.from;
+  if (Math.abs(moved) <= 6) return;
+  hotMoved = true;
+  if (phone.matches) return;
+  hotTrack.classList.add('is-dragging');
+  hotTrack.style.transform = `translateX(${Math.min(40, moved)}px)`;
+});
+function endDrag(e) {
+  if (!hotDrag) return;
+  const moved = e.clientX - hotDrag.from;
+  hotDrag = null;
+  hotTrack.classList.remove('is-dragging');
+  if (!hotMoved) { startHotTimer(); return; }
+  const steps = phone.matches ? (Math.abs(moved) > 50 ? -Math.sign(moved) : 0) : Math.round(-moved / hotStep());
+  if (steps === 0) { hotTrack.style.transform = ''; startHotTimer(); return; }
+  jumpTrack(0);
+  showHot(hotAt + steps);
+}
+addEventListener('pointerup', endDrag);
+addEventListener('pointercancel', endDrag);
+/* A drag must not also count as a click on the card it ended on. */
+hotBox.addEventListener('click', (e) => {
+  if (!hotMoved) return;
+  e.stopPropagation();
+  e.preventDefault();
+  hotMoved = false;
+}, true);
+hotBox.addEventListener('dragstart', (e) => e.preventDefault());
+
+/* Sideways scrolling (a trackpad swipe) steps through the events. Up and down still scrolls the page. */
+let wheelTotal = 0;
+let wheelUntil = 0;
+hotBox.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+  e.preventDefault();
+  if (e.timeStamp < wheelUntil) return;
+  wheelTotal += e.deltaX;
+  if (Math.abs(wheelTotal) < 60) return;
+  showHot(hotAt + Math.sign(wheelTotal));
+  wheelTotal = 0;
+  wheelUntil = e.timeStamp + 420;
+}, { passive: false });
+
+/* Keyboard: arrow keys, Home and End once the section has focus. */
+hotBox.addEventListener('keydown', (e) => {
+  const keys = { ArrowLeft: hotAt - 1, ArrowRight: hotAt + 1, Home: 0, End: hotList.length - 1 };
+  if (!(e.key in keys)) return;
+  e.preventDefault();
+  showHot(keys[e.key]);
+});
+
 applyHot(0, false);
 
 /* PART 2 (Ranuga Fernando) → PART 4 (Hansadi) · Hero search box: open the events page with what was typed already in its search box.
