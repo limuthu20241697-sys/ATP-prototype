@@ -134,6 +134,30 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .hero-foot a{display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink-2)}
 @media (hover:hover) and (pointer:fine){.hero-foot a:hover{color:var(--light)}}
 
+/* ===== PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map on the left, the text and the Fly / Walk / Orbit buttons on the right.
+   It is one picture (assets/images/venue.png). data-mode on .venue-scene, set by the buttons, moves it: Fly shows all of it, Walk zooms in, Orbit turns it slowly. ===== */
+.venue{padding:clamp(72px,10vw,128px) 0;border-top:1px solid var(--line)}
+.venue-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(28px,5vw,80px);align-items:center}
+.venue-scene{position:relative;aspect-ratio:1/1.05;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);overflow:hidden}
+.venue-img{width:100%;height:100%;object-fit:cover;transition:transform 900ms var(--ease-out)}
+.venue-scene[data-mode="walk"] .venue-img{transform:scale(1.45) translateY(6%)}
+.venue-scene[data-mode="orbit"] .venue-img{animation:venueOrbit 12s ease-in-out infinite alternate}
+@keyframes venueOrbit{from{transform:scale(1.12) rotate(-8deg)}to{transform:scale(1.12) rotate(8deg)}}
+.venue-copy h2{font:700 clamp(40px,5.4vw,80px)/1.02 var(--display);letter-spacing:-.03em;margin-top:14px;text-wrap:balance}
+.venue-sub{max-width:44ch;margin-top:18px;color:var(--ink-2)}
+/* Fly / Walk / Orbit: three buttons with a white pill (.toggle-thumb) that slides behind the chosen one. --at is 0, 1 or 2. */
+.toggle{position:relative;display:inline-grid;grid-template-columns:repeat(3,76px);margin-top:24px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-pill)}
+.toggle-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:76px;border-radius:var(--r-pill);background:var(--light);transform:translateX(calc(var(--at,0) * 76px));transition:transform 320ms var(--ease-out)}
+.toggle button{position:relative;min-height:44px;border-radius:var(--r-pill);font-weight:600;font-size:.9rem;transition:color 200ms ease}
+.toggle button[aria-pressed="true"]{color:#000}
+.venue-mode{margin-top:18px;font:italic 400 1.35rem/1.3 var(--serif);color:var(--ink)}
+.venue-copy .btn{margin-top:24px}
+.venue-copy .btn svg{width:18px;height:18px;margin:0 0 0 8px;stroke-width:2}
+@media (max-width:900px){
+  .venue-in{grid-template-columns:minmax(0,1fr)}
+  .venue-scene{max-width:520px;aspect-ratio:1/.9}
+}
+
 /* ===== PART 4 (Hansadi) · EVENT LIST SECTION. .head (the title row) is shared with the Part 5 sections. ===== */
 .discover{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)}
 .head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,40px)}
