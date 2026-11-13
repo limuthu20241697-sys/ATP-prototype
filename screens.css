@@ -44,6 +44,16 @@
 .modal-actions:empty{display:none}
 .sheet .stack{margin-top:14px}
 
+/* ===== PART 5 (Ravini Nethra) · WHY VOID: two cards, problem (dark) and solution (white). ===== */
+.why{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)}
+/* A big dark star peeking in from the right edge, behind the cards. */
+.why-star{position:absolute;z-index:-1;right:-70px;top:clamp(40px,8vw,110px);width:clamp(180px,24vw,340px);height:auto;stroke:none;color:var(--surface-2)}
+.why-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.why-card{display:flex;flex-direction:column;gap:16px;padding:clamp(24px,3.2vw,44px);border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);min-width:0}
+.why-card-accent{background:var(--light);border-color:var(--light);color:#000}
+.why-tag{font:600 .8125rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.why-text{font:400 clamp(1.3rem,2vw,1.85rem)/1.3 var(--sans);letter-spacing:-.01em;text-wrap:pretty}
+
 /* ===== PART 4 (Hansadi) · VENUES PAGE (venues.html): a grid of venue cards, each with a photo, upcoming dates and two buttons. ===== */
 .venue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .venue-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--surface)}
@@ -95,6 +105,7 @@
 @media (max-width:1180px){
 }
 @media (max-width:900px){
+  .why-grid{grid-template-columns:minmax(0,1fr)}
   .footer-cols{grid-template-columns:repeat(2,auto);width:100%;justify-content:space-between}
 }
 @media (max-width:620px){
