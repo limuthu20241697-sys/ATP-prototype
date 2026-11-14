@@ -217,6 +217,74 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .empty{display:grid;justify-items:start;gap:14px;padding:40px 24px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);color:var(--muted)}
 .empty[hidden]{display:none}
 
+/* ===== PART 2 (Ranuga Fernando) · OUT OF THE DARK (the Hot right now slider). The event on the left, cards for the events still to come on the right.
+   .hot-open is the copy of the photo that grows out of the first card (animated in script.js: openNext). ===== */
+.hot{position:relative;isolation:isolate;overflow:hidden;display:flex;align-items:center;height:clamp(620px,100svh,900px);background:#000;color:#fff;touch-action:pan-y;user-select:none;cursor:grab;outline:none}
+.hot:focus-visible{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.hot button,.hot a{cursor:pointer}
+.hot img{-webkit-user-drag:none}
+.hot-bg{position:absolute;inset:0;z-index:-2}
+/* The big photo is in its real colours, a little darkened so the white text stays easy to read. */
+.hot-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;filter:brightness(.82);transition:opacity 500ms ease}
+.hot-img.is-on{opacity:1}
+.hot-img.no-fade{transition:none}
+/* The card that is opening: a copy of the photo, cut to the card's shape, then grown to fill the screen. */
+.hot-open{position:absolute;inset:0;z-index:-1;visibility:hidden}
+.hot-open img{width:100%;height:100%;object-fit:cover;filter:brightness(.82)}
+/* The section fades in from black at the top and back out at the bottom, so it blends with the sections around it. */
+.hot-wash{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,var(--void),transparent 24%),linear-gradient(0deg,var(--void),transparent 22%),linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.35) 48%,rgba(0,0,0,.1)),linear-gradient(180deg,rgba(0,0,0,.3),transparent 30%,rgba(0,0,0,.3))}
+.hot-in{position:relative;width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,3vw,56px);align-items:center;padding-block:96px 72px}
+/* The text sits lower than the middle of the section, level with the bottom of the cards. */
+.hot-copy{min-width:0;transform:translateY(clamp(56px,min(15vw,23vh),220px))}
+.hot-tag{display:flex;align-items:center;gap:12px;margin-bottom:18px;font:600 .8125rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase}
+.hot-tag::before{content:"";width:28px;height:1px;background:#fff}
+.hot-slide{min-height:clamp(280px,32vw,380px)}
+.hot-slide.is-out>*{opacity:0;transition:opacity 220ms ease}
+.hot-where{margin-bottom:10px;font-size:1.1rem;color:var(--ink-2);animation:hotFade 400ms ease both}
+.hot-slide h3{margin:0 0 20px;font:700 clamp(2rem,3.4vw,4rem)/.96 var(--display);text-transform:uppercase;letter-spacing:-.03em;overflow-wrap:anywhere}
+.hot-line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
+.hot-line>span{display:block;animation:hotLine 600ms var(--ease-out) both;animation-delay:var(--d,0ms)}
+.hot-note{max-width:44ch;font-size:.98rem;line-height:1.55;color:var(--ink-2);animation:hotFade 500ms ease 150ms both}
+.hot-cta{margin-top:24px;animation:hotFade 500ms ease 220ms both}
+.hot-cta svg{width:20px;height:20px;margin-left:8px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* The cards sit a little lower than the text and run off the right edge. They are black and white until hovered. */
+.hot-side{min-width:0;transform:translateY(clamp(24px,min(12vw,18vh),175px))}
+.hot-rail{margin-right:calc(var(--gutter)*-1);overflow:hidden}
+.hot-track{display:flex;gap:16px;width:max-content;transition:transform 700ms var(--ease-out)}
+.hot-track.is-dragging{transition:none}
+.hot-card{position:relative;flex:none;width:clamp(150px,15vw,215px);aspect-ratio:3/4.2;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--surface);color:#fff;text-align:left;isolation:isolate;transition:opacity 300ms ease}
+.hot-card.is-new{animation:hotFade 500ms ease both}
+.hot-card:active{transform:scale(.97)}
+.hot-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:grayscale(1) contrast(1.12) brightness(.82);transition:filter 600ms ease}
+.hot-card:focus-visible img{filter:grayscale(0) contrast(1) brightness(.9)}
+@media (hover:hover) and (pointer:fine){.hot-card:hover img{filter:grayscale(0) contrast(1) brightness(.9)}}
+.hot-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.88))}
+.hot-card-body{position:absolute;inset:auto 0 0;display:grid;gap:4px;padding:16px}
+.hot-card small{font-size:.75rem;color:var(--ink-2)}
+.hot-card strong{font:700 clamp(.8rem,1vw,.95rem)/1.12 var(--display);text-transform:uppercase;overflow-wrap:anywhere}
+.hot-arrows{display:flex;gap:12px;margin-top:22px}
+.hot-arrows .icon-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+@keyframes hotLine{from{transform:translateY(110%)}to{transform:none}}
+@keyframes hotFade{from{opacity:0}}
+@media (max-width:900px){
+  /* Phones: the photo shows at the top, the text sits below it, and the cards swipe sideways. */
+  .hot{height:auto;min-height:min(100svh,860px);align-items:flex-end}
+  .hot-in{grid-template-columns:minmax(0,1fr);align-content:end;padding-block:96px 28px;gap:18px}
+  .hot-wash{background:linear-gradient(180deg,var(--void) 0,rgba(0,0,0,0) 14%,rgba(0,0,0,.62) 34%,rgba(0,0,0,.94) 60%,var(--void))}
+  .hot-slide{min-height:0}
+  .hot-slide h3{font-size:clamp(2rem,9vw,3rem)}
+  .hot-note{font-size:.9rem}
+  .hot-cta{margin-top:16px}
+  .hot-side,.hot-copy{transform:none}
+  .hot-rail{touch-action:pan-x pan-y;margin-right:0;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+  .hot-rail::-webkit-scrollbar{display:none}
+  .hot-card{width:128px;scroll-snap-align:start}
+  .hot-card strong{font-size:.72rem}
+  .hot-arrows{margin-top:14px}
+}
+
 /* ===== PART 1 (Menula De Pinto) · FOOTER (the rest of the footer styles are in screens.css). ===== */
 .footer{position:relative;overflow:clip;padding:clamp(56px,7vw,96px) 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
 
