@@ -177,6 +177,10 @@ const actions = {
   'close-modal': closeModal,
 };
 const forms = {
+  /* PART 5 (Ravini Nethra) · The waitlist form: swap it for a thank-you line. Nothing is sent anywhere. */
+  newsletter(form) {
+    form.innerHTML = `<p class="done-line">${icon('check')}You’re subscribed in this demo. See you out there.</p>`;
+  },
 };
 
 document.addEventListener('click', (e) => {
