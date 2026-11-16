@@ -199,3 +199,43 @@ document.addEventListener('submit', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && $('navLinks')?.classList.contains('open')) { setMenu(false); $('navToggle').focus(); }
 });
+
+/* ===== PART 3 (Limuthu Liyanage) · MOTION EXTRAS for the hero and the waitlist: a soft light that follows the mouse, buttons that lean towards the mouse,
+   and pausing the endless animations while they are off screen. All of it is skipped if the visitor asked for reduced motion. ===== */
+function initMotion() {
+  if (reducedMotion.matches) return;
+
+  if (matchMedia('(pointer: fine)').matches) {
+    /* Cursor light: sections marked data-cursor-light get a glow that follows the mouse. */
+    document.querySelectorAll('[data-cursor-light]').forEach((section) => {
+      const glow = document.createElement('span');
+      glow.className = 'cursor-light';
+      glow.setAttribute('aria-hidden', 'true');
+      section.append(glow);
+      section.addEventListener('pointermove', (e) => {
+        const box = section.getBoundingClientRect();
+        glow.style.opacity = '1';
+        glow.style.transform = `translate(${e.clientX - box.left - 300}px, ${e.clientY - box.top - 300}px)`;
+      });
+      section.addEventListener('pointerleave', () => { glow.style.opacity = '0'; });
+    });
+
+    /* Magnetic buttons: buttons marked data-magnetic move up to 8px towards the mouse. */
+    document.querySelectorAll('[data-magnetic]').forEach((btn) => {
+      btn.addEventListener('pointermove', (e) => {
+        const box = btn.getBoundingClientRect();
+        const x = (e.clientX - box.left - box.width / 2) / box.width;
+        const y = (e.clientY - box.top - box.height / 2) / box.height;
+        btn.style.transform = `translate(${x * 8}px, ${y * 8}px)`;
+      });
+      btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
+    });
+  }
+
+  /* The endless animations (portal, rings, stars, marquee) only run while they are on screen. */
+  if (!('IntersectionObserver' in window)) return;
+  const watcher = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => entry.target.classList.toggle('is-paused', !entry.isIntersecting));
+  });
+  document.querySelectorAll('.portal-img, .ring-a, .ring-b, .marquee-track, .stars, .venue-img').forEach((el) => watcher.observe(el));
+}
