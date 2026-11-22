@@ -1,0 +1,130 @@
+/* Parts in this file: 1 Foundation, nav, footer, pop-ups | 2 Hero, 3D venue, Out of the dark slider | 3 Marquee strips | 4 Event list. See README. */
+
+/* ===== PART 1 (Menula De Pinto) · COLOURS AND FONTS (the Void theme). Every colour on the site is one of these names, so changing one line here changes the whole site. ===== */
+:root{
+  color-scheme:dark;
+  /* colour: black space, white light, and one red used only for "Sold out" */
+  --void:#000000;
+  --surface:#0a0a0a;
+  --surface-2:#141414;
+  --line:rgba(255,255,255,.12);
+  --line-strong:rgba(255,255,255,.24);
+  --ink:#f2f2f2;
+  --ink-2:#c9c9c9;
+  --muted:#9a9a9a;
+  --light:#ffffff;
+  --ember:#ff4d3d;
+  --glow:0 0 0 6px rgba(255,255,255,.12),0 0 60px rgba(255,255,255,.35);
+  /* type: Syne for headings, Instrument Serif italic for the last words of a heading, Inter for everything else */
+  --display:"Syne",system-ui,sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+  --sans:"Inter",system-ui,sans-serif;
+  /* shape */
+  --r-pill:999px;
+  --r-card:28px;
+  --r-panel:20px;
+  /* motion */
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --gutter:clamp(16px,3.2vw,44px);
+}
+/* PART 1 (Menula De Pinto) · Base rules: the same starting point for every element, the black page, and the keyboard focus ring. */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px;background:var(--void)}
+body{margin:0;background:var(--void);color:var(--ink);font:400 1.0625rem/1.55 var(--sans);overflow-x:clip;-webkit-font-smoothing:antialiased;touch-action:manipulation;-webkit-tap-highlight-color:transparent;animation:voidIn 900ms var(--ease-out) both}
+@keyframes voidIn{from{opacity:0}to{opacity:1}} /* the whole page fades in from black */
+img{display:block;max-width:100%}
+h1,h2,h3,p,ul,dl,dd{margin:0;padding:0}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+main:focus{outline:0}
+:focus-visible{outline:2px solid var(--light);outline-offset:2px;border-radius:6px}
+svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+/* The last words of a heading are set in serif italic. */
+em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+
+.skip{position:fixed;left:16px;top:-60px;z-index:60;background:var(--light);color:#000;padding:10px 16px;border-radius:8px}
+.skip:focus{top:12px}
+.wrap{max-width:1320px;margin:auto;padding-inline:var(--gutter)}
+/* Small numbered label above a section title, like "01 / What's on". */
+.eyebrow{font:600 .8125rem/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.eyebrow b{font-weight:600;color:var(--light)}
+
+/* PART 1 (Menula De Pinto) · Giant outlined words behind the content (VOID, EVENTS, TEAM). They start spread out and close up when scrolled into view (JS adds .in). */
+.giant{display:flex;justify-content:center;margin:0;font:800 clamp(110px,27vw,430px)/.8 var(--display);letter-spacing:.4em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.18);white-space:nowrap;pointer-events:none;user-select:none;opacity:0;transition:letter-spacing 1400ms var(--ease-out),opacity 1400ms var(--ease-out)}
+.giant.in{letter-spacing:.06em;opacity:1}
+.giant-bg{position:absolute;z-index:-1;left:0;right:0;top:clamp(16px,3vw,44px);font-size:clamp(90px,20vw,320px);-webkit-text-stroke-color:rgba(255,255,255,.09)}
+
+/* ===== PART 1 (Menula De Pinto) · BUTTONS. Used all over the site: .btn is the shape, .btn-primary the white main button, .btn-line the outlined one, .icon-btn the round one. ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:var(--r-pill);font-weight:600;font-size:.94rem;white-space:nowrap;transition:transform 160ms var(--ease-out),background-color 180ms ease,border-color 180ms ease,box-shadow 180ms ease}
+.btn:active{transform:scale(.97)}
+.btn-sm{min-height:44px;padding:0 18px;font-size:.88rem}
+.btn-wide{width:100%}
+.btn-primary{background:var(--light);color:#000}
+.btn-primary:focus-visible{box-shadow:var(--glow)}
+.btn-line{border:1px solid var(--line-strong);color:var(--ink)}
+.icon-btn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:rgba(0,0,0,.5);flex:none;transition:transform 160ms var(--ease-out),border-color 180ms ease,background-color 180ms ease,color 180ms ease}
+.icon-btn:active{transform:scale(.95)}
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{box-shadow:var(--glow)}
+  .btn-line:hover{border-color:var(--light);background:rgba(255,255,255,.08)}
+  .icon-btn:hover{border-color:var(--light);background:rgba(255,255,255,.1)}
+}
+
+/* ===== PART 1 (Menula De Pinto) · NAV BAR. See-through over the hero, black with a thin line once you scroll (JS adds .scrolled). On phones the links become a full-screen menu (see Responsive below). ===== */
+.nav{position:fixed;inset:0 0 auto;z-index:30;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:14px var(--gutter);padding-top:max(14px,env(safe-area-inset-top));transition:background-color 220ms ease,border-color 220ms ease;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(0,0,0,.88);border-color:var(--line)}
+.logo{justify-self:start;display:flex;align-items:center;gap:10px;min-height:44px}
+.logo-mark{width:20px;height:20px;flex:none;stroke:none}
+.logo-word{font:800 1.05rem/1 var(--display);letter-spacing:.32em}
+.nav-links{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:var(--r-pill);background:rgba(0,0,0,.5)}
+.nav-links a{padding:8px 16px;border-radius:var(--r-pill);font-size:.9rem;transition:background-color 180ms ease,color 180ms ease}
+/* The current page's link, and any link while it is being pressed, turns into a white pill. */
+.nav-links a[aria-current="page"],.nav-links a:active{background:var(--light);color:#000}
+.nav-actions{justify-self:end;display:flex;align-items:center;gap:8px}
+.nav-toggle{display:none}
+@media (hover:hover) and (pointer:fine){
+  .nav-links a:hover{background:rgba(255,255,255,.1)}
+}
+
+/* ===== PART 1 (Menula De Pinto) · FOOTER (the rest of the footer styles are in screens.css). ===== */
+.footer{position:relative;overflow:clip;padding:clamp(56px,7vw,96px) 0 calc(40px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--surface)}
+
+/* ===== PART 1 (Menula De Pinto) · POP-UP WINDOW (.sheet, used for Contact, Policies, Privacy and FAQ) and the small message at the bottom (.toast). ===== */
+.sheet{width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:1px solid var(--line-strong);border-radius:var(--r-panel);background:var(--void);color:var(--ink);overflow:auto;overscroll-behavior:contain;opacity:0;transform:scale(.98);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out),overlay 320ms allow-discrete,display 320ms allow-discrete}
+.sheet[open]{opacity:1;transform:none}
+@starting-style{.sheet[open]{opacity:0;transform:scale(.98)}}
+.sheet::backdrop{background:rgba(0,0,0,.7);backdrop-filter:blur(10px)}
+.sheet-close{position:absolute;top:12px;right:12px;z-index:2}
+.sheet h2{font:700 2.1rem/1.05 var(--display);letter-spacing:-.03em;text-wrap:balance}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));z-index:80;max-width:calc(100vw - 32px);padding:12px 20px;border-radius:var(--r-pill);background:var(--light);color:#000;font-weight:500;font-size:.92rem;text-align:center;opacity:0;transform:translate(-50%,16px);pointer-events:none;transition:opacity 360ms var(--ease-out),transform 360ms var(--ease-out)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===== RESPONSIVE RULES: PART 1 for the nav (full-screen phone menu), PART 4 for the filter bar and event grid, PART 2 for the hero. ===== */
+@media (max-width:1180px){
+}
+@media (max-width:900px){
+  .nav{grid-template-columns:1fr auto}
+  .logo,.nav-actions{position:relative;z-index:2}
+  .nav-toggle{display:grid}
+  /* Phone menu: a black screen with big links that appear one after another. */
+  .nav-links{position:fixed;inset:0;z-index:1;flex-direction:column;justify-content:center;gap:6px;padding:96px var(--gutter) 40px;border:0;border-radius:0;background:var(--void);opacity:0;visibility:hidden;transition:opacity 320ms ease,visibility 0s 320ms}
+  .nav-links.open{opacity:1;visibility:visible;transition:opacity 320ms ease}
+  .nav-links a[aria-current="page"],.nav-links a:active{background:none;color:var(--light);text-decoration:underline;text-underline-offset:8px}
+  .nav-links a{display:flex;align-items:center;min-height:56px;padding:0;font:700 clamp(2rem,9vw,3rem)/1.1 var(--display);letter-spacing:-.03em;opacity:0;transform:translateY(16px);transition:opacity 400ms var(--ease-out),transform 400ms var(--ease-out)}
+  .nav-links.open a{opacity:1;transform:none}
+  .nav-links.open a:nth-child(2){transition-delay:50ms}
+  .nav-links.open a:nth-child(3){transition-delay:100ms}
+  .nav-links.open a:nth-child(4){transition-delay:150ms}
+  .nav-links.open a:nth-child(5){transition-delay:200ms}
+}
+@media (max-width:620px){
+}
+
+/* PART 1 (Menula De Pinto) · Reduced motion: nothing moves by itself, and changes happen instantly. Always last. */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:1ms !important;animation-iteration-count:1 !important;transition-duration:1ms !important;transition-delay:0ms !important}
+  .giant{letter-spacing:.06em;opacity:1}
+}
