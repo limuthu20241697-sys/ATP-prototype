@@ -63,6 +63,15 @@
 .step h3{font:700 clamp(1.3rem,2vw,1.75rem)/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
 .step p{color:var(--ink-2)}
 
+/* ===== PART 5 (Ravini Nethra) · TEAM: five cards with an initials circle (white and outlined circles take turns). ===== */
+.team{position:relative;isolation:isolate;overflow:hidden;padding:clamp(56px,7vw,96px) 0 clamp(72px,9vw,120px);border-top:1px solid var(--line)}
+.team-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.team-card{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:22px 20px 24px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--surface);min-width:0}
+.team-avatar{display:grid;place-items:center;width:56px;height:56px;margin-bottom:16px;border:1px solid var(--light);border-radius:50%;background:var(--light);color:#000;font-weight:600;letter-spacing:.02em}
+.team-card:nth-child(even) .team-avatar{background:none;color:var(--light)}
+.team-card h3{font:700 1.3rem/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
+.team-card p{font-size:.92rem;color:var(--muted)}
+
 /* ===== PART 4 (Hansadi) · VENUES PAGE (venues.html): a grid of venue cards, each with a photo, upcoming dates and two buttons. ===== */
 .venue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .venue-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--surface)}
@@ -112,11 +121,13 @@
 
 /* ===== RESPONSIVE (tablet and phone): PART 5 team/why/features grids, PART 1 footer columns, PART 2 hero search padding. ===== */
 @media (max-width:1180px){
+  .team-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:900px){
   .why-grid{grid-template-columns:minmax(0,1fr)}
   .step{grid-template-columns:clamp(60px,14vw,90px) minmax(0,1fr)}
   .step p{grid-column:2}
+  .team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .footer-cols{grid-template-columns:repeat(2,auto);width:100%;justify-content:space-between}
 }
 @media (max-width:620px){
