@@ -44,6 +44,10 @@
 .modal-actions:empty{display:none}
 .sheet .stack{margin-top:14px}
 
+/* PART 5 (Ravini Nethra) · Scroll-in effect: section titles and cards rise 24px and fade in when they come into view (initReveal in shared.js). --i staggers cards in a row. */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 700ms var(--ease-out),transform 700ms var(--ease-out);transition-delay:calc(var(--i,0) * 80ms)}
+.reveal.in{opacity:1;transform:none}
+
 /* ===== PART 5 (Ravini Nethra) · WHY VOID: two cards, problem (dark) and solution (white). ===== */
 .why{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,128px) 0 clamp(56px,7vw,96px)}
 /* A big dark star peeking in from the right edge, behind the cards. */

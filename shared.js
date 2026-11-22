@@ -204,6 +204,28 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && $('navLinks')?.classList.contains('open')) { setMenu(false); $('navToggle').focus(); }
 });
 
+/* PART 5 (Ravini Nethra) · Scroll-in effect for the section titles and the waitlist. Section entrances: script adds the hidden state, so content is never lost without it. */
+function initReveal() {
+  if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+    document.querySelectorAll('.giant').forEach((el) => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.head > div, .venue-in > *, .why-card, .step, .team-card, .newsletter-in > *').forEach((el) => {
+    el.classList.add('reveal');
+    el.style.setProperty('--i', [...el.parentNode.children].indexOf(el)); /* cards in a row come in one after another */
+    io.observe(el);
+  });
+  document.querySelectorAll('.giant').forEach((el) => io.observe(el)); /* the giant outlined words close up */
+}
+addEventListener('load', () => initReveal());
+
 /* ===== PART 3 (Limuthu Liyanage) · MOTION EXTRAS for the hero and the waitlist: a soft light that follows the mouse, buttons that lean towards the mouse,
    and pausing the endless animations while they are off screen. All of it is skipped if the visitor asked for reduced motion. ===== */
 function initMotion() {
