@@ -72,6 +72,20 @@
 .team-card h3{font:700 1.3rem/1.15 var(--display);letter-spacing:-.02em;text-wrap:balance}
 .team-card p{font-size:.92rem;color:var(--muted)}
 
+/* ===== PART 5 (Ravini Nethra) · WAITLIST SIGN-UP band: the star, "The night is waiting." and the email form. ===== */
+.newsletter{position:relative;isolation:isolate;overflow:hidden;padding:clamp(80px,11vw,150px) 0 clamp(96px,13vw,180px);border-top:1px solid var(--line)}
+/* A soft pool of light rising from the bottom edge. */
+.newsletter::after{content:"";position:absolute;z-index:-1;left:50%;bottom:-300px;width:min(1000px,120vw);height:460px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.16),transparent)}
+.newsletter-in{position:relative;z-index:1;display:grid;justify-items:center;gap:28px;text-align:center}
+.news-star{width:44px;height:44px;margin-bottom:22px;stroke:none;color:var(--light);filter:drop-shadow(0 0 14px rgba(255,255,255,.7))}
+.newsletter h2{font:700 clamp(44px,6.4vw,96px)/1 var(--display);letter-spacing:-.03em;text-wrap:balance}
+.newsletter p{margin-top:14px;font-size:1.05rem;color:var(--ink-2)}
+.news-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end;width:min(520px,100%);text-align:left}
+.news-form .control{border-radius:var(--r-pill);padding:0 18px}
+.news-form .btn{min-height:48px}
+.newsletter .news-privacy{grid-column:1/-1;margin-top:2px;font-size:.9rem;color:var(--muted);text-align:center}
+.news-privacy button{font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+
 /* ===== PART 4 (Hansadi) · VENUES PAGE (venues.html): a grid of venue cards, each with a photo, upcoming dates and two buttons. ===== */
 .venue-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .venue-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;background:var(--surface)}
@@ -132,5 +146,6 @@
 }
 @media (max-width:620px){
   .hero-search input{padding:0 12px}
+  .news-form{grid-template-columns:minmax(0,1fr)}
   .credits p{right:auto;left:0}
 }
