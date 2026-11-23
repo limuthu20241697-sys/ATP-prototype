@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#02070a">
+<title>We Are Lost · Port City Colombo · Explore the venue</title>
+<meta name="description" content="Walk the We Are Lost festival site at Port City Colombo's Beach Park in 3D, at sunset and after dark.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/tour.css?v=5">
+</head>
+<body data-setting="sea">
+<div id="stage" aria-label="Interactive 3D walkthrough of the We Are Lost festival site at Port City Colombo"></div>
+<div id="fadeTop"></div>
+<div id="fade"></div>
+
+<div class="ui" id="brand">
+  <div class="k">Port City Colombo · Beach Park</div>
+  <h1>We Are <em>Lost</em></h1>
+  <p>The festival on the Beach Park lawn, by the sea.</p>
+</div>
+
+<div class="ui" id="topR">
+  <div class="glass pill time" role="group" aria-label="Time of day">
+    <button type="button" id="tEvening" class="on" aria-pressed="true">Evening</button>
+    <button type="button" id="tNight" aria-pressed="false">Night</button>
+  </div>
+  <div class="glass pill" role="group" aria-label="Camera">
+    <button type="button" id="mOrbit" class="on" aria-pressed="true">Fly</button>
+    <button type="button" id="mWalk" aria-pressed="false">Walk</button>
+  </div>
+  <div class="glass pill"><button type="button" id="mapBtn">Map</button></div>
+</div>
+<div class="ui glass" id="mapPop"><canvas id="miniCv" width="320" height="422" aria-label="Site map: click to move there"></canvas></div>
+<div class="ui glass" id="extra" role="status"></div>
+
+<div class="ui" id="dock">
+  <div id="bar">
+    <div class="glass" id="chips" role="group" aria-label="Zones">
+      <button type="button" data-z="all" class="on" aria-pressed="true">All</button>
+      <button type="button" data-z="outside" aria-pressed="false">Arrive</button>
+      <button type="button" data-z="yard" aria-pressed="false">Yard</button>
+      <button type="button" data-z="festival" aria-pressed="false">Festival</button>
+    </div>
+    <div id="hint"></div>
+  </div>
+  <div id="strip"></div>
+</div>
+<div class="ui" id="joy" aria-hidden="true"><div class="nub" id="joyNub"></div></div>
+
+<div id="load" role="status"><div class="box"><div class="ring"></div><b>We Are Lost</b><p>Building the venue&hellip;</p></div></div>
+<div id="noWebgl"><div><b>3D isn't available here</b><p style="margin-top:8px;color:#b4c4ce">This browser can't draw 3D (WebGL). Try Chrome, Safari or Edge.</p></div></div>
+
+<script>
+/* Load the 3D library, then our files, in order. If one source of three.js is unreachable
+   (a blocked or slow CDN), the next one is tried. */
+(function () {
+  var V = '?v=7', T = 'three@0.128.0/';
+  var cdn = function (path) { return ['https://cdn.jsdelivr.net/npm/' + T + path, 'https://unpkg.com/' + T + path]; };
+  var list = [
+    ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'].concat(cdn('build/three.min.js')),
+    cdn('examples/js/shaders/CopyShader.js'), cdn('examples/js/shaders/LuminosityHighPassShader.js'),
+    cdn('examples/js/postprocessing/EffectComposer.js'), cdn('examples/js/postprocessing/RenderPass.js'),
+    cdn('examples/js/postprocessing/ShaderPass.js'), cdn('examples/js/postprocessing/UnrealBloomPass.js'),
+    ['js/v3d/core.js' + V], ['js/v3d/festival.js' + V], ['js/v3d/realism.js' + V], ['js/port-city.js' + V], ['js/tour.js' + V]
+  ];
+  function fail() {
+    document.getElementById('load').classList.add('done');
+    var n = document.getElementById('noWebgl'); n.style.display = 'grid';
+    n.querySelector('b').textContent = "Couldn't load the 3D view";
+    n.querySelector('p').textContent = 'Check your connection, then reload the page.';
+  }
+  function load(i) {
+    if (i >= list.length) return;
+    var urls = list[i].slice();
+    (function next() {
+      var s = document.createElement('script'); s.src = urls.shift(); s.async = false;
+      s.onload = function () { load(i + 1); };
+      s.onerror = function () { s.remove(); if (urls.length) next(); else if (i === 0 || i >= 7) fail(); else load(i + 1); };   /* the glow add-ons are optional */
+      document.head.appendChild(s);
+    })();
+  }
+  load(0);
+})();
+</script>
+</body>
+</html>
