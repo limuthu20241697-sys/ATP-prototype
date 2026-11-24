@@ -11,7 +11,7 @@ $('heroCities').innerHTML = cities.map((c) => `<a href="events.html?city=${encod
 
 /* PART 3 (Limuthu Liyanage) · Marquee strips: every genre and city from the events list. The group is written four times so the loop has no gap. */
 const marqueeWords = [...new Set(events.flatMap((e) => [e.genre, e.city]))];
-const marqueeStyles = [(w) => w, (w) => `<em>${w}</em>`, (w) => `<b class="out">${w}</b>`]; /* solid, serif italic, outlined */
+const marqueeStyles = [(w) => w, (w) => `<em>${w}</em>`, (w) => `<b class="out">${w}</b>`]; /* solid, dim and spaced out, outlined */
 const marqueeGroup = `<span>${marqueeWords.map((word, i) => `${marqueeStyles[i % 3](word)}<i>✦</i>`).join('')}</span>`;
 document.querySelectorAll('.marquee-track').forEach((track) => { track.innerHTML = marqueeGroup.repeat(4); });
 
