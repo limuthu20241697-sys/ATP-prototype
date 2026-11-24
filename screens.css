@@ -151,5 +151,7 @@
 @media (max-width:620px){
   .hero-search input{padding:0 12px}
   .news-form{grid-template-columns:minmax(0,1fr)}
-  .credits p{right:auto;left:0}
+  /* phones: the credits open in place, across the whole footer, so none of the text runs off screen */
+  .footer-cols nav:has(.credits[open]){grid-column:1/-1}
+  .credits p{position:static;width:auto;margin-top:8px}
 }
