@@ -44,7 +44,7 @@ const hotImages = hotBox.querySelectorAll('.hot-img');
 const hotOpen = hotBox.querySelector('.hot-open');
 const phone = matchMedia('(max-width: 900px)');
 const canHover = matchMedia('(hover: hover)').matches;
-const HOT_MS = 1000; /* how long each event stays on screen (1 second) before the next card opens; the opening itself takes 0.7 seconds */
+const HOT_MS = 5000; /* how long each event stays on screen (5 seconds) before the next card opens; the opening itself takes 0.7 seconds */
 let hotAt = 0;
 let hotTimer;
 let hotBusy = false; /* true while a card is opening */
@@ -157,7 +157,7 @@ function showHot(n) {
 }
 
 /* Wait a while, then show the next event. While the visitor is dragging, a mouse is over the section,
-   or someone is using it with the keyboard, it checks again a second later instead of moving, so it
+   or someone is using it with the keyboard, it waits another round instead of moving, so it
    always carries on by itself afterwards. */
 function startHotTimer() {
   clearTimeout(hotTimer);
