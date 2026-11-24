@@ -156,13 +156,14 @@ function showHot(n) {
   else applyHot(target, false);
 }
 
-/* Wait a while, then show the next event. While the visitor is dragging, or a mouse is over the section,
-   it checks again a second later instead of moving, so it always carries on by itself afterwards. */
+/* Wait a while, then show the next event. While the visitor is dragging, a mouse is over the section,
+   or someone is using it with the keyboard, it checks again a second later instead of moving, so it
+   always carries on by itself afterwards. */
 function startHotTimer() {
   clearTimeout(hotTimer);
   if (reducedMotion.matches) return;
   hotTimer = setTimeout(() => {
-    if (hotDrag || hotBusy || (canHover && hotBox.matches(':hover'))) startHotTimer();
+    if (hotDrag || hotBusy || (canHover && hotBox.matches(':hover')) || hotBox.matches(':focus-visible') || hotBox.querySelector(':focus-visible')) startHotTimer();
     else showHot(hotAt + 1);
   }, HOT_MS);
 }
