@@ -356,7 +356,7 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
   .event-chip{top:auto;bottom:8px;left:8px;right:8px;padding:4px 6px;font-size:.66rem;text-align:center;overflow:hidden;text-overflow:ellipsis}
   .event-body{padding:12px 14px}
   .event h3{font-size:1.05rem}
-  .event-buy{padding-top:8px}
+  .event-buy{padding-top:8px;flex-wrap:wrap;row-gap:2px}
   .filters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .filters label:last-child{grid-column:1/-1}
   .head{align-items:flex-start}
