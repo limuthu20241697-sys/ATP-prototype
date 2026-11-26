@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { events } from '../data/events.js';
 
 const marqueeWords = [...new Set(events.flatMap((e) => [e.genre, e.city]))];
-/* solid, serif italic, outlined */
+/* solid, dim and spaced out, outlined */
 const marqueeStyles = [(w) => w, (w) => <em>{w}</em>, (w) => <b className="out">{w}</b>];
 
 const group = (copy) => (

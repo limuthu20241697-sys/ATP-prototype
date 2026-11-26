@@ -15,9 +15,8 @@
   --light:#ffffff;
   --ember:#ff4d3d;
   --glow:0 0 0 6px rgba(255,255,255,.12),0 0 60px rgba(255,255,255,.35);
-  /* type: Syne for headings, Instrument Serif italic for the last words of a heading, Inter for everything else */
+  /* type: Syne for headings (the last words of a heading are hollow Syne, like the giant VOID words), Inter for everything else */
   --display:"Syne",system-ui,sans-serif;
-  --serif:"Instrument Serif",Georgia,serif;
   --sans:"Inter",system-ui,sans-serif;
   /* shape */
   --r-pill:999px;
@@ -40,8 +39,8 @@ button{cursor:pointer;background:none;border:0;padding:0}
 main:focus{outline:0}
 :focus-visible{outline:2px solid var(--light);outline-offset:2px;border-radius:6px}
 svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-/* The last words of a heading are set in serif italic. */
-em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+/* The last words of a heading are hollow: heavy Syne with only a thin white outline, empty inside like the void. */
+em{font-family:var(--display);font-style:normal;font-weight:800;letter-spacing:.005em;color:var(--void);text-shadow:1.5px 0 var(--light),-1.5px 0 var(--light),0 1.5px var(--light),0 -1.5px var(--light),1px 1px var(--light),-1px 1px var(--light),1px -1px var(--light),-1px -1px var(--light)} /* black letters ringed by white shadows: a clean outline with no lines inside the letters */
 
 .skip{position:fixed;left:16px;top:-60px;z-index:60;background:var(--light);color:#000;padding:10px 16px;border-radius:8px}
 .skip:focus{top:12px}
@@ -125,7 +124,7 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 /* "THE VOID" in the headline: heavy capital letters with very thick and very thin strokes (Bodoni Moda).
    The O is a picture of a black hole with a ring of light. mix-blend-mode:screen makes the picture's black background disappear,
    and the negative margins let the ring's two tails reach over the letters beside it. */
-.void-word{font:800 .8em/1 "Bodoni Moda",Georgia,serif;font-style:normal;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}
+.void-word{font:800 .8em/1 "Bodoni Moda",Georgia,serif;font-style:normal;color:var(--ink);text-shadow:none;letter-spacing:.01em;text-transform:uppercase;white-space:nowrap}
 .void-o{display:inline-block;width:auto;height:1.18em;max-width:none;margin:0 -.11em 0 -.33em;vertical-align:-.2em;mix-blend-mode:screen}
 .sub{max-width:52ch;margin-top:18px;font-size:clamp(1rem,1.25vw,1.125rem);color:var(--ink-2);text-wrap:pretty}
 
@@ -145,8 +144,8 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .marquee-track{display:flex;width:max-content;animation:voidMarquee 38s linear infinite}
 .marquee-track span{display:flex;align-items:center;gap:28px;padding-right:28px;font:700 clamp(1.3rem,2.6vw,2.2rem)/1 var(--display);letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
 .marquee-track i{font-style:normal;font-size:.6em;color:var(--muted)}
-/* The words take turns: solid, serif italic, outlined. */
-.marquee-track em{font-size:1.15em;text-transform:none}
+/* The words take turns: solid, dim and spaced out, outlined. */
+.marquee-track em{color:var(--muted);text-shadow:none;letter-spacing:.14em}
 .marquee-track .out{font-weight:700;color:transparent;-webkit-text-stroke:1px var(--ink)}
 @keyframes voidMarquee{to{transform:translateX(-50%)}}
 @media (hover:hover) and (pointer:fine){.marquee:hover .marquee-track{animation-play-state:paused}}
@@ -167,7 +166,7 @@ h1{font:700 clamp(52px,7vw,104px)/.98 var(--display);letter-spacing:-.03em;text-
 .toggle-thumb{position:absolute;top:4px;bottom:4px;left:4px;width:76px;border-radius:var(--r-pill);background:var(--light);transform:translateX(calc(var(--at,0) * 76px));transition:transform 320ms var(--ease-out)}
 .toggle button{position:relative;min-height:44px;border-radius:var(--r-pill);font-weight:600;font-size:.9rem;transition:color 200ms ease}
 .toggle button[aria-pressed="true"]{color:#000}
-.venue-mode{margin-top:18px;font:italic 400 1.35rem/1.3 var(--serif);color:var(--ink)}
+.venue-mode{margin-top:18px;font:600 1.2rem/1.3 var(--display);letter-spacing:.02em;color:var(--ink)}
 .venue-copy .btn{margin-top:24px}
 .venue-copy .btn svg{width:18px;height:18px;margin:0 0 0 8px;stroke-width:2}
 @media (max-width:900px){
