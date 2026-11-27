@@ -74,7 +74,7 @@ function renderChrome() {
     <div class="wrap footer-in">
       <div class="footer-brand">
         <strong translate="no">Void</strong>
-        <p>© 2027 Void</p>
+        <p>© 2027 Void · CS-24</p>
         <p>All rights reserved.</p>
       </div>
       <div class="footer-cols">
