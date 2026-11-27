@@ -1,18 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- PART 1 (Menula De Pinto) · FOUNDATION. Page title, search-engine description, social-share preview (og: tags), the fonts (Syne, Inter) and the two stylesheets. -->
+  <!-- PART 1 (Menula De Pinto) · FOUNDATION. Page title, search-engine description, social-share preview (og: tags) and the fonts (Syne, Bodoni Moda, Inter).
+       Every page of the site is drawn by React into #root (see src/main.jsx); each page sets its own title as it opens. -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#000000">
   <meta name="description" content="Every live night in Sri Lanka in one place. Walk through the room in 3D before you buy. Find your next night with Void.">
   <title>Void · Live events in Sri Lanka, seen in 3D</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Void">
   <meta property="og:title" content="Void · Live events in Sri Lanka, seen in 3D">
   <meta property="og:description" content="Every live night in Sri Lanka in one place. Walk through the room in 3D before you buy.">
-  <meta property="og:image" content="assets/social-preview.png">
+  <meta property="og:image" content="/assets/social-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The Void star logo and the line: Step into the void.">
@@ -20,257 +21,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Bodoni+Moda:wght@800&family=Inter:wght@400..700&display=swap">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="screens.css">
 </head>
 <body>
-  <!-- PART 1 (Menula De Pinto) · SKIP LINK + NAV BAR. The skip link lets keyboard users jump past the menu.
-       The nav bar itself is built by renderChrome() in shared.js and placed in the empty #nav div. -->
-  <a class="skip" href="#main">Skip to main content</a>
-  <div id="nav"></div>
-
-  <main id="main" tabindex="-1">
-    <!-- PART 2 (Ranuga Fernando) · HERO. The first screen: a glowing star inside a slowly turning portal, the headline, a short line, the search box and the city shortcuts.
-         The portal is a photo of a vortex with a star in the middle, with two CSS orbit rings turning around it (see Hero in styles.css). Search + city links are wired up in script.js; both open events.html. -->
-    <section class="hero" id="top" aria-labelledby="heroTitle" data-cursor-light>
-      <div class="stars" aria-hidden="true"></div>
-      <p class="giant giant-hero" aria-hidden="true">VOID</p>
-      <div class="portal" aria-hidden="true">
-        <img class="portal-img" src="assets/photos/void-portal.webp" alt="" width="540" height="540">
-        <div class="ring ring-a"><i class="node"></i></div>
-        <div class="ring ring-b"></div>
-      </div>
-
-      <div class="hero-top">
-        <p class="hero-pill rise" style="--d:0ms"><i aria-hidden="true"></i>8 live events · Sri Lanka</p>
-        <h1 id="heroTitle" aria-label="Step into the void.">
-          <span class="line rise" style="--d:60ms">Step into <em class="void-word">The V<img class="void-o" src="assets/photos/void-o.webp" alt="" width="560" height="420">id.</em></span>
-        </h1>
-        <p class="sub rise" style="--d:200ms">Every live night in Sri Lanka, in one place. Walk through the room in 3D before you buy, then book in seconds.</p>
-        <form class="hero-search rise" id="heroSearch" role="search" style="--d:270ms">
-          <label class="sr-only" for="heroQ">Search events or venues</label>
-          <input id="heroQ" type="search" placeholder="Find your next night…" autocomplete="off" spellcheck="false">
-          <button class="btn btn-primary" type="submit" data-magnetic>Find Events</button>
-        </form>
-        <p class="hero-cities rise" style="--d:330ms" id="heroCities"></p>
-      </div>
-
-      <div class="hero-foot rise" style="--d:400ms">
-        <span>6.9271° N, 79.8612° E · Colombo</span>
-        <a href="#featured">Scroll to descend <span aria-hidden="true">↓</span></a>
-      </div>
-    </section>
-
-    <!-- PART 3 (Limuthu Liyanage) · MARQUEE STRIP. Genres and cities scrolling past, filled in by script.js (see "Marquee strips"). Decorative, so screen readers skip it. -->
-    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
-
-    <!-- PART 2 (Ranuga Fernando) · OUT OF THE DARK (the Hot right now slider). A full-screen grayscale photo with the current event on the left and a row of cards for the next events on the right.
-         The cards are filled in by script.js (renderRail); the text on the left by renderText. -->
-    <section class="hot" id="featured" tabindex="0" aria-roledescription="carousel" aria-labelledby="featuredTitle">
-      <div class="hot-bg" aria-hidden="true">
-        <img class="hot-img is-on" src="assets/photos/colombo-night.webp" alt="" width="1800" height="1200">
-        <img class="hot-img" src="assets/photos/colombo-night.webp" alt="" width="1800" height="1200">
-      </div>
-      <div class="hot-open" aria-hidden="true"><img src="assets/photos/colombo-night.webp" alt=""></div>
-      <div class="hot-wash" aria-hidden="true"></div>
-      <h2 class="sr-only" id="featuredTitle">Hot right now</h2>
-      <div class="wrap hot-in">
-        <div class="hot-copy">
-          <p class="hot-tag" aria-hidden="true">Out of the dark</p>
-          <div class="hot-slide" id="hotSlide"></div>
-        </div>
-        <div class="hot-side">
-          <div class="hot-rail" id="hotRail"><div class="hot-track" id="hotTrack"></div></div>
-          <div class="hot-arrows">
-            <button class="icon-btn" id="hotPrev" type="button" aria-label="Previous event">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-            </button>
-            <button class="icon-btn" id="hotNext" type="button" aria-label="Next event">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 2 (Ranuga Fernando) · THE 3D VENUE VIEW. A picture of the venue map (assets/images/venue.png).
-         The Fly / Walk / Orbit buttons move the picture: Walk zooms in, Orbit turns it slowly. The buttons are wired up in script.js ("3D venue view"). -->
-    <section class="venue" id="venue" aria-labelledby="venueTitle">
-      <div class="wrap venue-in">
-        <div class="venue-scene" id="venueScene" data-mode="fly">
-          <img class="venue-img" id="venueImg" src="assets/images/venue.png" alt="Venue map seen from above: the main stage at the back, the VIP deck on the right and the entry gate at the front." width="1120" height="1176">
-        </div>
-        <div class="venue-copy">
-          <p class="eyebrow"><b>01</b> / The 3D venue view</p>
-          <h2 id="venueTitle">Reach into the room <em>before you're in it.</em></h2>
-          <p class="venue-sub">Every stage, bar and VIP deck, mapped in 3D. Know where you'll stand before the gates open.</p>
-          <div class="toggle" id="venueToggle" role="group" aria-label="Camera mode">
-            <span class="toggle-thumb" aria-hidden="true"></span>
-            <button type="button" data-mode="fly" aria-pressed="true">Fly</button>
-            <button type="button" data-mode="walk" aria-pressed="false">Walk</button>
-            <button type="button" data-mode="orbit" aria-pressed="false">Orbit</button>
-          </div>
-          <p class="venue-mode" id="venueMode" aria-live="polite">Fly mode gives you the whole venue from above.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 4 (Hansadi) · EVENT LIST. The filter bar (search, date, city, genre, price, sort) and the grid of event cards.
-         The cards are drawn by renderGrid() in events-list.js from the events list in shared.js.
-         Only the first 6 show here (data-limit="6"); the "More Events" button opens events.html with all of them. -->
-    <section class="discover" id="events" aria-labelledby="discoverTitle">
-      <p class="giant giant-bg" aria-hidden="true">EVENTS</p>
-      <div class="wrap">
-        <div class="head">
-          <div>
-            <p class="eyebrow"><b>02</b> / What's on</p>
-            <h2 id="discoverTitle">Find your next <em>experience</em></h2>
-          </div>
-          <p class="result-count" id="resultCount" aria-live="polite">8 events / Sri Lanka</p>
-        </div>
-
-        <form class="filters" id="filters" role="search">
-          <label class="f-search"><span>Search</span>
-            <input id="q" name="q" type="search" placeholder="Find your next night…" autocomplete="off" spellcheck="false">
-          </label>
-          <label><span>Date</span>
-            <select id="date" name="date">
-              <option value="">Any date</option><option value="2027-02">February 2027</option><option value="2027-03">March 2027</option><option value="2027-04">April 2027</option><option value="2027-05">May 2027</option>
-            </select>
-          </label>
-          <label><span>City</span>
-            <select id="city" name="city">
-              <option value="">All cities</option><option>Colombo</option><option>Mirissa</option><option>Kandy</option><option>Galle</option>
-            </select>
-          </label>
-          <label><span>Genre</span>
-            <select id="genre" name="genre">
-              <option value="">All genres</option><option>Electronic</option><option>Live music</option><option>Jazz</option>
-            </select>
-          </label>
-          <label><span>Price</span>
-            <select id="price" name="price">
-              <option value="">Any price</option><option value="3000">Under LKR 3,000</option><option value="5000">Under LKR 5,000</option><option value="10000">Under LKR 10,000</option>
-            </select>
-          </label>
-          <label><span>Sort</span>
-            <select id="sort" name="sort">
-              <option value="date">Soonest first</option><option value="price">Price: low to high</option>
-            </select>
-          </label>
-        </form>
-
-        <div class="grid" id="grid" data-limit="6"></div>
-        <div class="more" id="moreWrap" hidden>
-          <p id="moreCount" aria-live="polite"></p>
-          <a class="btn btn-line" id="more" href="events.html">More Events</a>
-        </div>
-        <div class="empty" id="empty" hidden>
-          <p>No events match these filters.</p>
-          <button class="btn btn-line" id="reset" type="button">Reset Filters</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 3 (Limuthu Liyanage) · MARQUEE STRIP (second one, same content as the first). -->
-    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee2"></div></div>
-
-    <!-- PART 5 (Ravini Nethra) · WHY VOID. The problem and our solution, as two cards. -->
-    <section class="why" id="why" aria-labelledby="whyTitle">
-      <svg class="why-star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C12.9 8.2 15.8 11.1 24 12 15.8 12.9 12.9 15.8 12 24 11.1 15.8 8.2 12.9 0 12 8.2 11.1 11.1 8.2 12 0Z"/></svg>
-      <div class="wrap">
-        <div class="head">
-          <div>
-            <p class="eyebrow"><b>03</b> / Why Void</p>
-            <h2 id="whyTitle">Nightlife here deserves better than <em>a screenshot</em></h2>
-          </div>
-        </div>
-        <div class="why-grid">
-          <article class="why-card">
-            <p class="why-tag">The problem</p>
-            <p class="why-text">Events get announced across scattered Instagram posts, WhatsApp groups and ticket counters. There's no single place to see what's on, check if a show is still running, or know what the venue actually looks like before you commit.</p>
-          </article>
-          <article class="why-card why-card-accent">
-            <p class="why-tag">What Void does</p>
-            <p class="why-text">Void puts every event, venue and ticket in one place, with a real 3D look at the room before you go, and a checkout built for one hand on a phone, not a trip to a kiosk.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 5 (Ravini Nethra) · HOW IT WORKS. Three numbered rows, one per key feature. -->
-    <section class="product" id="product" aria-labelledby="productTitle">
-      <div class="wrap">
-        <div class="head">
-          <div>
-            <p class="eyebrow"><b>04</b> / How it works</p>
-            <h2 id="productTitle">Built around three <em>things</em></h2>
-          </div>
-        </div>
-        <ol class="steps">
-          <li class="step">
-            <span class="step-num" aria-hidden="true">01</span>
-            <h3>See it before you're there</h3>
-            <p>A 3D preview of every stage and seat, so you know the room before you walk in. No other platform here shows you that.</p>
-          </li>
-          <li class="step">
-            <span class="step-num" aria-hidden="true">02</span>
-            <h3>Book without the back-and-forth</h3>
-            <p>Full line-up, tiers and gate times on one page, with a checkout that takes seconds.</p>
-          </li>
-          <li class="step">
-            <span class="step-num" aria-hidden="true">03</span>
-            <h3>Every ticket, one place</h3>
-            <p>QR passes, transfers and refunds live in My Tickets. No digging through your inbox at the gate.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- PART 5 (Ravini Nethra) · TEAM. One card per team member. -->
-    <section class="team" id="team" aria-labelledby="teamTitle">
-      <p class="giant giant-bg" aria-hidden="true">TEAM</p>
-      <div class="wrap">
-        <div class="head">
-          <div>
-            <p class="eyebrow"><b>05</b> / Who's building it</p>
-            <h2 id="teamTitle">The team behind <em>Void</em></h2>
-          </div>
-        </div>
-        <div class="team-grid">
-          <article class="team-card"><span class="team-avatar">LL</span><h3>Limuthu Liyanage</h3><p>Product Owner</p></article>
-          <article class="team-card"><span class="team-avatar">RN</span><h3>Ravini Nethra</h3><p>Scrum Master</p></article>
-          <article class="team-card"><span class="team-avatar">RF</span><h3>Ranuga Fernando</h3><p>Lead Developer</p></article>
-          <article class="team-card"><span class="team-avatar">MD</span><h3>Menula De Pinto</h3><p>Developer</p></article>
-          <article class="team-card"><span class="team-avatar">HK</span><h3>Hansadi Kumananayaka</h3><p>QA &amp; Testing / Developer</p></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 5 (Ravini Nethra) · WAITLIST SIGN-UP. The email form. The "Count Me In" button is handled by forms.newsletter in shared.js. -->
-    <section class="newsletter" id="join" aria-labelledby="newsTitle" data-cursor-light>
-      <div class="stars stars-soft" aria-hidden="true"></div>
-      <div class="wrap newsletter-in">
-        <div>
-          <svg class="news-star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C12.9 8.2 15.8 11.1 24 12 15.8 12.9 12.9 15.8 12 24 11.1 15.8 8.2 12.9 0 12 8.2 11.1 11.1 8.2 12 0Z"/></svg>
-          <h2 id="newsTitle">The night is <em>waiting.</em></h2>
-          <p>A little less scrolling. A lot more going out. The best nights, straight to your inbox.</p>
-        </div>
-        <form class="news-form" data-form="newsletter">
-          <label class="field">Email address
-            <input class="control" name="email" type="email" placeholder="Your email address" autocomplete="email" spellcheck="false" required>
-          </label>
-          <button class="btn btn-primary" type="submit" data-magnetic>Count Me In</button>
-          <p class="news-privacy">By signing up you agree to our <button type="button" data-info="Privacy Notice">Privacy Notice</button>.</p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <!-- PART 1 (Menula De Pinto) · FOOTER. Built by renderChrome() in shared.js. shared.js also holds the pop-up windows (Contact, Policies, Privacy, FAQ). -->
-  <div id="footer"></div>
-  <script src="shared.js"></script>
-  <script src="events-list.js"></script>
-  <script src="script.js"></script>
+  <div id="root"></div>
+  <noscript>Void needs JavaScript turned on to show its events.</noscript>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
